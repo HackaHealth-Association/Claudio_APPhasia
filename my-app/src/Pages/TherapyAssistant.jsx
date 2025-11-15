@@ -293,7 +293,7 @@ export default function TherapyAssistant() {
             - Clickable body parts
             - View navigation arrows
           */}
-          <div className="col-span-4">
+          <div className="col-span-5">
             <AnatomyViewer 
               currentView={currentView}
               onViewChange={setCurrentView}
@@ -328,7 +328,7 @@ export default function TherapyAssistant() {
             - Action verbs for therapy
             - Special symbols (? and !)
           */}
-          <div className="col-span-4">
+          <div className="col-span-3">
             <ActionButtons 
               selectedAction={selectedAction}
               onActionClick={handleActionClick}

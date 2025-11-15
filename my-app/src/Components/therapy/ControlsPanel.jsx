@@ -38,11 +38,11 @@ import { Plus, Minus, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, MoveUp, MoveDow
  */
 const directions = [
   { label: "oben", icon: ArrowUp, value: "oben", pos: "col-start-2 row-start-1" },       // Top center
-  { label: "unten", icon: ArrowDown, value: "unten", pos: "col-start-2 row-start-3" },   // Bottom center
+  { label: "unten", icon: ArrowDown, value: "unten", pos: "col-start-2 row-start-2" },   // Bottom center
   { label: "links", icon: ArrowLeft, value: "links", pos: "col-start-1 row-start-1" },   // Top left
   { label: "rechts", icon: ArrowRight, value: "rechts", pos: "col-start-3 row-start-1" }, // Top right
-  { label: "vor", icon: MoveUp, value: "vor", pos: "col-start-1 row-start-3" },          // Bottom left
-  { label: "zurück", icon: MoveDown, value: "zurück", pos: "col-start-3 row-start-3" }   // Bottom right
+  { label: "vor", icon: MoveUp, value: "vor", pos: "col-start-1 row-start-2" },          // Bottom left
+  { label: "zurück", icon: MoveDown, value: "zurück", pos: "col-start-3 row-start-2" }   // Bottom right
 ];
 
 export default function ControlsPanel({ 
