@@ -1,7 +1,12 @@
 import os
 import google.generativeai as genai
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, send_from_directory
 from flask_cors import CORS
+import asyncio
+
+# Import our new modules
+from words_to_sentence import generate_sentence_from_keywords
+from text_to_speech import generate_speech_file
 
 # --- Configuration ---
 api_key = os.getenv("GEMINI_API_KEY")
@@ -42,18 +47,25 @@ except Exception as e:
     model = None
 
 # --- Backend Server ---
-app = Flask(__name__)
+# Create a 'static' folder in your project directory for audio files
+STATIC_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
+os.makedirs(STATIC_DIR, exist_ok=True)
+
+app = Flask(__name__, static_folder=STATIC_DIR, template_folder='templates')
 CORS(app)
+
 
 @app.route('/')
 def index():
-    """Serves the dummy frontend for easy testing."""
+    """Serves the frontend."""
     return render_template('dummy.html')
 
 
 @app.route('/api/generate-sentence', methods=['POST'])
-def generate_sentence():
-    """API endpoint to generate a sentence from keywords."""
+def generate_sentence_and_speech():
+    """
+    API endpoint to generate a sentence and its corresponding audio file.
+    """
     if not model:
         return jsonify({"error": "Model is not initialized"}), 500
 
@@ -63,33 +75,44 @@ def generate_sentence():
         if not keywords:
             return jsonify({"error": "No keywords provided"}), 400
 
-        user_prompt = ", ".join(keywords)
-        print(f"Sending to Gemini: {user_prompt}")
+        # --- Step 1: Call Words-to-Sentence ---
+        try:
+            sentence = generate_sentence_from_keywords(keywords, model, generation_config)
+        except Exception as e:
+            # Handle errors from the Gemini module
+            return jsonify({"error": str(e)}), 500
 
-        response = model.generate_content(
-            user_prompt,
-            generation_config=generation_config
-        )
+        # --- Step 2: Call Text-to-Speech ---
+        # We'll give the audio file a unique name, e.g., based on hash or timestamp
+        # For simplicity, we'll just use a static name.
+        output_filename = "output.wav"
+        output_filepath = os.path.join(app.static_folder, output_filename)
 
         try:
-            sentence = response.text.strip()
-            print(f"Received from Gemini: {sentence}")
-            return jsonify({"sentence": sentence})
+            # Run the async TTS function
+            asyncio.run(generate_speech_file(sentence, output_filepath))
+        except Exception as e:
+            # Handle errors from the TTS module
+            return jsonify({"error": f"TTS generation failed: {str(e)}"}), 500
 
-        except ValueError as e:
-            # Handle cases where the response was empty or blocked
-            print(f"Error: Response was empty or blocked. {e}")
-            error_message = "Response blocked."
-            try:
-                if response.prompt_feedback and response.prompt_feedback.block_reason:
-                    error_message = f"Response blocked: {response.prompt_feedback.block_reason.name}"
-            except Exception:
-                pass
-            return jsonify({"error": error_message}), 500
+        # --- Step 3: Return Response ---
+        # Return the sentence and the URL to the audio file
+        audio_url = f"/static/{output_filename}"
+
+        return jsonify({
+            "sentence": sentence,
+            "audio_url": audio_url
+        })
 
     except Exception as e:
-        print(f"Error during generation: {e}")
+        print(f"Error during API call: {e}")
         return jsonify({"error": str(e)}), 500
+
+
+# This route is needed so the frontend can fetch the audio file
+@app.route('/static/<path:filename>')
+def serve_static(filename):
+    return send_from_directory(app.static_folder, filename)
 
 
 if __name__ == '__main__':
