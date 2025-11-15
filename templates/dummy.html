@@ -1,18 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Physio Assistant</title>
     <style>
-        body { font-family: system-ui, sans-serif; display: grid; place-items: center; min-height: 100vh; background: #f4f4f4; margin: 0; }
-        .container { background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); text-align: center; }
-        button { font-size: 1.2rem; padding: 0.8rem 1.5rem; border: none; border-radius: 8px; background: #007aff; color: white; cursor: pointer; transition: background 0.2s; }
-        button:hover { background: #0056b3; }
-        #output { margin-top: 1.5rem; font-size: 1.2rem; font-weight: 500; color: #333; min-height: 2em; }
-        #speaking-indicator { font-style: italic; color: #888; }
+        body {
+            font-family: system-ui, sans-serif;
+            display: grid;
+            place-items: center;
+            min-height: 100vh;
+            background: #f4f4f4;
+            margin: 0;
+        }
+
+        .container {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        button {
+            font-size: 1.2rem;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            background: #007aff;
+            color: white;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        #output {
+            margin-top: 1.5rem;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #333;
+            min-height: 2em;
+        }
+
+        #speaking-indicator {
+            font-style: italic;
+            color: #888;
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Physio Assistant</h1>
@@ -28,7 +68,9 @@
         const speakingIndicator = document.getElementById('speaking-indicator');
 
         // The hardcoded keywords to send
-        const keywords = ["arm", "up", "right", "move"];
+        //const keywords = ["arm", "up", "right", "move"];
+        const keywords = ["hurt", "right", "arm", "?"];
+        //const keywords = ["Rotate", "arm", "minus", "back"]
 
         /**
          * Uses the browser's built-in speech engine to say text.
@@ -85,4 +127,5 @@
         }
     </script>
 </body>
+
 </html>
