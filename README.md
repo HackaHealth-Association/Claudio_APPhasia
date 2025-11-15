@@ -32,7 +32,7 @@ cd ..
 # export XAI_API_KEY="YOUR_GROK_KEY_HERE"
 export LLM_PROVIDER=groq
 export CARTESIA_API_KEY="YOUR_CARTESIA_KEY_HERE"
-export GROQ_API_KEY=”YOUR_GROQ_KEY_HERE”
+export GROQ_API_KEY="YOUR_GROQ_KEY_HERE"
 
 
 python backend.py
