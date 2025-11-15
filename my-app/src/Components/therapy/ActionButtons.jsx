@@ -47,7 +47,7 @@ const actions = [
     icon: ArrowUpDown 
   },
   { 
-    word: "Heben",              // Lift
+    word: "heben",              // Lift
     color: "bg-orange-400 hover:bg-orange-500", 
     icon: MoveVertical 
   },
@@ -57,7 +57,7 @@ const actions = [
     icon: MoveDown 
   },
   { 
-    word: "Wiederholen",        // Repeat
+    word: "wiederholen",        // Repeat
     color: "bg-gray-600 hover:bg-gray-700", 
     icon: RotateCcw 
   }

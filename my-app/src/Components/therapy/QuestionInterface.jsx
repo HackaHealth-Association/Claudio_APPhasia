@@ -27,14 +27,14 @@ export default function QuestionInterface({ onWordSelect }) {
 
       {/* Middle - Questions and options */}
       <div className="col-span-7">
-        <Card className="bg-white border-2 border-gray-300 p-6 space-y-4">
+        <Card className="bg-white border-2 text-gray-500 p-6 space-y-4">
           {/* Main question - clickable */}
           <Card 
-            className="bg-green-50 border-2 border-green-200 p-4 cursor-pointer hover:bg-green-100 transition-colors"
-            onClick={() => onWordSelect('How did you feel after the last session?')}
+            className="bg-green-700 hover:bg-green-800 p-4 cursor-pointer transition-colors text-white font-bold"
+            onClick={() => onWordSelect('Wie hast du dich seit der letzten Therapie gefühlt?')}
           >
             <div className="flex items-center gap-2">
-              <span className="text-lg">How did you feel after the last session?</span>
+              <span className="text-lg">Wie hast du dich seit der letzten Therapie gefühlt?</span>
               <span className="text-2xl">😊 😢</span>
             </div>
           </Card>
@@ -43,15 +43,13 @@ export default function QuestionInterface({ onWordSelect }) {
           <div className="flex gap-3">
             <Button 
               onClick={() => onWordSelect('Schmerz')}
-              className="h-16 text-lg bg-yellow-100 hover:bg-yellow-200 text-gray-800 border-2 border-gray-400"
-              variant="outline"
+              className="h-16 text-lg bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold"
             >
               Schmerz ⚡
             </Button>
             <Button 
               onClick={() => onWordSelect('Übungen')}
-              className="h-16 text-lg bg-yellow-100 hover:bg-yellow-200 text-gray-800 border-2 border-gray-400"
-              variant="outline"
+              className="h-16 text-lg bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold"
             >
               Übungen 🏋
             </Button>
@@ -61,17 +59,15 @@ export default function QuestionInterface({ onWordSelect }) {
           <div className="flex gap-3">
             <Button 
               onClick={() => onWordSelect('stumpf')}
-              className="h-16 text-lg bg-yellow-100 hover:bg-yellow-200 text-gray-800 border-2 border-gray-400"
-              variant="outline"
+              className="h-16 text-lg bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold"
             >
-              stumpf 🪶
+              stumpf 🧷
             </Button>
             <Button 
               onClick={() => onWordSelect('spitz')}
-              className="h-16 text-lg bg-yellow-100 hover:bg-yellow-200 text-gray-800 border-2 border-gray-400"
-              variant="outline"
+              className="h-16 text-lg bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold"
             >
-              spitz 🔪
+              spitz 📌
             </Button>
           </div>
 
@@ -79,41 +75,37 @@ export default function QuestionInterface({ onWordSelect }) {
           <div className="flex gap-3">
             <Button 
               onClick={() => onWordSelect('wo')}
-              className="h-16 text-lg bg-yellow-100 hover:bg-yellow-200 text-gray-800 border-2 border-gray-400"
-              variant="outline"
+              className="h-16 text-lg bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold"
             >
-              wo 💓
+              wo? 📍
             </Button>
             <Button 
               onClick={() => onWordSelect('wie oft?')}
-              className="h-16 text-lg bg-blue-100 hover:bg-blue-200 text-gray-800 border-2 border-gray-400"
-              variant="outline"
+              className="h-16 text-lg bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold"
             >
-              📅❓ wie oft?
+              wie oft? 🔂
             </Button>
             <Button 
               onClick={() => onWordSelect('wie lange?')}
-              className="h-16 text-lg bg-yellow-100 hover:bg-yellow-200 text-gray-800 border-2 border-gray-400"
-              variant="outline"
+              className="h-16 text-lg bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold"
             >
-              ⏱️ wie lange?
+              wie lange? ⌛️
             </Button>
             <Button 
               onClick={() => onWordSelect('wann?')}
-              className="h-16 text-lg bg-yellow-100 hover:bg-yellow-200 text-gray-800 border-2 border-gray-400"
-              variant="outline"
+              className="h-16 text-lg bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold"
             >
-              🕐 wann?
+              wann? 🕐 
             </Button>
           </div>
 
           {/* Second question - clickable */}
           <Card 
-            className="bg-green-50 border-2 border-green-200 p-4 mt-6 cursor-pointer hover:bg-green-100 transition-colors"
-            onClick={() => onWordSelect('Is there anything else you want to ask?')}
+            className="bg-green-700 p-4 cursor-pointer hover:bg-green-800 transition-colors text-white font-bold"
+            onClick={() => onWordSelect('Möchtest du noch etwas fragen?')}
           >
             <div className="flex items-center gap-2">
-              <span className="text-lg">Is there anything else you want to ask?</span>
+              <span className="text-lg">Möchtest du noch etwas fragen?</span>
               <span className="text-2xl">❓</span>
             </div>
           </Card>
