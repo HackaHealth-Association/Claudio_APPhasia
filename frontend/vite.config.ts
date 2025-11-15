@@ -17,10 +17,17 @@ export default defineConfig(({ mode }) => ({
   },
 })); */
 
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react-swc";
+import { fileURLToPath, URL } from "node:url";
+
 
 export default defineConfig({
   plugins: [react()],
-  base: './' // important so built assets load correctly on static hosts
-})
+  base: "./", // keep if you deploy as static
+  resolve: {
+    alias: {
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
+    },
+  },
+});
