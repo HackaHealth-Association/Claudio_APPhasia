@@ -13,14 +13,14 @@ from text_to_speech import generate_speech_file
 STATIC_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
 os.makedirs(STATIC_DIR, exist_ok=True)
 
-app = Flask(__name__, static_folder=STATIC_DIR, template_folder='templates')
+app = Flask(__name__, static_folder=STATIC_DIR, template_folder='frontend')
 CORS(app)
 
 
 @app.route('/')
 def index():
     """Serves the frontend."""
-    return render_template('dummy.html')
+    return render_template('index.html')
 
 
 @app.route('/api/generate-sentence', methods=['POST'])
