@@ -1,32 +1,150 @@
-def generate_sentence_from_keywords(keywords, model, generation_config):
-    """
-    Takes a list of keywords, a Gemini model, and a config,
-    and returns a single generated sentence string.
-    Raises a ValueError if the response is empty or blocked.
-    """
-    user_prompt = ", ".join(keywords)
-    print(f"Sending to Gemini: {user_prompt}")
+# words_to_sentence.py
 
-    response = model.generate_content(
-        user_prompt,
-        generation_config=generation_config
-    )
+import os
+from dataclasses import dataclass
+from typing import Optional, List
+from openai import OpenAI
 
-    try:
-        sentence = response.text.strip()
-        print(f"Received from Gemini: {sentence}")
+SYSTEM_PROMPT = """
+You are an assistant for a physiotherapist who has aphasia and cannot form full sentences.
+You have to convert a set of keywords they provide into a single, clear, instructional sentence.
+You must return EXACTLY 1 sentence and nothing else. It is your task to investigate what the patients
+needs and pains are. When we refer to "hurt" or "pain" we ONLY refer to the patients symptoms
+Your output should always be in German, no matter if the input is in English. The input words can sometimes
+contain special terms like: (+,-). These may be used in a variety of contexts (like more, less , raise, lower, ...).
+It is your task to understand what the context is. Please remember, that your output should be simple sentences, no
+instructions for a robot or any kind.
+
+Here are examples:
+- Input: "shoulder, up, move, left"
+- Output: "Bewege deine linke Schulter nach oben."
+
+- Input: "leg, ?, hurt, right"
+- Output: "Tut dein rechtes Bein weh?"
+
+- Input: "water, please"
+- Output: "Kann ich bitte etwas Wasser haben?"
+"""
+
+@dataclass
+class ProviderConfig:
+    name: str
+    base_url: Optional[str]
+    api_key_env: str
+    model: str
+
+
+PROVIDERS = {
+    # Native OpenAI
+    "openai": ProviderConfig(
+        name="openai",
+        base_url=None,
+        api_key_env="OPENAI_API_KEY",
+        model="gpt-4.1-mini",
+    ),
+    # Grok / xAI
+    "grok": ProviderConfig(
+        name="grok",
+        base_url="https://api.x.ai/v1",
+        api_key_env="XAI_API_KEY",
+        model="grok-3-mini",
+    ),
+    # Gemini in OpenAI-compatible mode
+    "gemini": ProviderConfig(
+        name="gemini",
+        base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+        api_key_env="GEMINI_API_KEY",
+        model="gemini-2.0-flash",
+    ),
+}
+
+
+class LLMClient:
+    def __init__(self, provider_name: Optional[str] = None):
+        """
+        Provider is chosen by:
+        - explicit provider_name argument, or
+        - LLM_PROVIDER env var, or
+        - default: "grok"
+        """
+        provider_name = provider_name or os.getenv("LLM_PROVIDER", "grok")
+
+        if provider_name not in PROVIDERS:
+            raise ValueError(
+                f"Unknown LLM_PROVIDER '{provider_name}'. "
+                f"Valid options: {', '.join(PROVIDERS.keys())}"
+            )
+
+        self.config = PROVIDERS[provider_name]
+
+        api_key = os.getenv(self.config.api_key_env)
+        if not api_key:
+            raise ValueError(
+                f"{self.config.api_key_env} not set. "
+                f"Please set the environment variable for provider '{provider_name}'."
+            )
+
+        # All providers use the OpenAI-compatible client
+        self.client = OpenAI(
+            api_key=api_key,
+            base_url=self.config.base_url,
+        )
+
+    def generate_sentence(self, keywords: List[str]) -> str:
+        """Takes keyword list and returns exactly one sentence (German)."""
+        if not keywords:
+            raise ValueError("No keywords provided.")
+
+        user_prompt = "Was möchte der Physiotherapeut ausdrücken? Stichworte: "
+        user_prompt += ", ".join(keywords)
+
+        completion = self.client.chat.completions.create(
+            model=self.config.model,
+            messages=[
+                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "user", "content": user_prompt},
+            ],
+            temperature=0.2,
+            max_tokens=100,
+        )
+
+        sentence = (completion.choices[0].message.content or "").strip()
         if not sentence:
-            raise ValueError("Received an empty response from model.")
+            raise ValueError("Empty response from model.")
         return sentence
 
-    except ValueError as e:
-        # This catches empty response.text
-        print(f"Error: Response was empty or blocked. {e}")
-        error_message = "Response was empty or blocked."
-        try:
-            if response.prompt_feedback and response.prompt_feedback.block_reason:
-                error_message = f"Response blocked: {response.prompt_feedback.block_reason.name}"
-        except Exception:
-            pass
-        # Re-raise the error so the backend can catch it
-        raise ValueError(error_message)
+
+# --- Simple module-level API for the rest of the app --- #
+
+_llm_client: Optional[LLMClient] = None
+
+
+def _get_llm_client() -> LLMClient:
+    global _llm_client
+    if _llm_client is None:
+        _llm_client = LLMClient()
+    return _llm_client
+
+
+def generate_sentence_from_keywords(keywords: List[str]) -> str:
+    """
+    Public function used by backend:
+    - Handles client creation
+    - Raises ValueError if response is empty or no keywords
+    """
+    client = _get_llm_client()
+    print(f"Sending to LLM ({client.config.name} / {client.config.model}): {', '.join(keywords)}")
+    sentence = client.generate_sentence(keywords)
+    print(f"Received from LLM: {sentence}")
+    return sentence
+
+"""
+Change model/provider by environment variables, e.g.:
+
+    export LLM_PROVIDER=openai   # or grok, or gemini
+    export OPENAI_API_KEY=...
+    export XAI_API_KEY=...
+    export GEMINI_API_KEY=...
+
+Backend code never needs to change when switching providers.
+"""
