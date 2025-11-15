@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physio Assistant</title>
+    <style>
+        body { font-family: system-ui, sans-serif; display: grid; place-items: center; min-height: 100vh; background: #f4f4f4; margin: 0; }
+        .container { background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); text-align: center; }
+        button { font-size: 1.2rem; padding: 0.8rem 1.5rem; border: none; border-radius: 8px; background: #007aff; color: white; cursor: pointer; transition: background 0.2s; }
+        button:hover { background: #0056b3; }
+        #output { margin-top: 1.5rem; font-size: 1.2rem; font-weight: 500; color: #333; min-height: 2em; }
+        #speaking-indicator { font-style: italic; color: #888; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Physio Assistant</h1>
+        <button id="generateButton">Generate & Speak</button>
+        <div id="output">
+            <span id="speaking-indicator">Click the button to start...</span>
+        </div>
+    </div>
+
+    <script>
+        const generateButton = document.getElementById('generateButton');
+        const outputDiv = document.getElementById('output');
+        const speakingIndicator = document.getElementById('speaking-indicator');
+
+        // The hardcoded keywords to send
+        const keywords = ["arm", "up", "right", "move"];
+
+        /**
+         * Uses the browser's built-in speech engine to say text.
+         */
+        function speakText(text) {
+            console.log("SPEAKING:", text);
+            speakingIndicator.textContent = `(Speaking: "${text}")`;
+
+            window.speechSynthesis.cancel(); // Clear any old speech
+            const utterance = new SpeechSynthesisUtterance(text);
+            window.speechSynthesis.speak(utterance);
+        }
+
+        /**
+         * Handles the button click: fetches from backend, then speaks.
+         */
+        generateButton.addEventListener('click', async () => {
+            speakingIndicator.textContent = "Sending keywords to backend...";
+            outputDiv.textContent = ""; // Clear previous output
+
+            try {
+                const response = await fetch('http://127.0.0.1:5000/api/generate-sentence', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ keywords: keywords })
+                });
+
+                const data = await response.json();
+
+                // Handle server-side errors (like 400 or 500)
+                if (!response.ok) {
+                    throw new Error(data.error || `Server error: ${response.status}`);
+                }
+
+                const sentence = data.sentence;
+                outputDiv.textContent = sentence;
+                speakText(sentence);
+
+            } catch (error) {
+                // Handle network errors or errors thrown above
+                console.error('Error:', error);
+                outputDiv.textContent = error.message;
+                speakingIndicator.textContent = "Error";
+            }
+        });
+
+        // "Warm up" the speech engine to make the first click faster
+        function loadVoices() {
+            window.speechSynthesis.getVoices();
+        }
+        loadVoices();
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = loadVoices;
+        }
+    </script>
+</body>
+</html>
