@@ -48,7 +48,7 @@ const Index = () => {
 
     try {
       // 3. Call your backend API (using the full URL)
-      const response = await fetch('http://127.0.0.1:5000/api/generate-sentence', {
+      const response = await fetch('https://claudio-apphasia-1.onrender.com/api/generate-sentence', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -72,7 +72,7 @@ const Index = () => {
 
       const audioPlayer = new Audio();
       // 6. Use the full backend URL + a timestamp to prevent caching
-      audioPlayer.src = `http://127.0.0.1:5000${audioUrl}?t=${new Date().getTime()}`;
+      audioPlayer.src = `https://claudio-apphasia-1.onrender.com/${audioUrl}?t=${new Date().getTime()}`;
       audioPlayer.play();
 
     } catch (error: any) {
