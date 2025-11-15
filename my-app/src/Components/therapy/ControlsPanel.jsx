@@ -48,6 +48,7 @@ const directions = [
 export default function ControlsPanel({ 
   slider1Value,      // Current value of slider (0-10)
   onSlider1Change,   // Callback when slider value changes
+  onSlider1Commit,   // Callback when slider value is decided
   onSignClick,       // Callback when +/- button is clicked
   onDirectionClick   // Callback when direction arrow is clicked
 }) {
@@ -77,23 +78,24 @@ export default function ControlsPanel({
           {/* SLIDER - Number input with tick marks */}
           <div className="flex items-center gap-4">
             {/* Minimum value label */}
-            <span className="text-2xl font-bold text-gray-700 min-w-[40px]">0</span>
+            {/* <span className="text-2xl font-bold text-gray-700 min-w-[40px]">0</span> */}
             
             {/* Slider container with tick marks */}
             <div className="flex-1 bg-gray-100 rounded-lg p-4 relative">
               {/* Tick marks for numbers 1-9 */}
               <div className="absolute top-2 left-4 right-4 flex justify-between px-2">
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(num => (
+                {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
                   <div key={num} className="flex flex-col items-center">
                     <div className="w-px h-2 bg-gray-400"></div>
                     <span className="text-xs text-gray-600 mt-1">{num}</span>
                   </div>
                 ))}
               </div>
-              
+
               <Slider
                 value={[slider1Value]}
                 onValueChange={(value) => onSlider1Change(value[0])}
+                onValueCommit={(value) => onSlider1Commit(value[0])}
                 min={0}
                 max={10}
                 step={1}
@@ -102,7 +104,7 @@ export default function ControlsPanel({
             </div>
             
             {/* Maximum value label */}
-            <span className="text-2xl font-bold text-gray-700 min-w-[40px]">10</span>
+            {/* <span className="text-2xl font-bold text-gray-700 min-w-[40px]">10</span> */}
           </div>
         </div>
 
@@ -118,15 +120,6 @@ export default function ControlsPanel({
           - General mathematical expressions in therapy instructions
         */}
         <div className="flex justify-center gap-4">
-          {/* PLUS BUTTON */}
-          <Button
-            onClick={() => onSignClick('+')}
-            className="h-16 w-16 rounded-full bg-white border-4 border-gray-800 hover:bg-gray-100 text-gray-800 text-3xl font-bold"
-            variant="outline"
-            title="Plus hinzufügen"
-          >
-            <Plus className="w-8 h-8" />
-          </Button>
           
           {/* MINUS BUTTON */}
           <Button
@@ -136,6 +129,16 @@ export default function ControlsPanel({
             title="Minus hinzufügen"
           >
             <Minus className="w-8 h-8" />
+          </Button>
+
+          {/* PLUS BUTTON */}
+          <Button
+            onClick={() => onSignClick('+')}
+            className="h-16 w-16 rounded-full bg-white border-4 border-gray-800 hover:bg-gray-100 text-gray-800 text-3xl font-bold"
+            variant="outline"
+            title="Plus hinzufügen"
+          >
+            <Plus className="w-8 h-8" />
           </Button>
         </div>
 

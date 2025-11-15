@@ -100,7 +100,7 @@ export default function ControlPanel({
                 value={[number1]}
                 onValueChange={(value) => onNumberChange(1, value[0])}
                 min={0}
-                max={9}
+                max={10}
                 step={1}
                 className="w-full"
               />
@@ -127,16 +127,17 @@ export default function ControlPanel({
         <div>
           <h3 className="font-semibold text-gray-700 mb-3">Operatoren</h3>
           <div className="flex gap-3">
-            <Button
+          <Button
               onClick={() => onSignClick('plus')}
-              className="flex-1 h-14 bg-green-600 hover:bg-green-700 text-white text-2xl font-bold"
+              className="flex-1 h-14 bg-green-600 hover:bg-red-700 text-white text-2xl font-bold"
             >
               <Plus className="w-6 h-6 mr-2" />
               Plus
             </Button>
+            
             <Button
               onClick={() => onSignClick('minus')}
-              className="flex-1 h-14 bg-red-600 hover:bg-red-700 text-white text-2xl font-bold"
+              className="flex-1 h-14 bg-red-600 hover:bg-green-700 text-white text-2xl font-bold"
             >
               <Minus className="w-6 h-6 mr-2" />
               Minus

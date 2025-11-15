@@ -148,9 +148,11 @@ export default function TherapyAssistant() {
    */
   const handleSlider1Change = (value) => {
     setSlider1Value(value);      // Update slider state
-    addWord(value.toString());   // Add number to phrase as string
   };
 
+  const handleSlider1Commit = (value) => {
+    addWord(value.toString());   // Add number to phrase as string
+  };
 
 
   /**
@@ -344,6 +346,7 @@ export default function TherapyAssistant() {
             <ControlsPanel 
               slider1Value={slider1Value}
               onSlider1Change={handleSlider1Change}
+              onSlider1Commit={handleSlider1Commit}
               onSignClick={handleSignClick}
               onDirectionClick={handleDirectionClick}
             />
