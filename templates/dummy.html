@@ -21,6 +21,8 @@
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
             text-align: center;
+            width: 90%;
+            max-width: 400px;
         }
 
         button {
@@ -38,7 +40,11 @@
             background: #0056b3;
         }
 
-        #output {
+        button:disabled {
+            background: #aaa;
+        }
+
+        #output-text {
             margin-top: 1.5rem;
             font-size: 1.2rem;
             font-weight: 500;
@@ -46,9 +52,14 @@
             min-height: 2em;
         }
 
-        #speaking-indicator {
+        #status {
             font-style: italic;
             color: #888;
+        }
+
+        audio {
+            margin-top: 1rem;
+            width: 100%;
         }
     </style>
 </head>
@@ -57,42 +68,28 @@
     <div class="container">
         <h1>Physio Assistant</h1>
         <button id="generateButton">Generate & Speak</button>
-        <div id="output">
-            <span id="speaking-indicator">Click the button to start...</span>
+        <div id="output-text">
+            <span id="status">Click the button to start...</span>
         </div>
+        <!-- Audio player will be controlled by JavaScript -->
+        <audio id="audioPlayer" controls></audio>
     </div>
 
     <script>
         const generateButton = document.getElementById('generateButton');
-        const outputDiv = document.getElementById('output');
-        const speakingIndicator = document.getElementById('speaking-indicator');
+        const outputDiv = document.getElementById('output-text');
+        const statusSpan = document.getElementById('status');
+        const audioPlayer = document.getElementById('audioPlayer');
 
-        // The hardcoded keywords to send
-        //const keywords = ["arm", "up", "right", "move"];
-        const keywords = ["hurt", "right", "arm", "?"];
-        //const keywords = ["Rotate", "arm", "minus", "back"]
+        const keywords = ["arm", "down", "right", "move"];
 
-        /**
-         * Uses the browser's built-in speech engine to say text.
-         */
-        function speakText(text) {
-            console.log("SPEAKING:", text);
-            speakingIndicator.textContent = `(Speaking: "${text}")`;
-
-            window.speechSynthesis.cancel(); // Clear any old speech
-            const utterance = new SpeechSynthesisUtterance(text);
-            window.speechSynthesis.speak(utterance);
-        }
-
-        /**
-         * Handles the button click: fetches from backend, then speaks.
-         */
         generateButton.addEventListener('click', async () => {
-            speakingIndicator.textContent = "Sending keywords to backend...";
-            outputDiv.textContent = ""; // Clear previous output
+            statusSpan.textContent = "Generating sentence...";
+            outputDiv.textContent = "";
+            generateButton.disabled = true;
 
             try {
-                const response = await fetch('http://127.0.0.1:5000/api/generate-sentence', {
+                const response = await fetch('/api/generate-sentence', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ keywords: keywords })
@@ -100,31 +97,35 @@
 
                 const data = await response.json();
 
-                // Handle server-side errors (like 400 or 500)
                 if (!response.ok) {
                     throw new Error(data.error || `Server error: ${response.status}`);
                 }
 
+                // We got a successful response
                 const sentence = data.sentence;
+                const audioUrl = data.audio_url;
+
                 outputDiv.textContent = sentence;
-                speakText(sentence);
+                statusSpan.textContent = "Sentence generated. Playing audio...";
+
+                // Set the audio player's source and play it
+                // We add a timestamp to prevent browser caching issues
+                audioPlayer.src = `${audioUrl}?t=${new Date().getTime()}`;
+                audioPlayer.play();
+
+                // Optional: Listen for when audio finishes
+                audioPlayer.onended = () => {
+                    statusSpan.textContent = "Ready.";
+                };
 
             } catch (error) {
-                // Handle network errors or errors thrown above
                 console.error('Error:', error);
                 outputDiv.textContent = error.message;
-                speakingIndicator.textContent = "Error";
+                statusSpan.textContent = "Error";
+            } finally {
+                generateButton.disabled = false;
             }
         });
-
-        // "Warm up" the speech engine to make the first click faster
-        function loadVoices() {
-            window.speechSynthesis.getVoices();
-        }
-        loadVoices();
-        if (speechSynthesis.onvoiceschanged !== undefined) {
-            speechSynthesis.onvoiceschanged = loadVoices;
-        }
     </script>
 </body>
 
