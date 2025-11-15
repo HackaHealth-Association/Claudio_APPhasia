@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from "../../Components/ui/card";
 import { Button } from "../../Components/ui/button";
-import { Zap, Eye, ArrowUpDown, MoveVertical, MoveDown, RotateCcw, HelpCircle, AlertCircle } from "lucide-react";
+import { Zap, Eye, ArrowUpDown, MoveVertical, MoveDown, Repeat2, HelpCircle, AlertCircle, Move, Hand, RotateCw } from "lucide-react";
 
 /**
  * ActionButtons Component
@@ -42,24 +42,34 @@ const actions = [
     icon: Eye 
   },
   { 
-    word: "beugen",             // Bend
+    word: "bewegen",             // Move
     color: "bg-pink-400 hover:bg-pink-500", 
+    icon: Move 
+  },
+  { 
+    word: "beugen",             // Bend
+    color: "bg-purple-400 hover:bg-purple-500", 
     icon: ArrowUpDown 
   },
   { 
-    word: "heben",              // Lift
+    word: "anspannen",              // Flex
     color: "bg-orange-400 hover:bg-orange-500", 
-    icon: MoveVertical 
+    icon: Hand 
   },
   { 
-    word: "senken",             // Lower
+    word: "drehen",             // Rotate
+    color: "bg-blue-500 hover:bg-blue-600", 
+    icon: RotateCw 
+  },
+  { 
+    word: "strecken",             // Extend
     color: "bg-cyan-500 hover:bg-cyan-600", 
-    icon: MoveDown 
+    icon: MoveVertical 
   },
   { 
     word: "wiederholen",        // Repeat
     color: "bg-gray-600 hover:bg-gray-700", 
-    icon: RotateCcw 
+    icon: Repeat2 
   }
 ];
 
