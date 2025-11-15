@@ -2,6 +2,16 @@ import React from 'react';
 import { Card } from "../../Components/ui/card";
 import { Button } from "../../Components/ui/button";
 import { Zap, Eye, ArrowUpDown, MoveVertical, MoveDown, Repeat2, HelpCircle, AlertCircle, Move, Hand, RotateCw } from "lucide-react";
+import SchmerzIcon from "../../assets/icons/Schmerz.png";
+import ZuschauenIcon from "../../assets/icons/Zuschauen.png";
+import BewegenIcon from "../../assets/icons/Bewegen.png";
+import BeugenIcon from "../../assets/icons/Beugen.png";
+import AnspannenIcon from "../../assets/icons/Anspannen.png";
+import DrehenIcon from "../../assets/icons/Drehen.png";
+import StreckenIcon from "../../assets/icons/Strecken.png";
+import WiederholenIcon from "../../assets/icons/Wiederholen.png";
+import ExclamationIcon from "../../assets/icons/Exclamation.png";
+import QuestionIcon from "../../assets/icons/Question.png";
 
 /**
  * ActionButtons Component
@@ -31,46 +41,14 @@ import { Zap, Eye, ArrowUpDown, MoveVertical, MoveDown, Repeat2, HelpCircle, Ale
  * - icon: Lucide icon component for visual representation
  */
 const actions = [
-  { 
-    word: "Schmerz",           // Pain
-    color: "bg-red-600 hover:bg-red-700", 
-    icon: Zap 
-  },
-  { 
-    word: "zuschauen",          // Watch/Observe
-    color: "bg-green-700 hover:bg-green-800", 
-    icon: Eye 
-  },
-  { 
-    word: "bewegen",             // Move
-    color: "bg-pink-400 hover:bg-pink-500", 
-    icon: Move 
-  },
-  { 
-    word: "beugen",             // Bend
-    color: "bg-purple-400 hover:bg-purple-500", 
-    icon: ArrowUpDown 
-  },
-  { 
-    word: "anspannen",              // Flex
-    color: "bg-orange-400 hover:bg-orange-500", 
-    icon: Hand 
-  },
-  { 
-    word: "drehen",             // Rotate
-    color: "bg-blue-500 hover:bg-blue-600", 
-    icon: RotateCw 
-  },
-  { 
-    word: "strecken",             // Extend
-    color: "bg-cyan-500 hover:bg-cyan-600", 
-    icon: MoveVertical 
-  },
-  { 
-    word: "wiederholen",        // Repeat
-    color: "bg-gray-600 hover:bg-gray-700", 
-    icon: Repeat2 
-  }
+  { word: "Schmerz", color: "bg-red-600 hover:bg-red-700", icon: SchmerzIcon },
+  { word: "zuschauen", color: "bg-green-700 hover:bg-green-800", icon: ZuschauenIcon },
+  { word: "bewegen", color: "bg-pink-400 hover:bg-pink-500", icon: BewegenIcon },
+  { word: "beugen", color: "bg-purple-400 hover:bg-purple-500", icon: BeugenIcon },
+  { word: "anspannen", color: "bg-orange-400 hover:bg-orange-500", icon: AnspannenIcon },
+  { word: "drehen", color: "bg-blue-500 hover:bg-blue-600", icon: DrehenIcon },
+  { word: "strecken", color: "bg-cyan-500 hover:bg-cyan-600", icon: StreckenIcon },
+  { word: "wiederholen", color: "bg-gray-400 hover:bg-gray-500", icon: WiederholenIcon } // until you have a PNG
 ];
 
 export default function ActionButtons({ selectedAction, onActionClick, onSpecialClick }) {
@@ -101,7 +79,7 @@ export default function ActionButtons({ selectedAction, onActionClick, onSpecial
             <Button
               key={action.word}
               onClick={() => onActionClick(action.word)}
-              className={`w-full h-16 text-lg font-semibold text-white transition-all ${
+              className={`w-full h-16 text-lg font-semibold text-white transition-all justify-start pl-17 ${
                 // Add ring effect if this action is currently selected
                 selectedAction === action.word
                   ? `${action.color} ring-4 ring-offset-2 ring-opacity-50`
@@ -109,7 +87,7 @@ export default function ActionButtons({ selectedAction, onActionClick, onSpecial
               }`}
             >
               {/* Icon on the left */}
-              <Icon className="w-6 h-6 mr-2" />
+              <img src={action.icon} alt={action.word} className="w-10 h-10 mr-2" />
               {/* Action word text */}
               {action.word}
             </Button>
@@ -131,19 +109,19 @@ export default function ActionButtons({ selectedAction, onActionClick, onSpecial
           {/* Question Mark Button */}
           <Button
             onClick={() => onSpecialClick('?')}
-            className="flex-1 h-16 bg-blue-700 hover:bg-blue-800 text-white text-3xl font-bold"
+            className="flex-1 h-16 bg-blue-300 hover:bg-blue-400 text-white font-bold"
             title="Fragezeichen hinzufügen"
           >
-            <HelpCircle className="w-8 h-8" />
+            <img src={QuestionIcon} alt="?" className="w-10 h-10" />
           </Button>
-          
+
           {/* Exclamation Mark Button */}
           <Button
             onClick={() => onSpecialClick('!')}
-            className="flex-1 h-16 bg-blue-700 hover:bg-blue-800 text-white text-3xl font-bold"
+            className="flex-1 h-16 bg-blue-300 hover:bg-blue-400 text-white font-bold"
             title="Ausrufezeichen hinzufügen"
           >
-            <AlertCircle className="w-8 h-8" />
+            <img src={ExclamationIcon} alt="!" className="w-10 h-10" />
           </Button>
         </div>
       </div>
