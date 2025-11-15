@@ -1,7 +1,7 @@
 import React from 'react';
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
+import { Card } from "../../Components/ui/card";
+import { Button } from "../../Components/ui/button";
+import { Slider } from "../../Components/ui/slider";
 import { 
   ArrowUp, ArrowDown, ArrowLeft, ArrowRight, 
   MoveVertical, MoveHorizontal,

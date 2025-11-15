@@ -1,6 +1,6 @@
 import React from 'react';
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card } from "../../Components/ui/card";
+import { Button } from "../../Components/ui/button";
 import { MessageSquare, ArrowRight, Hand, StopCircle, Circle, Flame } from "lucide-react";
 
 const actions = [

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card } from "@/components/ui/card";
+import { Card } from "../../Components/ui/card";
 import { Volume2 } from "lucide-react";
 
 const bodyParts = [

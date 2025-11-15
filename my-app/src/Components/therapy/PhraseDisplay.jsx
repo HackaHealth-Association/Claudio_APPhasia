@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card } from "../../Components/ui/card";
+import { Button } from "../../Components/ui/button";
 import { Volume2, RotateCcw } from "lucide-react";
 
 export default function PhraseDisplay({ action, bodyPart, onClear }) {

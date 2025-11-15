@@ -1,6 +1,6 @@
 import React from 'react';
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card } from "../../Components/ui/card";
+import { Button } from "../../Components/ui/button";
 import { ArrowLeft, Volume2 } from "lucide-react";
 
 /**
