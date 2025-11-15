@@ -6,6 +6,7 @@ import ActionButtons from '../components/therapy/ActionButtons';
 import ControlsPanel from '../components/therapy/ControlsPanel';
 import TextDisplay from '../components/therapy/TextDisplay';
 import QuestionInterface from '../components/therapy/QuestionInterface';
+import { toast } from "sonner"
 
 /**
  * ============================================================
@@ -42,25 +43,25 @@ export default function TherapyAssistant() {
    * ============================================================
    * All state variables that track user selections and inputs
    */
-  
+
   // BODY VIEW STATE - Which angle of body is shown (front/back/left/right)
   const [currentView, setCurrentView] = useState('front');
-  
+
   // SELECTED BODY PART STATE - Currently clicked anatomical region
   // This is the KEY STATE that determines which muscles are shown
   // DEPENDENCY: BodyPartMuscles component depends on this value
   const [selectedBodyPart, setSelectedBodyPart] = useState(null);
-  
+
   // SELECTED MUSCLE STATE - Currently clicked muscle from BodyPartMuscles
   const [selectedMuscle, setSelectedMuscle] = useState(null);
-  
+
   // SELECTED ACTION STATE - Currently clicked action verb
   const [selectedAction, setSelectedAction] = useState(null);
-  
+
   // PHRASE BUILDING STATE - Array of all selected words in order
   // Example: ["Schmerz", "Knie", "7", "!"]
   const [selectedWords, setSelectedWords] = useState([]);
-  
+
   // SLIDER VALUE STATE - Current value of the slider (0-10)
   const [slider1Value, setSlider1Value] = useState(0);
 
@@ -80,7 +81,7 @@ export default function TherapyAssistant() {
    * EVENT HANDLERS - ANATOMY VIEWER
    * ============================================================
    */
-  
+
   /**
    * Handles body part click from AnatomyViewer
    * IMPORTANT: This triggers the DEPENDENCY update for BodyPartMuscles
@@ -89,7 +90,7 @@ export default function TherapyAssistant() {
    */
   const handleBodyPartClick = (bodyPart) => {
     setSelectedBodyPart(bodyPart);  // Update selected body part
-                                     // This causes BodyPartMuscles to re-render with new muscles
+    // This causes BodyPartMuscles to re-render with new muscles
     addWord(bodyPart);               // Add body part name to phrase
   };
 
@@ -98,7 +99,7 @@ export default function TherapyAssistant() {
    * EVENT HANDLERS - BODY PART MUSCLES
    * ============================================================
    */
-  
+
   /**
    * Handles muscle click from BodyPartMuscles component
    * 
@@ -114,7 +115,7 @@ export default function TherapyAssistant() {
    * EVENT HANDLERS - ACTION BUTTONS
    * ============================================================
    */
-  
+
   /**
    * Handles action verb click
    * 
@@ -139,7 +140,7 @@ export default function TherapyAssistant() {
    * EVENT HANDLERS - CONTROLS PANEL
    * ============================================================
    */
-  
+
   /**
    * Handles slider 1 value change
    * Adds the new number value to the phrase
@@ -178,7 +179,7 @@ export default function TherapyAssistant() {
    * EVENT HANDLERS - TEXT DISPLAY
    * ============================================================
    */
-  
+
   /**
    * Handles back button click - removes last word from phrase
    */
@@ -213,28 +214,93 @@ export default function TherapyAssistant() {
    * - Add option to repeat last phrase
    * - Save frequently used phrases
    */
-  const handleSpeak = () => {
+  /*const handleSpeak = () => {
     // Join all words into a single string
     const text = selectedWords.join(' ');
-    
+
     // Check if browser supports speech synthesis and text exists
     if ('speechSynthesis' in window && text) {
       // Cancel any ongoing speech
       window.speechSynthesis.cancel();
-      
+
       // Create speech utterance
       const utterance = new SpeechSynthesisUtterance(text);
-      
+
       // Configure speech settings for German
       utterance.lang = 'de-DE';    // German language
       utterance.rate = 0.75;       // Slower speed for clarity (default is 1)
       utterance.pitch = 1;         // Normal pitch
       utterance.volume = 1;        // Maximum volume
-      
+
       // Speak the text
       window.speechSynthesis.speak(utterance);
     }
+  };*/
+
+  const handleSpeak = async () => {
+    console.log("➡️ handleSpeak() triggered");
+    console.log("Selected words:", selectedWords);
+
+    // 1. Check if there are any words to send
+    if (selectedWords.length === 0) {
+      console.log("❌ No words selected → aborting");
+      toast.error("Keine Wörter ausgewählt");
+      return;
+    }
+
+    console.log("✅ Words selected, continuing...");
+
+    try {
+      console.log("📡 Sending POST request to backend...");
+      console.log("POST body:", JSON.stringify({ keywords: selectedWords }));
+
+      const response = await fetch('http://127.0.0.1:5000/api/generate-sentence', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ keywords: selectedWords })
+      });
+
+      console.log("📬 Response received:", response);
+      console.log("Response status:", response.status);
+
+      const data = await response.json();
+      console.log("📦 Parsed JSON:", data);
+
+      if (!response.ok) {
+        console.log("❌ Backend returned an error:", data.error);
+        throw new Error(data.error || "Unbekannter Fehler");
+      }
+
+      // 4. Success! We got a response
+      const sentence = data.sentence;
+      const audioUrl = data.audio_url;
+
+      console.log("✅ Sentence received:", sentence);
+      console.log("🔊 Audio URL received:", audioUrl);
+
+      toast.success(`Spreche: "${sentence}"`);
+
+      // 5. Play the audio
+      console.log("🎵 Preparing audio playback...");
+      const audioPlayer = new Audio();
+
+      const fullAudioUrl = `http://127.0.0.1:5000${audioUrl}?t=${new Date().getTime()}`;
+      console.log("🎵 Full audio URL:", fullAudioUrl);
+
+      audioPlayer.src = fullAudioUrl;
+
+      console.log("▶️ Attempting to play audio...");
+      await audioPlayer.play();
+      console.log("🎉 Audio playback started successfully!");
+
+    } catch (error) {
+      console.error("💥 Fehler beim Generieren des Satzes:", error);
+      toast.error(error.message || "Fehler beim Generieren des Satzes");
+    }
   };
+
 
   /**
    * ============================================================
@@ -255,9 +321,9 @@ export default function TherapyAssistant() {
   return (
     <div className="min-h-screen bg-gray-100 p-4">
       <div className="max-w-[1600px] mx-auto space-y-4">
-        
+
         {/* TOP ROW: TEXT DISPLAY */}
-        <TextDisplay 
+        <TextDisplay
           selectedWords={selectedWords}
           onBack={handleBack}
           onSpeak={handleSpeak}
@@ -270,38 +336,38 @@ export default function TherapyAssistant() {
             <TabsTrigger value="questions">Fragen</TabsTrigger>
             <TabsTrigger value="advanced">Erweitert</TabsTrigger>
           </TabsList>
-          
+
           {/* TAB 1: Question Interface */}
           <TabsContent value="questions">
             <QuestionInterface onWordSelect={addWord} />
           </TabsContent>
-          
+
           {/* TAB 2: Advanced Interface */}
           <TabsContent value="advanced">
 
-        {/* 
+            {/* 
           ============================================================
           MAIN GRID: 4 COLUMNS OF CONTROLS
           ============================================================
           Uses CSS Grid with 12 columns for flexible layout
         */}
-        <div className="grid grid-cols-12 gap-3">
-          
-          {/* 
+            <div className="grid grid-cols-12 gap-3">
+
+              {/* 
             COLUMN 1: ANATOMY VIEWER (3 columns wide)
             - Shows body from 4 views
             - Clickable body parts
             - View navigation arrows
           */}
-          <div className="col-span-5">
-            <AnatomyViewer 
-              currentView={currentView}
-              onViewChange={setCurrentView}
-              onBodyPartClick={handleBodyPartClick}
-            />
-          </div>
+              <div className="col-span-5">
+                <AnatomyViewer
+                  currentView={currentView}
+                  onViewChange={setCurrentView}
+                  onBodyPartClick={handleBodyPartClick}
+                />
+              </div>
 
-          {/* 
+              {/* 
             COLUMN 2: BODY PART MUSCLES (2 columns wide)
             - DEPENDENT on selectedBodyPart
             - Shows muscles for selected body area
@@ -315,7 +381,7 @@ export default function TherapyAssistant() {
             4. Component looks up knee muscles
             5. Displays knee-specific muscle buttons
           */}
-          {/* <div className="col-span-2">
+              {/* <div className="col-span-2">
             <BodyPartMuscles 
               selectedBodyPart={selectedBodyPart}   // DEPENDENCY: This drives which muscles are shown
               selectedMuscle={selectedMuscle}
@@ -323,35 +389,35 @@ export default function TherapyAssistant() {
             />
           </div> */}
 
-          {/* 
+              {/* 
             COLUMN 3: ACTION BUTTONS (3 columns wide)
             - Action verbs for therapy
             - Special symbols (? and !)
           */}
-          <div className="col-span-3">
-            <ActionButtons 
-              selectedAction={selectedAction}
-              onActionClick={handleActionClick}
-              onSpecialClick={handleSpecialClick}
-            />
-          </div>
+              <div className="col-span-3">
+                <ActionButtons
+                  selectedAction={selectedAction}
+                  onActionClick={handleActionClick}
+                  onSpecialClick={handleSpecialClick}
+                />
+              </div>
 
-          {/* 
+              {/* 
             COLUMN 4: CONTROLS PANEL (4 columns wide)
             - Number slider (0-10)
             - Plus/minus buttons
             - 6 directional arrows
           */}
-          <div className="col-span-4">
-            <ControlsPanel 
-              slider1Value={slider1Value}
-              onSlider1Change={handleSlider1Change}
-              onSlider1Commit={handleSlider1Commit}
-              onSignClick={handleSignClick}
-              onDirectionClick={handleDirectionClick}
-            />
-          </div>
-        </div>
+              <div className="col-span-4">
+                <ControlsPanel
+                  slider1Value={slider1Value}
+                  onSlider1Change={handleSlider1Change}
+                  onSlider1Commit={handleSlider1Commit}
+                  onSignClick={handleSignClick}
+                  onDirectionClick={handleDirectionClick}
+                />
+              </div>
+            </div>
           </TabsContent>
         </Tabs>
       </div>
