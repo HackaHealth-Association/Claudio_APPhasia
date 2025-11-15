@@ -2,7 +2,7 @@ import React from 'react';
 import { Card } from "../../Components/ui/card";
 import { Button } from "../../Components/ui/button";
 import { Slider } from "../../Components/ui/slider";
-import { Plus, Minus, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, MoveUp, MoveDown } from "lucide-react";
+import { Plus, Minus, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, MoveUp, MoveDown, MoveHorizontal, MoveVertical } from "lucide-react";
 
 /**
  * ControlsPanel Component
@@ -41,8 +41,8 @@ const directions = [
   { label: "unten", icon: ArrowDown, value: "unten", pos: "col-start-2 row-start-2" },   // Bottom center
   { label: "links", icon: ArrowLeft, value: "links", pos: "col-start-1 row-start-1" },   // Top left
   { label: "rechts", icon: ArrowRight, value: "rechts", pos: "col-start-3 row-start-1" }, // Top right
-  { label: "vor", icon: MoveUp, value: "vor", pos: "col-start-1 row-start-2" },          // Bottom left
-  { label: "zurück", icon: MoveDown, value: "zurück", pos: "col-start-3 row-start-2" }   // Bottom right
+  { label: "vor", icon: MoveVertical, value: "vor", pos: "col-start-1 row-start-2" },          // Bottom left
+  { label: "zurück", icon: MoveVertical, value: "zurück", pos: "col-start-3 row-start-2" }   // Bottom right
 ];
 
 export default function ControlsPanel({ 
@@ -119,7 +119,7 @@ export default function ControlsPanel({
           - Subtracting: "10 - 5" (reduce by 5)
           - General mathematical expressions in therapy instructions
         */}
-        <div className="flex justify-center gap-4">
+        <div className="flex justify-center gap-4 p-8">
           
           {/* MINUS BUTTON */}
           <Button
@@ -160,10 +160,10 @@ export default function ControlsPanel({
         */}
         <div>
           {/* Section title */}
-          <h3 className="text-sm font-semibold text-gray-600 mb-3 text-center">Richtungen</h3>
+          <h3 className="text-sm font-semibold text-gray-600 mb-1 text-center">Richtungen</h3>
           
           {/* 3x3 Grid container */}
-          <div className="grid grid-cols-3 grid-rows-3 gap-2 max-w-xs mx-auto">
+          <div className="grid grid-cols-3 grid-rows-2 gap-2 max-w-lg mx-auto p-8">
             {/* Render all 6 direction buttons */}
             {directions.map((dir) => {
               const Icon = dir.icon;  // Get icon component
@@ -172,14 +172,14 @@ export default function ControlsPanel({
                 <Button
                   key={dir.value}
                   onClick={() => onDirectionClick(dir.value)}
-                  className={`h-14 ${dir.pos} bg-white border-2 border-gray-300 hover:bg-gray-100 text-gray-700`}
+                  className={`h-25 w-20 ${dir.pos} bg-white border-2 border-gray-300 hover:bg-gray-100 text-gray-700`}
                   variant="outline"
                   title={`Richtung: ${dir.label}`}
                 >
                   {/* Icon and label stacked vertically */}
                   <div className="flex flex-col items-center gap-1">
-                    <Icon className="w-5 h-5" />
-                    <span className="text-xs">{dir.label}</span>
+                     <Icon size={70} strokeWidth={5} /> 
+                    <span className="text-sm">{dir.label}</span>
                   </div>
                 </Button>
               );
