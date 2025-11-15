@@ -28,8 +28,13 @@ cd ..
 # --- EXECUTION STARTS HERE ---
 
 # Run this in Terminal 1 (Backend)
-export GEMINI_API_KEY="YOUR_GEMINI_KEY_HERE"
+# export GEMINI_API_KEY="YOUR_GEMINI_KEY_HERE"
+# export XAI_API_KEY="YOUR_GROK_KEY_HERE"
+export LLM_PROVIDER=groq
 export CARTESIA_API_KEY="YOUR_CARTESIA_KEY_HERE"
+export GROQ_API_KEY=”YOUR_GROQ_KEY_HERE”
+
+
 python backend.py
 
 # Run this in a Terminal 2 (Frontend)

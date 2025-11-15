@@ -12,6 +12,7 @@ You must return EXACTLY 1 sentence and nothing else. It is your task to investig
 needs and pains are. When we refer to "hurt" or "pain" we ONLY refer to the patients symptoms
 Your output should always be in German, no matter if the input is in English. The input words can sometimes
 contain special terms like: (+,-). These may be used in a variety of contexts (like more, less , raise, lower, ...).
+The symbol "!" must always be interpreted as an imperative/command, and the symbol "?" must always be interpreted as a question.
 It is your task to understand what the context is. Please remember, that your output should be simple sentences, no
 instructions for a robot or any kind.
 
@@ -35,6 +36,14 @@ class ProviderConfig:
 
 
 PROVIDERS = {
+    # Low-cost Groq inference
+    "groq_fast": ProviderConfig(
+        name="groq_fast",
+        base_url="https://api.groq.com/openai/v1",
+        api_key_env="GROQ_API_KEY", # Get key from console.groq.com
+        model="llama-3.1-8b-instant",    # Extremely fast and smart enough for this task
+    ),
+
     # Native OpenAI
     "openai": ProviderConfig(
         name="openai",
@@ -43,11 +52,11 @@ PROVIDERS = {
         model="gpt-4.1-mini",
     ),
     # Grok / xAI
-    "grok": ProviderConfig(
-        name="grok",
+    "xai_grok": ProviderConfig(
+        name="xai_grok",
         base_url="https://api.x.ai/v1",
         api_key_env="XAI_API_KEY",
-        model="grok-3-mini",
+        model="grok-4-fast",
     ),
     # Gemini in OpenAI-compatible mode
     "gemini": ProviderConfig(
@@ -65,9 +74,9 @@ class LLMClient:
         Provider is chosen by:
         - explicit provider_name argument, or
         - LLM_PROVIDER env var, or
-        - default: "grok"
+        - default: "groq_fast"
         """
-        provider_name = provider_name or os.getenv("LLM_PROVIDER", "grok")
+        provider_name = provider_name or os.getenv("LLM_PROVIDER", "groq_fast")
 
         if provider_name not in PROVIDERS:
             raise ValueError(
