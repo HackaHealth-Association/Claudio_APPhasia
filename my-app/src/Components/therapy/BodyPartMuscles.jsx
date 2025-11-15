@@ -197,17 +197,7 @@ export default function BodyPartMuscles({ selectedBodyPart, selectedMuscle, onMu
         ))}
       </div>
       
-      {/* 
-        VISUAL INDICATOR
-        Shows connection between body part selection and muscle display
-      */}
-      {selectedBodyPart && (
-        <div className="p-3 bg-blue-50 border-t border-blue-200">
-          <p className="text-xs text-blue-700 text-center">
-            ↑ Diese Muskeln gehören zu: <strong>{selectedBodyPart}</strong>
-          </p>
-        </div>
-      )}
+
     </Card>
   );
 }

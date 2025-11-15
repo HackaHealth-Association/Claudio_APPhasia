@@ -53,111 +53,35 @@ export default function AnatomyViewer({ currentView, onViewChange, onBodyPartCli
           
           {/* FRONT VIEW - Vorderansicht */}
           {currentView === 'front' && (
-            <div className="relative bg-gradient-to-b from-blue-50 to-blue-100 rounded-3xl p-8 min-h-[500px] flex items-center justify-center">
-              {/* TODO: Replace with actual front view image */}
-              {/* <img src="/path/to/body_front.png" alt="Front view" className="w-full h-auto" /> */}
-              
-              {/* TEMPORARY PLACEHOLDER - will be replaced with clickable image map */}
-              <div className="text-center">
-                <div className="w-48 h-96 bg-gradient-to-b from-orange-200 to-orange-300 rounded-full mx-auto relative shadow-lg">
+            <div className="relative rounded-3xl p-4 min-h-[500px] flex items-center justify-center">
+              <div className="text-center relative">
+                <img 
+                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69179e7e6d13ab86f0992908/51c26b6e5_bodyfront.jpg" 
+                  alt="Front view" 
+                  className="w-full h-auto max-h-[550px] object-contain"
+                />
+                <div className="absolute inset-0">
                   
-                  {/* Head placeholder */}
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-20 bg-orange-300 rounded-full"></div>
-                  
-                  {/* 
-                    ============================================================
-                    CLICKABLE BODY PARTS - FRONT VIEW
-                    ============================================================
-                    These are the required body parts that must be clickable:
-                    - Nacken (neck)
-                    - Schulter (shoulder)
-                    - Oberarm (upper arm)
-                    - Ellbogen (elbow)
-                    - Unterarm (forearm)
-                    - Hüfte (hip)
-                    - Wirbelsäule (spine)
-                    - Oberschenkel (thigh)
-                    - Knie (knee)
-                    - Unterschenkel (lower leg)
-                    - Fuß (foot)
-                  */}
-                  
-                  {/* Nacken - Neck area */}
-                  <button 
-                    onClick={() => onBodyPartClick('Nacken')}
-                    className="absolute top-20 left-1/2 -translate-x-1/2 w-12 h-8 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50"
-                    title="Nacken"
-                  ></button>
-                  
-                  {/* Schulter - Shoulder area */}
-                  <button 
-                    onClick={() => onBodyPartClick('Schulter')}
-                    className="absolute top-24 left-8 w-16 h-12 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50"
-                    title="Schulter"
-                  ></button>
-                  
-                  {/* Wirbelsäule - Spine area (center of torso) */}
-                  <button 
-                    onClick={() => onBodyPartClick('Wirbelsäule')}
-                    className="absolute top-32 left-1/2 -translate-x-1/2 w-8 h-24 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50"
-                    title="Wirbelsäule"
-                  ></button>
-                  
-                  {/* Oberarm - Upper arm */}
-                  <button 
-                    onClick={() => onBodyPartClick('Oberarm')}
-                    className="absolute top-28 left-4 w-10 h-16 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50"
-                    title="Oberarm"
-                  ></button>
-                  
-                  {/* Ellbogen - Elbow */}
-                  <button 
-                    onClick={() => onBodyPartClick('Ellbogen')}
-                    className="absolute top-44 left-2 w-10 h-10 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50"
-                    title="Ellbogen"
-                  ></button>
-                  
-                  {/* Unterarm - Forearm */}
-                  <button 
-                    onClick={() => onBodyPartClick('Unterarm')}
-                    className="absolute top-54 left-1 w-10 h-16 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50"
-                    title="Unterarm"
-                  ></button>
-                  
-                  {/* Hüfte - Hip area */}
-                  <button 
-                    onClick={() => onBodyPartClick('Hüfte')}
-                    className="absolute top-52 left-1/2 -translate-x-1/2 w-20 h-12 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50"
-                    title="Hüfte"
-                  ></button>
-                  
-                  {/* Oberschenkel - Thigh */}
-                  <button 
-                    onClick={() => onBodyPartClick('Oberschenkel')}
-                    className="absolute top-64 left-12 w-12 h-16 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50"
-                    title="Oberschenkel"
-                  ></button>
-                  
-                  {/* Knie - Knee */}
-                  <button 
-                    onClick={() => onBodyPartClick('Knie')}
-                    className="absolute top-80 left-12 w-12 h-10 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50"
-                    title="Knie"
-                  ></button>
-                  
-                  {/* Unterschenkel - Lower leg */}
-                  <button 
-                    onClick={() => onBodyPartClick('Unterschenkel')}
-                    className="absolute top-90 left-12 w-12 h-16 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50"
-                    title="Unterschenkel"
-                  ></button>
-                  
-                  {/* Fuß - Foot */}
-                  <button 
-                    onClick={() => onBodyPartClick('Fuß')}
-                    className="absolute bottom-2 left-12 w-12 h-8 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50"
-                    title="Fuß"
-                  ></button>
+                  {/* FRONT VIEW CLICKABLE AREAS */}
+                  <button onClick={() => onBodyPartClick('Hüfte')} className="absolute top-[48%] left-1/2 -translate-x-1/2 w-20 h-12 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Hüfte"></button>
+                  <button onClick={() => onBodyPartClick('Knie')} className="absolute top-[68%] left-[45%] w-12 h-10 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Knie"></button>
+                  <button onClick={() => onBodyPartClick('Knie')} className="absolute top-[68%] left-[55%] w-12 h-10 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Knie"></button>
+                  <button onClick={() => onBodyPartClick('Fuß')} className="absolute bottom-[2%] left-[42%] w-12 h-8 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Fuß"></button>
+                  <button onClick={() => onBodyPartClick('Fuß')} className="absolute bottom-[2%] left-[56%] w-12 h-8 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Fuß"></button>
+                  <button onClick={() => onBodyPartClick('Schulter')} className="absolute top-[20%] left-[30%] w-16 h-12 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Schulter"></button>
+                  <button onClick={() => onBodyPartClick('Schulter')} className="absolute top-[20%] right-[30%] w-16 h-12 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Schulter"></button>
+                  <button onClick={() => onBodyPartClick('Unterschenkel')} className="absolute top-[78%] left-[44%] w-10 h-16 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Unterschenkel"></button>
+                  <button onClick={() => onBodyPartClick('Unterschenkel')} className="absolute top-[78%] right-[44%] w-10 h-16 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Unterschenkel"></button>
+                  <button onClick={() => onBodyPartClick('Oberschenkel')} className="absolute top-[55%] left-[43%] w-12 h-14 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Oberschenkel"></button>
+                  <button onClick={() => onBodyPartClick('Oberschenkel')} className="absolute top-[55%] right-[43%] w-12 h-14 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Oberschenkel"></button>
+                  <button onClick={() => onBodyPartClick('Unterarm')} className="absolute top-[42%] left-[20%] w-10 h-16 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Unterarm"></button>
+                  <button onClick={() => onBodyPartClick('Unterarm')} className="absolute top-[42%] right-[20%] w-10 h-16 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Unterarm"></button>
+                  <button onClick={() => onBodyPartClick('Oberarm')} className="absolute top-[28%] left-[22%] w-10 h-14 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Oberarm"></button>
+                  <button onClick={() => onBodyPartClick('Oberarm')} className="absolute top-[28%] right-[22%] w-10 h-14 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Oberarm"></button>
+                  <button onClick={() => onBodyPartClick('Ellbogen')} className="absolute top-[40%] left-[19%] w-10 h-10 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Ellbogen"></button>
+                  <button onClick={() => onBodyPartClick('Ellbogen')} className="absolute top-[40%] right-[19%] w-10 h-10 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Ellbogen"></button>
+                  <button onClick={() => onBodyPartClick('Hand')} className="absolute top-[58%] left-[16%] w-10 h-10 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Hand"></button>
+                  <button onClick={() => onBodyPartClick('Hand')} className="absolute top-[58%] right-[16%] w-10 h-10 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Hand"></button>
                 </div>
                 <p className="mt-4 text-sm text-gray-500">Vorderansicht</p>
               </div>
@@ -166,15 +90,35 @@ export default function AnatomyViewer({ currentView, onViewChange, onBodyPartCli
           
           {/* BACK VIEW - Rückansicht */}
           {currentView === 'back' && (
-            <div className="relative bg-gradient-to-b from-blue-50 to-blue-100 rounded-3xl p-8 min-h-[500px] flex items-center justify-center">
-              {/* TODO: Replace with actual back view image */}
-              {/* <img src="/path/to/body_back.png" alt="Back view" className="w-full h-auto" /> */}
-              
-              {/* Placeholder for back view */}
-              <div className="text-center">
-                <div className="w-48 h-96 bg-gradient-to-b from-orange-200 to-orange-300 rounded-full mx-auto relative shadow-lg">
-                  {/* TODO: Add clickable areas for back view body parts */}
-                  {/* Same body parts as front, but from back perspective */}
+            <div className="relative rounded-3xl p-4 min-h-[500px] flex items-center justify-center">
+              <div className="text-center relative">
+                <img 
+                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69179e7e6d13ab86f0992908/c0017501a_bodyback.jpg" 
+                  alt="Back view" 
+                  className="w-full h-auto max-h-[550px] object-contain"
+                />
+                <div className="absolute inset-0">
+                  {/* BACK VIEW CLICKABLE AREAS */}
+                  <button onClick={() => onBodyPartClick('Hüfte')} className="absolute top-[48%] left-1/2 -translate-x-1/2 w-20 h-12 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Hüfte"></button>
+                  <button onClick={() => onBodyPartClick('Gesäß')} className="absolute top-[52%] left-1/2 -translate-x-1/2 w-24 h-14 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Gesäß"></button>
+                  <button onClick={() => onBodyPartClick('Wirbelsäule')} className="absolute top-[25%] left-1/2 -translate-x-1/2 w-8 h-32 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Wirbelsäule"></button>
+                  <button onClick={() => onBodyPartClick('Knie')} className="absolute top-[68%] left-[45%] w-12 h-10 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Knie"></button>
+                  <button onClick={() => onBodyPartClick('Knie')} className="absolute top-[68%] right-[45%] w-12 h-10 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Knie"></button>
+                  <button onClick={() => onBodyPartClick('Fuß')} className="absolute bottom-[2%] left-[42%] w-12 h-8 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Fuß"></button>
+                  <button onClick={() => onBodyPartClick('Fuß')} className="absolute bottom-[2%] right-[42%] w-12 h-8 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Fuß"></button>
+                  <button onClick={() => onBodyPartClick('Nacken')} className="absolute top-[12%] left-1/2 -translate-x-1/2 w-12 h-10 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Nacken"></button>
+                  <button onClick={() => onBodyPartClick('Schulter')} className="absolute top-[18%] left-[28%] w-16 h-12 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Schulter"></button>
+                  <button onClick={() => onBodyPartClick('Schulter')} className="absolute top-[18%] right-[28%] w-16 h-12 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Schulter"></button>
+                  <button onClick={() => onBodyPartClick('Unterschenkel')} className="absolute top-[78%] left-[44%] w-10 h-16 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Unterschenkel"></button>
+                  <button onClick={() => onBodyPartClick('Unterschenkel')} className="absolute top-[78%] right-[44%] w-10 h-16 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Unterschenkel"></button>
+                  <button onClick={() => onBodyPartClick('Oberschenkel')} className="absolute top-[58%] left-[43%] w-12 h-12 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Oberschenkel"></button>
+                  <button onClick={() => onBodyPartClick('Oberschenkel')} className="absolute top-[58%] right-[43%] w-12 h-12 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Oberschenkel"></button>
+                  <button onClick={() => onBodyPartClick('Unterarm')} className="absolute top-[42%] left-[18%] w-10 h-16 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Unterarm"></button>
+                  <button onClick={() => onBodyPartClick('Unterarm')} className="absolute top-[42%] right-[18%] w-10 h-16 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Unterarm"></button>
+                  <button onClick={() => onBodyPartClick('Oberarm')} className="absolute top-[26%] left-[20%] w-10 h-16 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Oberarm"></button>
+                  <button onClick={() => onBodyPartClick('Oberarm')} className="absolute top-[26%] right-[20%] w-10 h-16 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Oberarm"></button>
+                  <button onClick={() => onBodyPartClick('Ellbogen')} className="absolute top-[40%] left-[17%] w-10 h-10 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Ellbogen"></button>
+                  <button onClick={() => onBodyPartClick('Ellbogen')} className="absolute top-[40%] right-[17%] w-10 h-10 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Ellbogen"></button>
                 </div>
                 <p className="mt-4 text-sm text-gray-500">Rückansicht</p>
               </div>
@@ -183,14 +127,25 @@ export default function AnatomyViewer({ currentView, onViewChange, onBodyPartCli
           
           {/* LEFT SIDE VIEW - Linke Seitenansicht */}
           {currentView === 'left' && (
-            <div className="relative bg-gradient-to-b from-blue-50 to-blue-100 rounded-3xl p-8 min-h-[500px] flex items-center justify-center">
-              {/* TODO: Replace with actual left side view image */}
-              {/* <img src="/path/to/body_left.png" alt="Left view" className="w-full h-auto" /> */}
-              
-              {/* Placeholder for left side view */}
-              <div className="text-center">
-                <div className="w-32 h-96 bg-gradient-to-b from-orange-200 to-orange-300 rounded-full mx-auto relative shadow-lg">
-                  {/* TODO: Add clickable areas for left side view body parts */}
+            <div className="relative rounded-3xl p-4 min-h-[500px] flex items-center justify-center">
+              <div className="text-center relative">
+                <img 
+                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69179e7e6d13ab86f0992908/8ca293ddf_bodyleft.jpg" 
+                  alt="Left view" 
+                  className="w-full h-auto max-h-[550px] object-contain"
+                />
+                <div className="absolute inset-0">
+                  {/* SIDE VIEW CLICKABLE AREAS */}
+                  <button onClick={() => onBodyPartClick('Hüfte')} className="absolute top-[48%] left-1/2 -translate-x-1/2 w-16 h-12 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Hüfte"></button>
+                  <button onClick={() => onBodyPartClick('Knie')} className="absolute top-[68%] left-1/2 -translate-x-1/2 w-14 h-10 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Knie"></button>
+                  <button onClick={() => onBodyPartClick('Fuß')} className="absolute bottom-[2%] left-1/2 -translate-x-1/2 w-14 h-8 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Fuß"></button>
+                  <button onClick={() => onBodyPartClick('Nacken')} className="absolute top-[12%] left-1/2 -translate-x-1/2 w-12 h-10 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Nacken"></button>
+                  <button onClick={() => onBodyPartClick('Schulter')} className="absolute top-[18%] left-1/2 -translate-x-1/2 w-16 h-12 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Schulter"></button>
+                  <button onClick={() => onBodyPartClick('Unterschenkel')} className="absolute top-[78%] left-1/2 -translate-x-1/2 w-12 h-16 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Unterschenkel"></button>
+                  <button onClick={() => onBodyPartClick('Oberschenkel')} className="absolute top-[58%] left-1/2 -translate-x-1/2 w-14 h-12 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Oberschenkel"></button>
+                  <button onClick={() => onBodyPartClick('Unterarm')} className="absolute top-[42%] left-1/2 -translate-x-1/2 w-12 h-14 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Unterarm"></button>
+                  <button onClick={() => onBodyPartClick('Oberarm')} className="absolute top-[26%] left-1/2 -translate-x-1/2 w-12 h-14 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Oberarm"></button>
+                  <button onClick={() => onBodyPartClick('Ellbogen')} className="absolute top-[39%] left-1/2 -translate-x-1/2 w-12 h-10 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Ellbogen"></button>
                 </div>
                 <p className="mt-4 text-sm text-gray-500">Linke Seite</p>
               </div>
@@ -199,14 +154,25 @@ export default function AnatomyViewer({ currentView, onViewChange, onBodyPartCli
           
           {/* RIGHT SIDE VIEW - Rechte Seitenansicht */}
           {currentView === 'right' && (
-            <div className="relative bg-gradient-to-b from-blue-50 to-blue-100 rounded-3xl p-8 min-h-[500px] flex items-center justify-center">
-              {/* TODO: Replace with actual right side view image */}
-              {/* <img src="/path/to/body_right.png" alt="Right view" className="w-full h-auto" /> */}
-              
-              {/* Placeholder for right side view */}
-              <div className="text-center">
-                <div className="w-32 h-96 bg-gradient-to-b from-orange-200 to-orange-300 rounded-full mx-auto relative shadow-lg">
-                  {/* TODO: Add clickable areas for right side view body parts */}
+            <div className="relative rounded-3xl p-4 min-h-[500px] flex items-center justify-center">
+              <div className="text-center relative">
+                <img 
+                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69179e7e6d13ab86f0992908/ce37f565e_bodyright.jpg" 
+                  alt="Right view" 
+                  className="w-full h-auto max-h-[550px] object-contain"
+                />
+                <div className="absolute inset-0">
+                  {/* SIDE VIEW CLICKABLE AREAS */}
+                  <button onClick={() => onBodyPartClick('Hüfte')} className="absolute top-[48%] left-1/2 -translate-x-1/2 w-16 h-12 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Hüfte"></button>
+                  <button onClick={() => onBodyPartClick('Knie')} className="absolute top-[68%] left-1/2 -translate-x-1/2 w-14 h-10 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Knie"></button>
+                  <button onClick={() => onBodyPartClick('Fuß')} className="absolute bottom-[2%] left-1/2 -translate-x-1/2 w-14 h-8 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Fuß"></button>
+                  <button onClick={() => onBodyPartClick('Nacken')} className="absolute top-[12%] left-1/2 -translate-x-1/2 w-12 h-10 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Nacken"></button>
+                  <button onClick={() => onBodyPartClick('Schulter')} className="absolute top-[18%] left-1/2 -translate-x-1/2 w-16 h-12 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Schulter"></button>
+                  <button onClick={() => onBodyPartClick('Unterschenkel')} className="absolute top-[78%] left-1/2 -translate-x-1/2 w-12 h-16 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Unterschenkel"></button>
+                  <button onClick={() => onBodyPartClick('Oberschenkel')} className="absolute top-[58%] left-1/2 -translate-x-1/2 w-14 h-12 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Oberschenkel"></button>
+                  <button onClick={() => onBodyPartClick('Unterarm')} className="absolute top-[42%] left-1/2 -translate-x-1/2 w-12 h-14 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Unterarm"></button>
+                  <button onClick={() => onBodyPartClick('Oberarm')} className="absolute top-[26%] left-1/2 -translate-x-1/2 w-12 h-14 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Oberarm"></button>
+                  <button onClick={() => onBodyPartClick('Ellbogen')} className="absolute top-[39%] left-1/2 -translate-x-1/2 w-12 h-10 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Ellbogen"></button>
                 </div>
                 <p className="mt-4 text-sm text-gray-500">Rechte Seite</p>
               </div>

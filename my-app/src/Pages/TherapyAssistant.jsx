@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
 import AnatomyViewer from '../components/therapy/AnatomyViewer';
-import BodyPartMuscles from '../components/therapy/BodyPartMuscles';  // RENAMED from MuscleSelector
+import BodyPartMuscles from '../components/therapy/BodyPartMuscles';
 import ActionButtons from '../components/therapy/ActionButtons';
 import ControlsPanel from '../components/therapy/ControlsPanel';
 import TextDisplay from '../components/therapy/TextDisplay';
+import QuestionInterface from '../components/therapy/QuestionInterface';
 
 /**
  * ============================================================
@@ -59,9 +61,8 @@ export default function TherapyAssistant() {
   // Example: ["Schmerz", "Knie", "7", "!"]
   const [selectedWords, setSelectedWords] = useState([]);
   
-  // SLIDER VALUES STATE - Current values of the two number sliders (0-10)
+  // SLIDER VALUE STATE - Current value of the slider (0-10)
   const [slider1Value, setSlider1Value] = useState(0);
-  const [slider2Value, setSlider2Value] = useState(0);
 
   /**
    * ============================================================
@@ -150,15 +151,7 @@ export default function TherapyAssistant() {
     addWord(value.toString());   // Add number to phrase as string
   };
 
-  /**
-   * Handles slider 2 value change
-   * 
-   * @param {number} value - New slider value (0-10)
-   */
-  const handleSlider2Change = (value) => {
-    setSlider2Value(value);      // Update slider state
-    addWord(value.toString());   // Add number to phrase
-  };
+
 
   /**
    * Handles plus/minus button click
@@ -186,12 +179,18 @@ export default function TherapyAssistant() {
   
   /**
    * Handles back button click - removes last word from phrase
-   * Example: ["Schmerz", "Knie", "7"] → remove 7 → ["Schmerz", "Knie"]
    */
   const handleBack = () => {
     if (selectedWords.length > 0) {
-      setSelectedWords(prev => prev.slice(0, -1));  // Remove last element from array
+      setSelectedWords(prev => prev.slice(0, -1));
     }
+  };
+
+  /**
+   * Handles clear all button click - removes all words from phrase
+   */
+  const handleClearAll = () => {
+    setSelectedWords([]);
   };
 
   /**
@@ -255,17 +254,28 @@ export default function TherapyAssistant() {
     <div className="min-h-screen bg-gray-100 p-4">
       <div className="max-w-[1600px] mx-auto space-y-4">
         
-        {/* 
-          ============================================================
-          TOP ROW: TEXT DISPLAY
-          ============================================================
-          Shows the accumulated phrase with back and speak buttons
-        */}
+        {/* TOP ROW: TEXT DISPLAY */}
         <TextDisplay 
           selectedWords={selectedWords}
           onBack={handleBack}
           onSpeak={handleSpeak}
+          onClearAll={handleClearAll}
         />
+
+        {/* TAB NAVIGATION */}
+        <Tabs defaultValue="questions" className="w-full">
+          <TabsList className="grid w-full grid-cols-2 mb-4">
+            <TabsTrigger value="questions">Fragen</TabsTrigger>
+            <TabsTrigger value="advanced">Erweitert</TabsTrigger>
+          </TabsList>
+          
+          {/* TAB 1: Question Interface */}
+          <TabsContent value="questions">
+            <QuestionInterface onWordSelect={addWord} />
+          </TabsContent>
+          
+          {/* TAB 2: Advanced Interface */}
+          <TabsContent value="advanced">
 
         {/* 
           ============================================================
@@ -326,21 +336,21 @@ export default function TherapyAssistant() {
 
           {/* 
             COLUMN 4: CONTROLS PANEL (4 columns wide)
-            - Two number sliders (0-10)
+            - Number slider (0-10)
             - Plus/minus buttons
             - 6 directional arrows
           */}
           <div className="col-span-4">
             <ControlsPanel 
               slider1Value={slider1Value}
-              slider2Value={slider2Value}
               onSlider1Change={handleSlider1Change}
-              onSlider2Change={handleSlider2Change}
               onSignClick={handleSignClick}
               onDirectionClick={handleDirectionClick}
             />
           </div>
         </div>
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );

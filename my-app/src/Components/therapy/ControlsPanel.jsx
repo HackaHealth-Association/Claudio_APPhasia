@@ -39,17 +39,15 @@ import { Plus, Minus, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, MoveUp, MoveDow
 const directions = [
   { label: "oben", icon: ArrowUp, value: "oben", pos: "col-start-2 row-start-1" },       // Top center
   { label: "unten", icon: ArrowDown, value: "unten", pos: "col-start-2 row-start-3" },   // Bottom center
-  { label: "links", icon: ArrowLeft, value: "links", pos: "col-start-1 row-start-2" },   // Middle left
-  { label: "rechts", icon: ArrowRight, value: "rechts", pos: "col-start-3 row-start-2" }, // Middle right
+  { label: "links", icon: ArrowLeft, value: "links", pos: "col-start-1 row-start-1" },   // Top left
+  { label: "rechts", icon: ArrowRight, value: "rechts", pos: "col-start-3 row-start-1" }, // Top right
   { label: "vor", icon: MoveUp, value: "vor", pos: "col-start-1 row-start-3" },          // Bottom left
   { label: "zurück", icon: MoveDown, value: "zurück", pos: "col-start-3 row-start-3" }   // Bottom right
 ];
 
 export default function ControlsPanel({ 
-  slider1Value,      // Current value of first slider (0-10)
-  slider2Value,      // Current value of second slider (0-10)
-  onSlider1Change,   // Callback when slider 1 value changes
-  onSlider2Change,   // Callback when slider 2 value changes
+  slider1Value,      // Current value of slider (0-10)
+  onSlider1Change,   // Callback when slider value changes
   onSignClick,       // Callback when +/- button is clicked
   onDirectionClick   // Callback when direction arrow is clicked
 }) {
@@ -67,51 +65,43 @@ export default function ControlsPanel({
         
         {/* 
           ============================================================
-          SECTION 1: NUMBER SLIDERS (0-10)
+          SECTION 1: NUMBER SLIDER (0-10)
           ============================================================
-          Two horizontal sliders for numerical input
+          Single horizontal slider for numerical input with visible tick marks
           
           COMMON USES:
           - Pain level (0 = no pain, 10 = extreme pain)
           - Repetition count (how many times to repeat)
-          - Angle measurements
-          - Duration in minutes
         */}
-        <div className="space-y-6">
-          {/* SLIDER 1 - First number input */}
+        <div>
+          {/* SLIDER - Number input with tick marks */}
           <div className="flex items-center gap-4">
             {/* Minimum value label */}
             <span className="text-2xl font-bold text-gray-700 min-w-[40px]">0</span>
             
-            {/* Slider container with background */}
-            <div className="flex-1 bg-gray-100 rounded-lg p-4">
+            {/* Slider container with tick marks */}
+            <div className="flex-1 bg-gray-100 rounded-lg p-4 relative">
+              {/* Tick marks for numbers 1-9 */}
+              <div className="absolute top-2 left-4 right-4 flex justify-between px-2">
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(num => (
+                  <div key={num} className="flex flex-col items-center">
+                    <div className="w-px h-2 bg-gray-400"></div>
+                    <span className="text-xs text-gray-600 mt-1">{num}</span>
+                  </div>
+                ))}
+              </div>
+              
               <Slider
-                value={[slider1Value]}              // Current value (must be array)
-                onValueChange={(value) => onSlider1Change(value[0])}  // Update parent with new value
-                min={0}                             // Minimum value
-                max={10}                            // Maximum value
-                step={1}                            // Increment by 1
-                className="w-full"
+                value={[slider1Value]}
+                onValueChange={(value) => onSlider1Change(value[0])}
+                min={0}
+                max={10}
+                step={1}
+                className="w-full mt-8"
               />
             </div>
             
             {/* Maximum value label */}
-            <span className="text-2xl font-bold text-gray-700 min-w-[40px]">10</span>
-          </div>
-          
-          {/* SLIDER 2 - Second number input (same structure as slider 1) */}
-          <div className="flex items-center gap-4">
-            <span className="text-2xl font-bold text-gray-700 min-w-[40px]">0</span>
-            <div className="flex-1 bg-gray-100 rounded-lg p-4">
-              <Slider
-                value={[slider2Value]}
-                onValueChange={(value) => onSlider2Change(value[0])}
-                min={0}
-                max={10}
-                step={1}
-                className="w-full"
-              />
-            </div>
             <span className="text-2xl font-bold text-gray-700 min-w-[40px]">10</span>
           </div>
         </div>

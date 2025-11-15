@@ -25,7 +25,7 @@ import { ArrowLeft, Volume2 } from "lucide-react";
  * "Schmerz" → "Schmerz Knie" → "Schmerz Knie 7" → "Schmerz Knie 7 !"
  */
 
-export default function TextDisplay({ selectedWords, onBack, onSpeak }) {
+export default function TextDisplay({ selectedWords, onBack, onSpeak, onClearAll }) {
   /**
    * PROPS:
    * - selectedWords: array of strings - All words selected by user in order
@@ -48,23 +48,34 @@ export default function TextDisplay({ selectedWords, onBack, onSpeak }) {
         
         {/* 
           ============================================================
-          BACK ARROW BUTTON (Left side)
+          LEFT SIDE BUTTONS
           ============================================================
-          Removes the last word from the phrase
-          Disabled when no words are selected
-          
-          EXAMPLE: "Schmerz Knie 7" → click back → "Schmerz Knie"
         */}
-        <Button
-          onClick={onBack}
-          variant="ghost"
-          size="icon"
-          className="h-10 w-10"
-          disabled={selectedWords.length === 0}  // Can't go back if nothing selected
-          title="Letztes Wort entfernen"
-        >
-          <ArrowLeft className="w-6 h-6" />
-        </Button>
+        <div className="flex gap-2">
+          {/* Back arrow - removes last word */}
+          <Button
+            onClick={onBack}
+            variant="ghost"
+            size="icon"
+            className="h-10 w-10"
+            disabled={selectedWords.length === 0}
+            title="Letztes Wort entfernen"
+          >
+            <ArrowLeft className="w-6 h-6" />
+          </Button>
+          
+          {/* Clear all button */}
+          <Button
+            onClick={onClearAll}
+            variant="ghost"
+            size="sm"
+            className="h-10"
+            disabled={selectedWords.length === 0}
+            title="Alles löschen"
+          >
+            Alles löschen
+          </Button>
+        </div>
         
         {/* 
           ============================================================
