@@ -24,7 +24,7 @@ const bodyParts = [
 
 export default function AnatomyDiagram({ onBodyPartClick, selectedPart }) {
   return (
-    <Card className="p-6 bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-indigo-100">
+    <Card className="p-1 bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-indigo-100">
       <div className="flex items-center gap-2 mb-4">
         <Volume2 className="w-5 h-5 text-indigo-600" />
         <h2 className="text-xl font-bold text-gray-800">Body Anatomy</h2>
@@ -79,3 +79,5 @@ export default function AnatomyDiagram({ onBodyPartClick, selectedPart }) {
     </Card>
   );
 }
+
+/* */

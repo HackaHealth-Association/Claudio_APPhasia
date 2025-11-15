@@ -285,7 +285,7 @@ export default function TherapyAssistant() {
           ============================================================
           Uses CSS Grid with 12 columns for flexible layout
         */}
-        <div className="grid grid-cols-12 gap-4">
+        <div className="grid grid-cols-12 gap-3">
           
           {/* 
             COLUMN 1: ANATOMY VIEWER (3 columns wide)
@@ -293,7 +293,7 @@ export default function TherapyAssistant() {
             - Clickable body parts
             - View navigation arrows
           */}
-          <div className="col-span-3">
+          <div className="col-span-4">
             <AnatomyViewer 
               currentView={currentView}
               onViewChange={setCurrentView}
@@ -315,20 +315,20 @@ export default function TherapyAssistant() {
             4. Component looks up knee muscles
             5. Displays knee-specific muscle buttons
           */}
-          <div className="col-span-2">
+          {/* <div className="col-span-2">
             <BodyPartMuscles 
               selectedBodyPart={selectedBodyPart}   // DEPENDENCY: This drives which muscles are shown
               selectedMuscle={selectedMuscle}
               onMuscleClick={handleMuscleClick}
             />
-          </div>
+          </div> */}
 
           {/* 
             COLUMN 3: ACTION BUTTONS (3 columns wide)
             - Action verbs for therapy
             - Special symbols (? and !)
           */}
-          <div className="col-span-3">
+          <div className="col-span-4">
             <ActionButtons 
               selectedAction={selectedAction}
               onActionClick={handleActionClick}

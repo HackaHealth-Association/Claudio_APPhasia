@@ -30,7 +30,7 @@ export default function AnatomyViewer({ currentView, onViewChange, onBodyPartCli
   return (
     <Card className="bg-white border-2 border-gray-300 flex flex-col h-full">
       {/* MAIN IMAGE DISPLAY AREA */}
-      <div className="flex-1 flex items-center justify-center p-8">
+      <div className="flex-1 flex items-center justify-center p-1">
         {/* 
           ============================================================
           IMAGE PLACEHOLDER SECTION
@@ -53,16 +53,20 @@ export default function AnatomyViewer({ currentView, onViewChange, onBodyPartCli
           
           {/* FRONT VIEW - Vorderansicht */}
           {currentView === 'front' && (
-            <div className="relative rounded-3xl p-4 min-h-[500px] flex items-center justify-center">
+            <div className="relative rounded-3xl p-1 min-h-[500px] flex items-center justify-center">
               <div className="text-center relative">
                 <img 
                   src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69179e7e6d13ab86f0992908/51c26b6e5_bodyfront.jpg" 
                   alt="Front view" 
-                  className="w-full h-auto max-h-[550px] object-contain"
+                  className="w-full h-auto max-h-[700px] object-contain"
                 />
                 <div className="absolute inset-0">
                   
                   {/* FRONT VIEW CLICKABLE AREAS */}
+                  {
+                  <button onClick={() => onBodyPartClick('Kopf')} className="absolute top-[5%] left-1/2 -translate-x-1/2 w-20 h-12 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Kopf"></button>
+                  }
+{/*                   
                   <button onClick={() => onBodyPartClick('Hüfte')} className="absolute top-[48%] left-1/2 -translate-x-1/2 w-20 h-12 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Hüfte"></button>
                   <button onClick={() => onBodyPartClick('Knie')} className="absolute top-[68%] left-[45%] w-12 h-10 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Knie"></button>
                   <button onClick={() => onBodyPartClick('Knie')} className="absolute top-[68%] left-[55%] w-12 h-10 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Knie"></button>
@@ -81,7 +85,7 @@ export default function AnatomyViewer({ currentView, onViewChange, onBodyPartCli
                   <button onClick={() => onBodyPartClick('Ellbogen')} className="absolute top-[40%] left-[19%] w-10 h-10 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Ellbogen"></button>
                   <button onClick={() => onBodyPartClick('Ellbogen')} className="absolute top-[40%] right-[19%] w-10 h-10 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Ellbogen"></button>
                   <button onClick={() => onBodyPartClick('Hand')} className="absolute top-[58%] left-[16%] w-10 h-10 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Hand"></button>
-                  <button onClick={() => onBodyPartClick('Hand')} className="absolute top-[58%] right-[16%] w-10 h-10 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Hand"></button>
+                  <button onClick={() => onBodyPartClick('Hand')} className="absolute top-[58%] right-[16%] w-10 h-10 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Hand"></button> */}
                 </div>
                 <p className="mt-4 text-sm text-gray-500">Vorderansicht</p>
               </div>
@@ -90,16 +94,18 @@ export default function AnatomyViewer({ currentView, onViewChange, onBodyPartCli
           
           {/* BACK VIEW - Rückansicht */}
           {currentView === 'back' && (
-            <div className="relative rounded-3xl p-4 min-h-[500px] flex items-center justify-center">
+            <div className="relative rounded-3xl p-2 min-h-[500px] flex items-center justify-center">
               <div className="text-center relative">
                 <img 
                   src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69179e7e6d13ab86f0992908/c0017501a_bodyback.jpg" 
                   alt="Back view" 
-                  className="w-full h-auto max-h-[550px] object-contain"
+                  className="w-full h-auto max-h-[700px] object-contain"
                 />
                 <div className="absolute inset-0">
-                  {/* BACK VIEW CLICKABLE AREAS */}
-                  <button onClick={() => onBodyPartClick('Hüfte')} className="absolute top-[48%] left-1/2 -translate-x-1/2 w-20 h-12 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Hüfte"></button>
+                  {/* BACK VIEW CLICKABLE AREAS */}${
+
+                  }
+                  {/* <button onClick={() => onBodyPartClick('Hüfte')} className="absolute top-[48%] left-1/2 -translate-x-1/2 w-20 h-12 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Hüfte"></button>
                   <button onClick={() => onBodyPartClick('Gesäß')} className="absolute top-[52%] left-1/2 -translate-x-1/2 w-24 h-14 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Gesäß"></button>
                   <button onClick={() => onBodyPartClick('Wirbelsäule')} className="absolute top-[25%] left-1/2 -translate-x-1/2 w-8 h-32 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Wirbelsäule"></button>
                   <button onClick={() => onBodyPartClick('Knie')} className="absolute top-[68%] left-[45%] w-12 h-10 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Knie"></button>
@@ -118,7 +124,7 @@ export default function AnatomyViewer({ currentView, onViewChange, onBodyPartCli
                   <button onClick={() => onBodyPartClick('Oberarm')} className="absolute top-[26%] left-[20%] w-10 h-16 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Oberarm"></button>
                   <button onClick={() => onBodyPartClick('Oberarm')} className="absolute top-[26%] right-[20%] w-10 h-16 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Oberarm"></button>
                   <button onClick={() => onBodyPartClick('Ellbogen')} className="absolute top-[40%] left-[17%] w-10 h-10 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Ellbogen"></button>
-                  <button onClick={() => onBodyPartClick('Ellbogen')} className="absolute top-[40%] right-[17%] w-10 h-10 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Ellbogen"></button>
+                  <button onClick={() => onBodyPartClick('Ellbogen')} className="absolute top-[40%] right-[17%] w-10 h-10 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Ellbogen"></button> */}
                 </div>
                 <p className="mt-4 text-sm text-gray-500">Rückansicht</p>
               </div>
@@ -127,12 +133,12 @@ export default function AnatomyViewer({ currentView, onViewChange, onBodyPartCli
           
           {/* LEFT SIDE VIEW - Linke Seitenansicht */}
           {currentView === 'left' && (
-            <div className="relative rounded-3xl p-4 min-h-[500px] flex items-center justify-center">
+            <div className="relative rounded-3xl p-2 min-h-[500px] flex items-center justify-center">
               <div className="text-center relative">
                 <img 
                   src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69179e7e6d13ab86f0992908/8ca293ddf_bodyleft.jpg" 
                   alt="Left view" 
-                  className="w-full h-auto max-h-[550px] object-contain"
+                  className="w-full h-auto max-h-[700px] object-contain"
                 />
                 <div className="absolute inset-0">
                   {/* SIDE VIEW CLICKABLE AREAS */}
@@ -154,12 +160,12 @@ export default function AnatomyViewer({ currentView, onViewChange, onBodyPartCli
           
           {/* RIGHT SIDE VIEW - Rechte Seitenansicht */}
           {currentView === 'right' && (
-            <div className="relative rounded-3xl p-4 min-h-[500px] flex items-center justify-center">
+            <div className="relative rounded-3xl p-2 min-h-[500px] flex items-center justify-center">
               <div className="text-center relative">
                 <img 
                   src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69179e7e6d13ab86f0992908/ce37f565e_bodyright.jpg" 
                   alt="Right view" 
-                  className="w-full h-auto max-h-[550px] object-contain"
+                  className="w-full h-auto max-h-[700px] object-contain"
                 />
                 <div className="absolute inset-0">
                   {/* SIDE VIEW CLICKABLE AREAS */}
@@ -191,8 +197,8 @@ export default function AnatomyViewer({ currentView, onViewChange, onBodyPartCli
         - Left Arrow = Left side view (Linke Seite)
         - Right Arrow = Right side view (Rechte Seite)
       */}
-      <div className="p-6 border-t bg-gray-50">
-        <div className="flex items-center justify-center gap-2">
+      <div className="p-1 border-t bg-gray-50">
+        <div className="flex items-center justify-center gap-1">
           {/* Front view button */}
           <Button
             onClick={() => onViewChange('front')}
