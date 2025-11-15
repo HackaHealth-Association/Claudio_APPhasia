@@ -102,7 +102,7 @@ export default function AnatomyViewer({ currentView, onViewChange, onBodyPartCli
                   className="w-full h-auto max-h-[700px] object-contain"
                 />
                 <div className="absolute inset-0">
-                  {/* BACK VIEW CLICKABLE AREAS */}${
+                  {/* BACK VIEW CLICKABLE AREAS */}{
 
                   }
                   {/* <button onClick={() => onBodyPartClick('Hüfte')} className="absolute top-[48%] left-1/2 -translate-x-1/2 w-20 h-12 hover:bg-blue-400 rounded transition-colors opacity-0 hover:opacity-50" title="Hüfte"></button>
