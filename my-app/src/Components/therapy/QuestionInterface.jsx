@@ -84,21 +84,38 @@ export default function QuestionInterface({ onWordSelect,
   <div className="col-span-4">
     <Card className="bg-white border-2 border-gray-300 p-6 space-y-6 shadow-none">
 
-      {/* Question Card (with icon) */}
-      <Card 
-        className={`bg-gray-400 p-4 cursor-pointer hover:bg-gray-500 transition-colors text-black font-bold flex flex-col items-center shadow-none border-none ${
-          selectedQuestion === "q1" ? "ring-4 ring-offset-2 ring-opacity-50" : ""
-        }`}
-        onClick={() => {
-          setSelectedQuestion("q1");
-          onWordSelect("Erzählen Sie mir Tag für Tag, wie sich deine Beschwerden seit der letzten Physiotherapie verändert haben.");
-        }}
-      >
-        <img src={GefühlIcon} alt="Gefühl" className="w-20 h-20 mb-2" />
-        <span className="text-lg text-center">Wie geht's?</span>
-      </Card>
+      {/* Top Row – Two Question Cards */}
+      <div className="grid grid-cols-2 gap-4">
+        {/* Question 1 */}
+        <Card
+          className={`bg-gray-400 p-4 cursor-pointer hover:bg-gray-500 transition-colors text-black font-bold flex flex-col items-center shadow-none border-none ${
+            selectedQuestion === "q1" ? "ring-4 ring-offset-2 ring-opacity-50" : ""
+          }`}
+          onClick={() => {
+            setSelectedQuestion("q1");
+            onWordSelect("Erzählen Sie mir Tag für Tag, wie sich deine Beschwerden seit der letzten Physiotherapie verändert haben.");
+          }}
+        >
+          <img src={GefühlIcon} alt="Gefühl" className="w-20 h-20 mb-2" />
+          <span className="text-lg text-center">Wie geht's?</span>
+        </Card>
 
-      {/* === Response buttons (ActionButtons style) === */}
+        {/* Question 2 */}
+        <Card
+          className={`bg-gray-400 p-4 cursor-pointer hover:bg-gray-500 transition-colors text-black font-bold flex flex-col items-center shadow-none border-none ${
+            selectedQuestion === "q2" ? "ring-4 ring-offset-2 ring-opacity-50" : ""
+          }`}
+          onClick={() => {
+            setSelectedQuestion("q2");
+            onWordSelect("Möchten Sie noch etwas fragen?");
+          }}
+        >
+          <img src={QuestionIcon} alt="QuestionIcon" className="w-20 h-20 mb-2" />
+          <span className="text-lg text-center">Noch Fragen?</span>
+        </Card>
+      </div>
+
+      {/* Response Buttons */}
       <div className="grid grid-cols-3 gap-4">
         {responses.map((item) => (
           <Button
@@ -120,20 +137,6 @@ export default function QuestionInterface({ onWordSelect,
           </Button>
         ))}
       </div>
-
-      {/* Follow-up question */}
-      <Card 
-        className={`bg-gray-400 p-4 cursor-pointer hover:bg-gray-500 transition-colors text-black font-bold flex flex-col items-center shadow-none border-none ${
-          selectedQuestion === "q2" ? "ring-4 ring-offset-2 ring-opacity-50" : ""
-        }`}
-        onClick={() => {
-          setSelectedQuestion("q2");
-          onWordSelect("Möchten Sie noch etwas fragen?");
-        }}
-      >
-        <img src={QuestionIcon} alt="QuestionIcon" className="w-20 h-20 mb-2" />
-        <span className="text-lg text-center">Noch Fragen?</span>
-      </Card>
 
     </Card>
   </div>
