@@ -523,7 +523,7 @@ if (process.env.NODE_ENV === 'production') {
             - Action verbs for therapy
             - Special symbols (? and !)
           */}
-              <div className="col-span-5">
+              <div className="col-span-5 h-full">
                 <ActionButtons
                   selectedAction={selectedAction}
                   onActionClick={handleActionClick}

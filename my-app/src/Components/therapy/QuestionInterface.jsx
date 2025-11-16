@@ -65,6 +65,7 @@ export default function QuestionInterface({ onWordSelect,
   onDirectionClick }) {
   const [currentView, setCurrentView] = useState('front');
   const [sliderValue, setSliderValue] = useState(0);
+  const [selectedResponse, setSelectedResponse] = useState(null);
 
   return (
     <div className="grid grid-cols-10 gap-4">
@@ -96,8 +97,13 @@ export default function QuestionInterface({ onWordSelect,
         {responses.map((item) => (
           <Button
             key={item.word}
-            onClick={() => onWordSelect(item.word)}
-            className={`h-35 flex flex-col items-center justify-center text-lg font-semibold transition-all shadow-none border-none ${item.color}`}
+            onClick={() => {
+              setSelectedResponse(item.word);
+              onWordSelect(item.word);
+            }}
+            className={`h-35 flex flex-col items-center justify-center text-lg font-semibold transition-all shadow-none border-none ${item.color} ${
+              selectedResponse === item.word ? "ring-4 ring-offset-2 ring-opacity-50" : ""
+            }`}
           >
             {item.icon ? (
               <img src={item.icon} alt={item.word} className="w-17 h-17 mb-2" />
