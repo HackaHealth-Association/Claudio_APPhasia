@@ -1,8 +1,8 @@
 import React from 'react';
 import { Card } from "../../Components/ui/card";
 import { Button } from "../../Components/ui/button";
-import { ArrowLeft, Volume2 } from "lucide-react";
-
+// import { ArrowLeft, Volume2 } from "lucide-react";
+import { ArrowLeft, Volume2, X } from "lucide-react";
 /**
  * TextDisplay Component
  * 
@@ -68,13 +68,16 @@ export default function TextDisplay({ selectedWords, onBack, onSpeak, onClearAll
           <Button
             onClick={onClearAll}
             variant="ghost"
-            size="sm"
-            className="h-10"
+            size="icon"
+            className="h-12 w-12 rounded-full bg-red-600 hover:bg-red-700 
+               shadow-lg focus:outline-none focus:ring-4 focus:ring-red-200"
             disabled={selectedWords.length === 0}
             title="Alles löschen"
+            aria-label="Alles löschen"
           >
-            Alles löschen
+             <X className="w-8 h-8 text-white" strokeWidth={2.75} />
           </Button>
+          <span className="text-red-700 font-semibold select-none"></span>
         </div>
         
         {/* 
