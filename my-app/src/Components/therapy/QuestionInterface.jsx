@@ -66,6 +66,7 @@ export default function QuestionInterface({ onWordSelect,
   const [currentView, setCurrentView] = useState('front');
   const [sliderValue, setSliderValue] = useState(0);
   const [selectedResponse, setSelectedResponse] = useState(null);
+  const [selectedQuestion, setSelectedQuestion] = useState(null);
 
   return (
     <div className="grid grid-cols-10 gap-4">
@@ -85,8 +86,13 @@ export default function QuestionInterface({ onWordSelect,
 
       {/* Question Card (with icon) */}
       <Card 
-        className="bg-gray-400 p-4 cursor-pointer hover:bg-gray-500 transition-colors text-black font-bold flex flex-col items-center shadow-none border-none"
-        onClick={() => onWordSelect('Erzählen Sie mir Tag für Tag, wie sich deine Beschwerden seit der letzten Physiotherapie verändert haben.')}
+        className={`bg-gray-400 p-4 cursor-pointer hover:bg-gray-500 transition-colors text-black font-bold flex flex-col items-center shadow-none border-none ${
+          selectedQuestion === "q1" ? "ring-4 ring-offset-2 ring-opacity-50" : ""
+        }`}
+        onClick={() => {
+          setSelectedQuestion("q1");
+          onWordSelect("Erzählen Sie mir Tag für Tag, wie sich deine Beschwerden seit der letzten Physiotherapie verändert haben.");
+        }}
       >
         <img src={GefühlIcon} alt="Gefühl" className="w-20 h-20 mb-2" />
         <span className="text-lg text-center">Wie geht's?</span>
@@ -117,8 +123,13 @@ export default function QuestionInterface({ onWordSelect,
 
       {/* Follow-up question */}
       <Card 
-        className="bg-gray-400 p-4 cursor-pointer hover:bg-gray-500 transition-colors text-black font-bold flex flex-col items-center shadow-none border-none"
-        onClick={() => onWordSelect('Möchten Sie noch etwas fragen?')}
+        className={`bg-gray-400 p-4 cursor-pointer hover:bg-gray-500 transition-colors text-black font-bold flex flex-col items-center shadow-none border-none ${
+          selectedQuestion === "q2" ? "ring-4 ring-offset-2 ring-opacity-50" : ""
+        }`}
+        onClick={() => {
+          setSelectedQuestion("q2");
+          onWordSelect("Möchten Sie noch etwas fragen?");
+        }}
       >
         <img src={QuestionIcon} alt="QuestionIcon" className="w-20 h-20 mb-2" />
         <span className="text-lg text-center">Noch Fragen?</span>
@@ -126,8 +137,6 @@ export default function QuestionInterface({ onWordSelect,
 
     </Card>
   </div>
-
-
 
       {/* RIGHT: Controls */}
       <div className="col-span-3">

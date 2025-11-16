@@ -77,7 +77,7 @@ export default function ControlsPanel({
         <div className="flex gap-3 pt-2">
           <Button
             onClick={() => onSignClick('?')}
-            className="flex-1 h-24 bg-emerald-400 border border-black hover:bg-emerald-200 text-black font-bold flex flex-col items-center justify-center"
+            className="flex-1 h-24 bg-emerald-300 border border-black hover:bg-emerald-400 text-black font-bold flex flex-col items-center justify-center"
           >
             <img src={QuestionIcon} alt="?" className="w-10 h-12" />
             <span className="text-sm mt-1">Frage</span>
@@ -85,7 +85,7 @@ export default function ControlsPanel({
 
           <Button
             onClick={() => onSignClick('!')}
-            className="flex-1 h-24 bg-emerald-300 border border-black hover:bg-emerald-200 text-black font-bold flex flex-col items-center justify-center"
+            className="flex-1 h-24 bg-emerald-300 border border-black hover:bg-emerald-400 text-black font-bold flex flex-col items-center justify-center"
           >
             <img src={ExclamationIcon} alt="!" className="w-10 h-12" />
             <span className="text-sm mt-1">Aussage</span>
@@ -98,7 +98,7 @@ export default function ControlsPanel({
             <Button
               key={dir.value}
               onClick={() => onDirectionClick(dir.value)}
-              className="p-0 flex items-center justify-center h-[100px] w-[100px] bg-green-100 border border-black hover:bg-green-200 text-gray-700"
+              className="p-0 flex items-center justify-center h-[100px] w-[100px] bg-green-100 border border-black hover:bg-green-300 text-gray-700"
             >
               <div className="flex flex-col items-center gap-1">
                 <img src={dir.icon} alt={dir.label} className="w-14 h-14 object-contain" />
