@@ -2,7 +2,10 @@ import React from 'react';
 import { Card } from "../../Components/ui/card";
 import { Button } from "../../Components/ui/button";
 import { Slider } from "../../Components/ui/slider";
-import { Plus, Minus, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, MoveUp, MoveDown, MoveHorizontal, MoveVertical } from "lucide-react";
+import { ArrowUp, ArrowDown, ArrowLeft, ArrowRight, MoveVertical } from "lucide-react";
+import MultiplicationIcon from "../../assets/icons/Multiplication.png";
+import SubtractionIcon from "../../assets/icons/Subtraction.png";
+import AdditionIcon from "../../assets/icons/Addition.png";
 
 /**
  * ControlsPanel Component
@@ -124,21 +127,30 @@ export default function ControlsPanel({
           {/* MINUS BUTTON */}
           <Button
             onClick={() => onSignClick('-')}
-            className="h-16 w-16 rounded-full bg-white border-4 border-gray-800 hover:bg-gray-100 text-gray-800 text-3xl font-bold"
+            className="h-16 w-16 rounded-full bg-white border-4 border-gray-800 hover:bg-gray-100 flex items-center justify-center"
             variant="outline"
             title="Minus hinzufügen"
           >
-            <Minus className="w-8 h-8" />
+            <img src={SubtractionIcon} alt="-" className="w-10 h-10" />
           </Button>
 
           {/* PLUS BUTTON */}
           <Button
             onClick={() => onSignClick('+')}
-            className="h-16 w-16 rounded-full bg-white border-4 border-gray-800 hover:bg-gray-100 text-gray-800 text-3xl font-bold"
+            className="h-16 w-16 rounded-full bg-white border-4 border-gray-800 hover:bg-gray-100 flex items-center justify-center"
             variant="outline"
             title="Plus hinzufügen"
           >
-            <Plus className="w-8 h-8" />
+            <img src={AdditionIcon} alt="+" className="w-10 h-6" />
+          </Button>
+
+          <Button
+            onClick={() => onSignClick('*')}
+            className="h-16 w-16 rounded-full bg-white border-4 border-gray-800 hover:bg-gray-100 flex items-center justify-center"
+            variant="outline"
+            title="Multiplikation hinzufügen"
+          >
+            <img src={MultiplicationIcon} alt="×" className="w-6 h-6" />
           </Button>
         </div>
 
