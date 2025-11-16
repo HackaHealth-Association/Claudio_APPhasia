@@ -81,10 +81,10 @@ export default function QuestionInterface({ onWordSelect,
       {/* Question Card (with icon) */}
       <Card 
         className="bg-gray-400 p-4 cursor-pointer hover:bg-gray-500 transition-colors text-black font-bold flex flex-col items-center shadow-none border-none"
-        onClick={() => onWordSelect('Wie fühlst du dich seit der letzten Therapie?')}
+        onClick={() => onWordSelect('Erzählen Sie mir Tag für Tag, wie sich deine Beschwerden seit der letzten Physiotherapie verändert haben.')}
       >
         <img src={GefühlIcon} alt="Gefühl" className="w-20 h-20 mb-2" />
-        <span className="text-lg text-center">Wie fühlst du dich seit der letzten Therapie?</span>
+        <span className="text-lg text-center">Wie geht's?</span>
       </Card>
 
       {/* === Response buttons (ActionButtons style) === */}
@@ -108,10 +108,10 @@ export default function QuestionInterface({ onWordSelect,
       {/* Follow-up question */}
       <Card 
         className="bg-gray-400 p-4 cursor-pointer hover:bg-gray-500 transition-colors text-black font-bold flex flex-col items-center shadow-none border-none"
-        onClick={() => onWordSelect('Möchtest du noch etwas fragen?')}
+        onClick={() => onWordSelect('Möchten Sie noch etwas fragen?')}
       >
         <img src={QuestionIcon} alt="QuestionIcon" className="w-20 h-20 mb-2" />
-        <span className="text-lg text-center">Möchtest du noch etwas fragen?</span>
+        <span className="text-lg text-center">Noch Fragen?</span>
       </Card>
 
     </Card>

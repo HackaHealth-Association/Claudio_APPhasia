@@ -32,7 +32,7 @@ export default function ControlsPanel({
 }) {
   return (
     <Card className="bg-white border-2 border-gray-300 h-full flex flex-col">
-      <div className="flex-1 p-6 space-y-6 overflow-auto">
+      <div className="flex-1 p-14 space-y-6 overflow-auto">
 
         {/* === SLIDER === */}
         <div>
@@ -73,26 +73,28 @@ export default function ControlsPanel({
         <div className="flex gap-3 pt-2">
           <Button
             onClick={() => onSignClick('?')}
-            className="flex-1 h-20 bg-blue-200 border border-black hover:bg-blue-300 text-white font-bold flex items-center justify-center"
+            className="flex-1 h-24 bg-blue-200 border border-black hover:bg-blue-300 text-black font-bold flex flex-col items-center justify-center"
           >
             <img src={QuestionIcon} alt="?" className="w-10 h-12" />
+            <span className="text-sm mt-1">Frage</span>
           </Button>
 
           <Button
             onClick={() => onSignClick('!')}
-            className="flex-1 h-20 bg-blue-200 border border-black hover:bg-blue-300 text-white font-bold flex items-center justify-center"
+            className="flex-1 h-24 bg-blue-200 border border-black hover:bg-blue-300 text-black font-bold flex flex-col items-center justify-center"
           >
             <img src={ExclamationIcon} alt="!" className="w-10 h-12" />
+            <span className="text-sm mt-1">Aussage</span>
           </Button>
         </div>
 
         {/* === DIRECTIONS === */}
-        <div className="grid grid-cols-3 grid-rows-2 gap-6 p-0 mx-auto place-items-center">
+        <div className="grid grid-cols-3 grid-rows-2 gap-6 mx-auto place-items-center">
           {directions.map((dir) => (
             <Button
               key={dir.value}
               onClick={() => onDirectionClick(dir.value)}
-              className="p-0 flex items-center justify-center h-[100px] w-[100px] bg-green-100 border-black hover:bg-green-200 text-gray-700"
+              className="p-0 flex items-center justify-center h-[100px] w-[100px] bg-green-100 border border-black hover:bg-green-200 text-gray-700"
             >
               <div className="flex flex-col items-center gap-1">
                 <img src={dir.icon} alt={dir.label} className="w-14 h-14 object-contain" />
