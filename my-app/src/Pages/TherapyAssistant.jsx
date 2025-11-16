@@ -238,7 +238,7 @@ export default function TherapyAssistant() {
   };*/
 
 
-const envBackendURL = process.env.REACT_APP_BACKEND_URL;
+const envBackendURL = process.env.NODE_ENV;
 
   const handleSpeak = async () => {
     console.log("➡️ handleSpeak() triggered");
