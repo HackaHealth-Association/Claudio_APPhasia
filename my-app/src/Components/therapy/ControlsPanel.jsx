@@ -6,6 +6,8 @@ import { ArrowUp, ArrowDown, ArrowLeft, ArrowRight, MoveVertical } from "lucide-
 import MultiplicationIcon from "../../assets/icons/Multiplication.png";
 import SubtractionIcon from "../../assets/icons/Subtraction.png";
 import AdditionIcon from "../../assets/icons/Addition.png";
+import ExclamationIcon from "../../assets/icons/Exclamation.png";
+import QuestionIcon from "../../assets/icons/Question.png";
 
 /**
  * ControlsPanel Component
@@ -152,6 +154,12 @@ export default function ControlsPanel({
           >
             <img src={MultiplicationIcon} alt="×" className="w-6 h-6" />
           </Button>
+        </div>
+
+        {/* ? & ! buttons */}
+        <div className="flex gap-3 pt-2">
+          <Button onClick={() => onWordSelect('?')} className="flex-1 h-20 bg-blue-200 border-1 border-black hover:bg-blue-300 border-black text-white font-bold flex items-center justify-center" title="Fragezeichen hinzufügen"><img src={QuestionIcon} alt="?" className="w-12 h-12" /></Button>
+          <Button onClick={() => onWordSelect('!')} className="flex-1 h-20 bg-blue-200 border-1 border-black hover:bg-blue-300 text-white font-bold flex items-center justify-center" title="Ausrufezeichen hinzufügen"><img src={ExclamationIcon} alt="!" className="w-12 h-12" /></Button>
         </div>
 
         {/* 
