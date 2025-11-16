@@ -237,8 +237,13 @@ export default function TherapyAssistant() {
     }
   };*/
 
+var envBackendURL = '';
 
-const envBackendURL = process.env.NODE_ENV;
+if (process.env.NODE_ENV === 'production') {
+    envBackendURL = 'https://claudio-apphasia-1.onrender.com';
+} else {
+    envBackendURL = 'http://127.0.0.1:5000';
+}
 
   const handleSpeak = async () => {
     console.log("➡️ handleSpeak() triggered");
