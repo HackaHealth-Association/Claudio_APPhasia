@@ -51,8 +51,7 @@ export default function ControlsPanel({
                 value={[slider1Value]}
                 onValueChange={(value) => onSlider1Change(value[0])}
                 onValueCommit={(value) => {
-                  onSlider1Commit(value[0]);
-                  setTimeout(() => onSlider1Change(0), 500);
+                  onSlider1Commit(value[0])
                 }}
                 min={0}
                 max={10}
