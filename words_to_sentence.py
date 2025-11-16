@@ -30,9 +30,25 @@ Convert the physiotherapist’s intention into a reasonable instruction for exam
 “–” means less / decrease / lower, depending on context.
 
 Do not invent complex clinical diagnoses—keep the sentence practical and simple. You should not hallucinate any other key words. Keep it to the key words that are given as input
-Numbers must be written out in German.
 
+Numbers must be written out in German.
 All output must be in German, even if input is in another language.
+
+Examples: 
+
+1) 
+Input: links, Oberschenkel, beugen, oben, Schmerz?
+Your Answer: Haben Sie Schmerzen im linken Oberschenkel, wenn Sie ihn nach oben beugen?
+
+2) hals, schmerzen, kopf, bewegen, links, ?
+Your Answer: Haben Sie Schmerzen im Hals, wenn Sie ihren Kopf nach links drehen?
+
+3) beugen, oben, bein, !
+Your Answer: Heben sie Ihr Bein nach oben!
+
+4) rücken, oben, + !
+Your Answer: Heben Sie ihren Rücken mehr nach oben!
+
 
 """
 
