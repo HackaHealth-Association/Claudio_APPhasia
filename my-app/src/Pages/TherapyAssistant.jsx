@@ -289,7 +289,7 @@ const envBackendURL = process.env.REACT_APP_BACKEND_URL;
       console.log("🎵 Preparing audio playback...");
       const audioPlayer = new Audio();
 
-      const fullAudioUrl = `http://127.0.0.1:5000${audioUrl}?t=${new Date().getTime()}`;
+      const fullAudioUrl = `{envBackendURL}/${audioUrl}?t=${new Date().getTime()}`;
       console.log("🎵 Full audio URL:", fullAudioUrl);
 
       audioPlayer.src = fullAudioUrl;
