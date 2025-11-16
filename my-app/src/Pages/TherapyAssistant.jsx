@@ -159,7 +159,17 @@ export default function TherapyAssistant() {
 }, []);
 
   const addWord = (word) => {
-    setSelectedWords(prev => [...prev, word]);  // Append word to end of array
+    setSelectedWords(prev => {
+      // If incoming word is a single digit AND previous word is a number → merge
+      if (/^\d$/.test(word) && prev.length > 0 && /^\d+$/.test(prev[prev.length - 1])) {
+        const updated = [...prev];
+        updated[updated.length - 1] = updated[updated.length - 1] + word;
+        return updated;
+      }
+
+      // Otherwise add normally
+      return [...prev, word];
+    });
   };
 
   /**
