@@ -32,13 +32,13 @@ export default function ControlsPanel({
 }) {
   return (
     <Card className="bg-white border-2 border-gray-300 h-full flex flex-col">
-      <div className="flex-1 p-14 space-y-6 overflow-auto">
+      <div className="flex-1 p-4 space-y-6 overflow-auto">
 
         {/* === SLIDER === */}
         <div>
           <div className="flex items-center gap-4">
-            <div className="flex-1 bg-gray-100 border border-black rounded-lg p-4 relative">
-              <div className="absolute top-2 left-4 right-4 flex justify-between px-2">
+            <div className="flex-1 bg-gray-100 border border-black rounded-lg p-4 relative ">
+              <div className="absolute top-2 left-4 right-4 flex justify-between px-0.5">
                 {[0,1,2,3,4,5,6,7,8,9,10].map((num) => (
                   <div key={num} className="flex flex-col items-center">
                     <div className="w-px h-2 bg-gray-400"></div>
