@@ -21,7 +21,7 @@ async def generate_speech_file(transcript: str, output_filename: str):
 
         with open(output_filename, "wb") as f:
             bytes_iter = client.tts.bytes(
-                model_id="sonic-turbo",
+                model_id="sonic-3",
                 transcript=transcript,
                 voice={
                     "mode": "id",
