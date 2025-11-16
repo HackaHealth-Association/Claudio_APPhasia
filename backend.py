@@ -16,13 +16,6 @@ os.makedirs(STATIC_DIR, exist_ok=True)
 app = Flask(__name__, static_folder=STATIC_DIR, template_folder='templates')
 CORS(app)
 
-
-@app.route('/')
-def index():
-    """Serves the frontend."""
-    return render_template('dummy.html')
-
-
 @app.route('/api/generate-sentence', methods=['POST'])
 def generate_sentence_and_speech():
     """
