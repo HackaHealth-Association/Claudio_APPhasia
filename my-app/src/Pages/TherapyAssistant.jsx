@@ -464,7 +464,12 @@ if (process.env.NODE_ENV === 'production') {
 
           {/* TAB 1: Question Interface */}
           <TabsContent value="questions">
-            <QuestionInterface onWordSelect={addWord} />
+            <QuestionInterface onWordSelect={addWord} 
+                  slider1Value={slider1Value}
+                  onSlider1Change={handleSlider1Change}
+                  onSlider1Commit={handleSlider1Commit}
+                  onSignClick={handleSignClick}
+                  onDirectionClick={handleDirectionClick} />
           </TabsContent>
 
           {/* TAB 2: Advanced Interface */}
