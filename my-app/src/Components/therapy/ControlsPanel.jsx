@@ -2,12 +2,20 @@ import React from 'react';
 import { Card } from "../../Components/ui/card";
 import { Button } from "../../Components/ui/button";
 import { Slider } from "../../Components/ui/slider";
-import { ArrowUp, ArrowDown, ArrowLeft, ArrowRight, MoveVertical } from "lucide-react";
+
 import MultiplicationIcon from "../../assets/icons/Multiplication.png";
 import SubtractionIcon from "../../assets/icons/Subtraction.png";
 import AdditionIcon from "../../assets/icons/Addition.png";
 import ExclamationIcon from "../../assets/icons/Exclamation.png";
 import QuestionIcon from "../../assets/icons/Question.png";
+
+import { Plus, Minus, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, MoveUp, MoveDown, MoveHorizontal, MoveVertical } from "lucide-react";
+import UpArrow from "../../assets/icons/up_arrow.png";
+import DownArrow from "../../assets/icons/down_arrow.png";
+import LeftArrow from "../../assets/icons/left_arrow.png";
+import RightArrow from "../../assets/icons/right_arrow.png";
+import TwoSideArrow from "../../assets/icons/two_side_arrow.png";
+
 
 /**
  * ControlsPanel Component
@@ -42,12 +50,12 @@ import QuestionIcon from "../../assets/icons/Question.png";
  * - pos: Grid position for 3x3 layout
  */
 const directions = [
-  { label: "oben", icon: ArrowUp, value: "oben", pos: "col-start-2 row-start-1" },       // Top center
-  { label: "unten", icon: ArrowDown, value: "unten", pos: "col-start-2 row-start-2" },   // Bottom center
-  { label: "links", icon: ArrowLeft, value: "links", pos: "col-start-1 row-start-1" },   // Top left
-  { label: "rechts", icon: ArrowRight, value: "rechts", pos: "col-start-3 row-start-1" }, // Top right
-  { label: "vor", icon: MoveVertical, value: "vor", pos: "col-start-1 row-start-2" },          // Bottom left
-  { label: "zurück", icon: MoveVertical, value: "zurück", pos: "col-start-3 row-start-2" }   // Bottom right
+  { label: "links",  icon: LeftArrow,  value: "links"  },
+  { label: "oben",   icon: UpArrow,    value: "oben"   },
+  { label: "rechts", icon: RightArrow, value: "rechts" },
+  { label: "vor",    icon: TwoSideArrow, value: "vor" },
+  { label: "unten",  icon: DownArrow, value: "unten" },
+  { label: "zurück", icon: TwoSideArrow, value: "zurück" }
 ];
 
 export default function ControlsPanel({ 
@@ -86,28 +94,30 @@ export default function ControlsPanel({
             {/* <span className="text-2xl font-bold text-gray-700 min-w-[40px]">0</span> */}
             
             {/* Slider container with tick marks */}
-            <div className="flex-1 bg-gray-100 rounded-lg p-4 relative">
+            <div className="flex-1 bg-gray-100 border border-black rounded-lg p-4 relative">
               {/* Tick marks for numbers 1-9 */}
               <div className="absolute top-2 left-4 right-4 flex justify-between px-2">
                 {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
                   <div key={num} className="flex flex-col items-center">
                     <div className="w-px h-2 bg-gray-400"></div>
-                    <span className="text-xs text-gray-600 mt-1">{num}</span>
+                    <span className="text-lg font-bold text-gray-800 mt-1">{num}</span>
                   </div>
                 ))}
               </div>
 
-              <Slider
+             <Slider
                 value={[slider1Value]}
                 onValueChange={(value) => onSlider1Change(value[0])}
-                onValueCommit={(value) => onSlider1Commit(value[0])}
+                onValueCommit={(value) => {
+                  onSlider1Commit(value[0]);   // send final value to parent
+                  setTimeout(() => onSlider1Change(0), 500); // reset slider after a short delay
+                }}
                 min={0}
                 max={10}
                 step={1}
-                className="w-full mt-8"
+                className="w-full mt-10"
               />
             </div>
-            
             {/* Maximum value label */}
             {/* <span className="text-2xl font-bold text-gray-700 min-w-[40px]">10</span> */}
           </div>
@@ -180,30 +190,29 @@ export default function ControlsPanel({
         */}
         <div>
           {/* Section title */}
-          <h3 className="text-sm font-semibold text-gray-600 mb-1 text-center">Richtungen</h3>
+          {/* <h3 className="text-sm font-semibold text-gray-600 mb-1 text-center">Richtungen</h3> */}
           
           {/* 3x3 Grid container */}
-          <div className="grid grid-cols-3 grid-rows-2 gap-2 max-w-lg mx-auto p-8">
-            {/* Render all 6 direction buttons */}
-            {directions.map((dir) => {
-              const Icon = dir.icon;  // Get icon component
-              
-              return (
-                <Button
-                  key={dir.value}
-                  onClick={() => onDirectionClick(dir.value)}
-                  className={`h-25 w-20 ${dir.pos} bg-white border-2 border-gray-300 hover:bg-gray-100 text-gray-700`}
-                  variant="outline"
-                  title={`Richtung: ${dir.label}`}
-                >
-                  {/* Icon and label stacked vertically */}
-                  <div className="flex flex-col items-center gap-1">
-                     <Icon size={70} strokeWidth={5} /> 
-                    <span className="text-sm">{dir.label}</span>
-                  </div>
-                </Button>
-              );
-            })}
+          <div className="grid grid-cols-3 grid-rows-2 gap-6 p-0 mx-auto place-items-center">
+            {directions.map((dir) => (
+              <Button
+                key={dir.value}
+                onClick={() => onDirectionClick(dir.value)}
+                className="p-0 flex items-center justify-center h-[100px] w-[100px] 
+                          bg-green-100 border-black hover:bg-green-200 text-gray-700"
+                variant="outline"
+                title={`Richtung: ${dir.label}`}
+              >
+                <div className="flex flex-col items-center gap-1">
+                  <img
+                    src={dir.icon}
+                    alt={dir.label}
+                    className="w-14 h-14 object-contain"
+                  />
+                  <span className="text-sm">{dir.label}</span>
+                </div>
+              </Button>
+            ))}
           </div>
         </div>
       </div>
