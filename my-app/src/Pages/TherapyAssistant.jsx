@@ -188,6 +188,12 @@ export default function TherapyAssistant() {
     // The empty array [] means this effect runs only once on page load
   }, []);
 
+  // // Previous version
+  // const addWord = (word) => {
+  //   setSelectedWords(prev => [...prev, word]);  // Append word to end of array
+  // };
+
+  // Add double digits: "1" + "8" = "18"
   const addWord = (word) => {
     setSelectedWords(prev => {
       // If incoming word is a single digit AND previous word is a number → merge
@@ -565,8 +571,10 @@ export default function TherapyAssistant() {
    * - Smaller screens: Components stack vertically
    */
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
-      <div className="max-w-[1600px] mx-auto space-y-4">
+    <div className="h-screen w-screen bg-gray-100 p-2 overflow-y-auto overflow-x-hidden flex flex-col">
+      <div className="w-full max-w-full mx-auto space-y-4 overflow-hidden">
+
+
 
         {/* TOP ROW: TEXT DISPLAY */}
         <TextDisplay
