@@ -51,10 +51,10 @@ const responses = [
   { word: "Übungen", icon: ÜbungenIcon, color: "bg-blue-500 hover:bg-blue-600 text-black" },
   { word: "Beweglichkeit", icon: BeweglichkeitIcon, color: "bg-blue-400 hover:bg-blue-600 text-black" },
   { word: "Training", icon: TrainingIcon, color: "bg-blue-300 hover:bg-blue-600 text-black" },
-  { word: "wo?", icon: WoIcon, color: "bg-yellow-400 hover:bg-yellow-500 text-black" },
-  { word: "wann?", icon: WannIcon, color: "bg-yellow-300 hover:bg-yellow-500 text-black" },
-  { word: "wie oft?", icon: Wie_oftIcon, color: "bg-yellow-200 hover:bg-yellow-500 text-black" },
-  { word: "wie lange?", icon: Wie_langIcon, color: "bg-yellow-100 hover:bg-yellow-500 text-black" },
+  { word: "wo", icon: WoIcon, color: "bg-yellow-400 hover:bg-yellow-500 text-black" },
+  { word: "wann", icon: WannIcon, color: "bg-yellow-300 hover:bg-yellow-500 text-black" },
+  { word: "wie oft", icon: Wie_oftIcon, color: "bg-yellow-200 hover:bg-yellow-500 text-black" },
+  { word: "wie lange", icon: Wie_langIcon, color: "bg-yellow-100 hover:bg-yellow-500 text-black" },
 ];
 
 export default function QuestionInterface({ onWordSelect,
