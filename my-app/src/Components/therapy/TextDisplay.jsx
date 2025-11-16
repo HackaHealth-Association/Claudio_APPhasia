@@ -25,7 +25,7 @@ import { ArrowLeft, Volume2 } from "lucide-react";
  * "Schmerz" → "Schmerz Knie" → "Schmerz Knie 7" → "Schmerz Knie 7 !"
  */
 
-export default function TextDisplay({ selectedWords, onBack, onSpeak, onClearAll }) {
+export default function TextDisplay({ selectedWords, onBack, onSpeak, onClearAll, isPlaying, onStop }) {
   /**
    * PROPS:
    * - selectedWords: array of strings - All words selected by user in order
@@ -100,16 +100,34 @@ export default function TextDisplay({ selectedWords, onBack, onSpeak, onClearAll
           TODO: Speech synthesis happens in parent component (TherapyAssistant)
           This button just triggers the onSpeak callback
         */}
-        <Button
-          onClick={onSpeak}
-          variant="ghost"
-          size="icon"
-          className="h-10 w-10"
-          disabled={selectedWords.length === 0}  // Can't speak if nothing to say
-          title="Text vorlesen"
-        >
-          <Volume2 className="w-6 h-6" />
-        </Button>
+
+        {!isPlaying ? (
+            <Button
+              onClick={onSpeak}
+              variant="ghost"
+              size="icon"
+              className="h-10 w-10"
+              disabled={selectedWords.length === 0}  // Can't speak if nothing to say
+              title="Text vorlesen"
+              aria-label ='Speak'
+            >
+              <Volume2 className="w-6 h-6" />
+            </Button>
+        ) : (
+          <Button
+            onClick={onStop}
+            variant="ghost"
+            size="icon"
+            className="h-10 w-10 p-0"
+            title="Stop"
+            aria-label ='Stop audio'
+          >
+            {/* draw stopbutton */}
+           <span className="block w-6 h-6 rounded-full bg-red-600 animate-pulse ring-2 ring-red-300" />
+         </Button>
+       )}
+
+
       </div>
       
       {/* 

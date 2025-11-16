@@ -65,6 +65,11 @@ export default function TherapyAssistant() {
   // SLIDER VALUE STATE - Current value of the slider (0-10)
   const [slider1Value, setSlider1Value] = useState(0);
 
+  // add new
+  const [audioPlayer] = useState(() => new Audio());
+  const [isPlaying, setIsPlaying] = useState(false);
+
+
   /**
    * ============================================================
    * HELPER FUNCTION: ADD WORD TO PHRASE
@@ -249,6 +254,15 @@ if (process.env.NODE_ENV === 'production') {
     console.log("➡️ handleSpeak() triggered");
     console.log("Selected words:", selectedWords);
 
+    if (!audioPlayer.paused) {
+      console.log("🛑 Audio is playing — stopping it now");
+      audioPlayer.pause();
+      audioPlayer.currentTime = 0;
+      setIsPlaying(false);
+      toast.info("Wiedergabe gestoppt");
+      return;
+    }
+
     // 1. Check if there are any words to send
     if (selectedWords.length === 0) {
       console.log("❌ No words selected → aborting");
@@ -292,16 +306,24 @@ if (process.env.NODE_ENV === 'production') {
 
       // 5. Play the audio
       console.log("🎵 Preparing audio playback...");
-      const audioPlayer = new Audio();
+      // const audioPlayer = new Audio();
 
       const fullAudioUrl = `${envBackendURL}/${audioUrl}?t=${new Date().getTime()}`;
       console.log("🎵 Full audio URL:", fullAudioUrl);
 
       audioPlayer.src = fullAudioUrl;
+      // add new
+      audioPlayer.onended = () => console.log("✅ Audio playback ended");
+      audioPlayer.onended = () => setIsPlaying(false);
+      audioPlayer.onerror  = () => setIsPlaying(false);
+      audioPlayer.onpause  = () => setIsPlaying(false);
+
+
 
       console.log("▶️ Attempting to play audio...");
       await audioPlayer.play();
       console.log("🎉 Audio playback started successfully!");
+      setIsPlaying(true);
 
     } catch (error) {
       console.error("💥 Fehler beim Generieren des Satzes:", error);
@@ -336,6 +358,13 @@ if (process.env.NODE_ENV === 'production') {
           onBack={handleBack}
           onSpeak={handleSpeak}
           onClearAll={handleClearAll}
+          isPlaying={isPlaying}      // ← 追加
+          onStop={() => { 
+          audioPlayer.pause();
+          audioPlayer.currentTime = 0;
+          setIsPlaying(false);
+          toast.info("Wiedergabe gestoppt");
+          }}      
         />
 
         {/* TAB NAVIGATION */}
