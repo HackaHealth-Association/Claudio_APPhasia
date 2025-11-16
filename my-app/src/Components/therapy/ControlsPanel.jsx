@@ -1,4 +1,3 @@
-import React from 'react';
 import { Card } from "../../Components/ui/card";
 import { Button } from "../../Components/ui/button";
 import { Slider } from "../../Components/ui/slider";
@@ -9,7 +8,6 @@ import AdditionIcon from "../../assets/icons/Addition.png";
 import ExclamationIcon from "../../assets/icons/Exclamation.png";
 import QuestionIcon from "../../assets/icons/Question.png";
 
-import { Plus, Minus, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, MoveUp, MoveDown, MoveHorizontal, MoveVertical } from "lucide-react";
 import UpArrow from "../../assets/icons/up_arrow.png";
 import DownArrow from "../../assets/icons/down_arrow.png";
 import LeftArrow from "../../assets/icons/left_arrow.png";
@@ -58,12 +56,12 @@ const directions = [
   { label: "zurück", icon: TwoSideArrow, value: "zurück" }
 ];
 
-export default function ControlsPanel({ 
-  slider1Value,      // Current value of slider (0-10)
-  onSlider1Change,   // Callback when slider value changes
-  onSlider1Commit,   // Callback when slider value is decided
-  onSignClick,       // Callback when +/- button is clicked
-  onDirectionClick   // Callback when direction arrow is clicked
+export default function ControlsPanel({
+  slider1Value,
+  onSlider1Change,
+  onSlider1Commit,
+  onSignClick,
+  onDirectionClick
 }) {
   /**
    * PROPS EXPLANATION:
@@ -134,42 +132,57 @@ export default function ControlsPanel({
           - Subtracting: "10 - 5" (reduce by 5)
           - General mathematical expressions in therapy instructions
         */}
-        <div className="flex justify-center gap-4 p-8">
+        <div className="flex justify-center gap-4">
           
           {/* MINUS BUTTON */}
+          <div className="flex flex-col items-center">
           <Button
             onClick={() => onSignClick('-')}
-            className="h-16 w-16 rounded-full bg-white border-4 border-gray-800 hover:bg-gray-100 flex items-center justify-center"
+            className="h-20 w-20 rounded-full bg-white border-4 border-gray-800 hover:bg-gray-100 flex items-center justify-center"
             variant="outline"
             title="Minus hinzufügen"
           >
             <img src={SubtractionIcon} alt="-" className="w-10 h-10" />
           </Button>
+          {/* Label under the circle */}
+          <span className="text-sm font-semibold mt-1 text-gray-700">minus</span>
+        </div>
 
           {/* PLUS BUTTON */}
+          <div className="flex flex-col items-center">
           <Button
             onClick={() => onSignClick('+')}
-            className="h-16 w-16 rounded-full bg-white border-4 border-gray-800 hover:bg-gray-100 flex items-center justify-center"
+            className="h-20 w-20 rounded-full bg-white border-4 border-gray-800 hover:bg-gray-100 flex items-center justify-center"
             variant="outline"
             title="Plus hinzufügen"
           >
-            <img src={AdditionIcon} alt="+" className="w-10 h-6" />
+            <img src={AdditionIcon} alt="+" className="w-8 h-8" />
           </Button>
 
+          {/* Label under the circle */}
+          <span className="text-sm font-semibold mt-1 text-gray-700">plus</span>
+        </div>
+
+          <div className="flex flex-col items-center">
           <Button
             onClick={() => onSignClick('*')}
-            className="h-16 w-16 rounded-full bg-white border-4 border-gray-800 hover:bg-gray-100 flex items-center justify-center"
+            className="h-20 w-20 rounded-full bg-white border-4 border-gray-800 hover:bg-gray-100 flex items-center justify-center"
             variant="outline"
             title="Multiplikation hinzufügen"
           >
             <img src={MultiplicationIcon} alt="×" className="w-6 h-6" />
           </Button>
+
+          {/* Label under the circle */}
+          <span className="text-sm font-semibold mt-1 text-gray-700">mal</span>
+        </div>
+
         </div>
 
         {/* ? & ! buttons */}
         <div className="flex gap-3 pt-2">
-          <Button onClick={() => onWordSelect('?')} className="flex-1 h-20 bg-blue-200 border-1 border-black hover:bg-blue-300 border-black text-white font-bold flex items-center justify-center" title="Fragezeichen hinzufügen"><img src={QuestionIcon} alt="?" className="w-12 h-12" /></Button>
-          <Button onClick={() => onWordSelect('!')} className="flex-1 h-20 bg-blue-200 border-1 border-black hover:bg-blue-300 text-white font-bold flex items-center justify-center" title="Ausrufezeichen hinzufügen"><img src={ExclamationIcon} alt="!" className="w-12 h-12" /></Button>
+          <Button onClick={() => onSignClick('?')} className="flex-1 h-20 bg-blue-200 border-1 border-black hover:bg-blue-300 border-black text-white font-bold flex items-center justify-center" title="Fragezeichen hinzufügen"><img src={QuestionIcon} alt="?" className="w-10 h-12" /></Button>
+          <Button onClick={() => onSignClick('!')} className="flex-1 h-20 bg-blue-200 border-1 border-black hover:bg-blue-300 text-white font-bold flex items-center justify-center" title="Ausrufezeichen hinzufügen"><img src={ExclamationIcon} alt="!" className="w-10 h-12" /></Button>
         </div>
 
         {/* 

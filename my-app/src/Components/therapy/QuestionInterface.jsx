@@ -76,7 +76,7 @@ export default function QuestionInterface({ onWordSelect }) {
         className="bg-gray-400 p-4 cursor-pointer hover:bg-gray-500 transition-colors text-black font-bold flex flex-col items-center shadow-none border-none"
         onClick={() => onWordSelect('Wie fühlst du dich seit der letzten Therapie?')}
       >
-        <img src={GefühlIcon} alt="Gefühl" className="w-25 h-25 mb-2" />
+        <img src={GefühlIcon} alt="Gefühl" className="w-20 h-20 mb-2" />
         <span className="text-lg text-center">Wie fühlst du dich seit der letzten Therapie?</span>
       </Card>
 
@@ -89,7 +89,7 @@ export default function QuestionInterface({ onWordSelect }) {
             className={`h-35 flex flex-col items-center justify-center text-lg font-semibold transition-all shadow-none border-none ${item.color}`}
           >
             {item.icon ? (
-              <img src={item.icon} alt={item.word} className="w-18 h-18 mb-2" />
+              <img src={item.icon} alt={item.word} className="w-20 h-20 mb-2" />
             ) : (
               <span className="text-4xl mb-2">{item.emoji}</span>
             )}
@@ -154,10 +154,10 @@ export default function QuestionInterface({ onWordSelect }) {
 
           {/* ? & ! */}
           <div className="flex gap-3 pt-2">
-            <Button className="flex-1 h-20 bg-blue-200 border-1 border-black hover:bg-blue-300 text-black font-bold flex flex-col items-center justify-center rounded-lg">
+            <Button className="flex-1 h-20 bg-blue-200 hover:bg-blue-300 text-black font-bold flex flex-col items-center justify-center rounded-lg">
               <img src={QuestionIcon} alt="?" className="w-12 h-12" />
             </Button>
-            <Button className="flex-1 h-20 bg-blue-200 border-1 border-black hover:bg-blue-300 text-black font-bold flex flex-col items-center justify-center rounded-lg">
+            <Button className="flex-1 h-20 bg-blue-200 hover:bg-blue-300 text-black font-bold flex flex-col items-center justify-center rounded-lg">
               <img src={ExclamationIcon} alt="!" className="w-12 h-12" />
             </Button>
           </div>
