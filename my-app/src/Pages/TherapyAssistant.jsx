@@ -429,6 +429,12 @@ if (process.env.NODE_ENV === 'production') {
               </div>
             </div>
           </TabsContent>
+
+
+          {/* TAB 3: Custon Buttoms */}
+          <TabsContent value="custom">
+            <CustomButtons onWordSelect={addWord} />
+          </TabsContent>
         </Tabs>
       </div>
     </div>
