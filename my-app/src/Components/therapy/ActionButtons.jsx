@@ -45,9 +45,9 @@ const actions = [
   { word: "zuschauen", color: "bg-green-700 hover:bg-green-800", icon: ZuschauenIcon },
   { word: "bewegen", color: "bg-pink-400 hover:bg-pink-500", icon: BewegenIcon },
   { word: "beugen", color: "bg-purple-400 hover:bg-purple-500", icon: BeugenIcon },
+  { word: "strecken", color: "bg-cyan-500 hover:bg-cyan-600", icon: StreckenIcon },
   { word: "anspannen", color: "bg-orange-400 hover:bg-orange-500", icon: AnspannenIcon },
   { word: "drehen", color: "bg-blue-500 hover:bg-blue-600", icon: DrehenIcon },
-  { word: "strecken", color: "bg-cyan-500 hover:bg-cyan-600", icon: StreckenIcon },
   { word: "wiederholen", color: "bg-gray-400 hover:bg-gray-500", icon: WiederholenIcon } // until you have a PNG
 ];
 
