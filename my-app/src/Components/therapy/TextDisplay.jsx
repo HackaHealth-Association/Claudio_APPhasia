@@ -40,7 +40,7 @@ export default function TextDisplay({ selectedWords, onBack, onSpeak, onClearAll
    */
   const displayText = selectedWords.length > 0 
     ? selectedWords.join(' ')              // Join array: ["Schmerz", "Knie"] → "Schmerz Knie"
-    : 'Show selected text here';           // Default placeholder
+    : '.........';           // Default placeholder
     
   return (
     <Card className="bg-white border-2 border-gray-300">
