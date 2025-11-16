@@ -50,13 +50,17 @@ export default function ControlsPanel({
               <Slider
                 value={[slider1Value]}
                 onValueChange={(value) => onSlider1Change(value[0])}
-                onValueCommit={(value) => {
-                  onSlider1Commit(value[0])
-                }}
+                onValueCommit={(value) => onSlider1Commit(value[0])}
                 min={0}
                 max={10}
                 step={1}
-                className="w-full mt-10"
+                className="w-full mt-10
+                  [&_[role='slider']]:h-8
+                  [&_[role='slider']]:w-8
+                  [&_[role='slider']]:bg-white-800
+                  [&_[role='slider']]:border-2
+                  [&_[role='slider']]:border-black
+                "
               />
             </div>
           </div>
