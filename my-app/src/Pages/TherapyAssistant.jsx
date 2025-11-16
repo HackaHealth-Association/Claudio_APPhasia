@@ -357,7 +357,7 @@ export default function TherapyAssistant() {
   if (process.env.NODE_ENV === 'production') {
     envBackendURL = 'https://claudio-apphasia-1.onrender.com';
   } else {
-    envBackendURL = 'https://127.0.0.1:5000';
+    envBackendURL = 'http://127.0.0.1:5000';
   }
 
   const handleSpeak = async () => {
@@ -427,7 +427,6 @@ export default function TherapyAssistant() {
         console.log("✅ Audio playback ended");
         setIsPlaying(false);
       };
-      audioPlayer.onended = () => setIsPlaying(false);
       audioPlayer.onerror = () => setIsPlaying(false);
       audioPlayer.onpause = () => setIsPlaying(false);
 
