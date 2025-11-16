@@ -382,8 +382,10 @@ if (process.env.NODE_ENV === 'production') {
 
       audioPlayer.src = fullAudioUrl;
       // add new
-      audioPlayer.onended = () => console.log("✅ Audio playback ended");
-      audioPlayer.onended = () => setIsPlaying(false);
+      audioPlayer.onended = () => {
+        console.log("✅ Audio playback ended");
+        setIsPlaying(false);
+      };
       audioPlayer.onerror  = () => setIsPlaying(false);
       audioPlayer.onpause  = () => setIsPlaying(false);
 
@@ -427,6 +429,95 @@ if (process.env.NODE_ENV === 'production') {
     updateCustomWords(updatedWords);
     toast.info(`"${wordToDelete}" gelöscht`);
   };
+
+
+
+  const handleExportWords = () => {
+    // Check if there are any words to export
+    if (customWords.length === 0) {
+      toast.error("Keine Wörter zum Exportieren vorhanden.");
+      return;
+    }
+
+    // Convert the current word list state to a JSON string
+    const jsonString = JSON.stringify(customWords, null, 2); // null, 2 formats it nicely
+
+    // Create a "Blob" (a file in memory)
+    const blob = new Blob([jsonString], { type: 'application/json' });
+
+    // Create a temporary URL for the Blob
+    const url = URL.createObjectURL(blob);
+
+    // Create a temporary link element to trigger the download
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'claudio_words.json'; // This will be the name of the downloaded file
+
+    // Programmatically click the link to start the download
+    document.body.appendChild(a);
+    a.click();
+
+    // Clean up by removing the temporary link and URL
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    toast.success("Wörter exportiert!");
+  };
+
+  const handleImportWords = (event) => {
+    const file = event.target.files[0];
+    if (!file) {
+      return; // User cancelled
+    }
+
+    // Check if it's a JSON file
+    if (file.type !== 'application/json') {
+      toast.error("Ungültiger Dateityp. Bitte eine .json-Datei auswählen.");
+      return;
+    }
+
+    const reader = new FileReader();
+
+    // This function runs when the file is finished reading
+    reader.onload = (e) => {
+      try {
+        const fileContent = e.target.result;
+        const importedWords = JSON.parse(fileContent);
+
+        // --- Data Validation (Very Important!) ---
+        // Check if it's an array
+        if (!Array.isArray(importedWords)) {
+          throw new Error("Datei hat nicht das richtige Format (kein Array).");
+        }
+
+        // Check if the objects inside are correct
+        if (importedWords.length > 0) {
+          const firstWord = importedWords[0];
+          if (typeof firstWord.word !== 'string' || typeof firstWord.image !== 'string') {
+            throw new Error("Objekte in der Datei haben nicht die Felder 'word' und 'image'.");
+          }
+        }
+        // --- End Validation ---
+
+        // Overwrite the current set with the imported words
+        // This helper function already updates state AND localStorage
+        updateCustomWords(importedWords);
+
+        toast.success(`${importedWords.length} Wörter erfolgreich importiert!`);
+
+      } catch (error) {
+        console.error("Error parsing imported file:", error);
+        toast.error(`Import fehlgeschlagen: ${error.message}`);
+      }
+    };
+
+    // Read the file as text
+    reader.readAsText(file);
+  };
+
+
+
+
 
   /**
    * ============================================================
@@ -564,6 +655,29 @@ if (process.env.NODE_ENV === 'production') {
           <TabsContent value="custom">
             {/* We use a separate component for the "Add Word" form logic */}
             <AddWordForm onSubmit={handleAddCustomWord} />
+
+            {/* --- NEW: Import/Export Buttons --- */}
+            <div className="flex gap-2 my-4 p-4 bg-gray-50 border rounded-lg">
+              {/* EXPORT BUTTON */}
+              <button
+                onClick={handleExportWords}
+                className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+              >
+                Wörter exportieren
+              </button>
+
+              {/* IMPORT BUTTON (Styled Label) */}
+              {/* We use a <label> to style the button, and the <input> is hidden. */}
+              <label className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 cursor-pointer">
+                Wörter importieren
+                <input
+                  type="file"
+                  accept=".json,application/json"
+                  className="hidden" // This hides the ugly default file input
+                  onChange={handleImportWords}
+                />
+              </label>
+            </div>
 
             <div className="border-t my-4" />
 
