@@ -25,7 +25,7 @@ async def generate_speech_file(transcript: str, output_filename: str):
                 transcript=transcript,
                 voice={
                     "mode": "id",
-                    "id": "3264ada2-4a79-4666-badc-49e2267be692",
+                    "id": "5ee0fed4-93b3-41df-bae2-d4345a88775b",
                 },
                 language="en",  # Using 'en' as example, change if needed
                 output_format={

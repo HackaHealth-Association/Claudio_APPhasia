@@ -180,13 +180,13 @@ export default function TherapyAssistant() {
    */
 
   useEffect(() => {
-  const savedWords = localStorage.getItem('customWords');
-  if (savedWords) {
-    // If we found words, parse the JSON string and set our state
-    setCustomWords(JSON.parse(savedWords));
-  }
-  // The empty array [] means this effect runs only once on page load
-}, []);
+    const savedWords = localStorage.getItem('customWords');
+    if (savedWords) {
+      // If we found words, parse the JSON string and set our state
+      setCustomWords(JSON.parse(savedWords));
+    }
+    // The empty array [] means this effect runs only once on page load
+  }, []);
 
   const addWord = (word) => {
     setSelectedWords(prev => {
@@ -341,13 +341,13 @@ export default function TherapyAssistant() {
    * - Save frequently used phrases
    */
 
-var envBackendURL = '';
+  var envBackendURL = '';
 
-if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === 'production') {
     envBackendURL = 'https://claudio-apphasia-1.onrender.com';
-} else {
-    envBackendURL = 'http://127.0.0.1:5000';
-}
+  } else {
+    envBackendURL = 'https://127.0.0.1:5000';
+  }
 
   const handleSpeak = async () => {
     console.log("➡️ handleSpeak() triggered");
@@ -416,10 +416,9 @@ if (process.env.NODE_ENV === 'production') {
         console.log("✅ Audio playback ended");
         setIsPlaying(false);
       };
-      audioPlayer.onerror  = () => setIsPlaying(false);
-      audioPlayer.onpause  = () => setIsPlaying(false);
-
-
+      audioPlayer.onended = () => setIsPlaying(false);
+      audioPlayer.onerror = () => setIsPlaying(false);
+      audioPlayer.onpause = () => setIsPlaying(false);
 
       console.log("▶️ Attempting to play audio...");
       await audioPlayer.play();
@@ -577,29 +576,29 @@ if (process.env.NODE_ENV === 'production') {
           onClearAll={handleClearAll}
           isPlaying={isPlaying}      // ← 追加
           onStop={() => {
-          audioPlayer.pause();
-          audioPlayer.currentTime = 0;
-          setIsPlaying(false);
-          toast.info("Wiedergabe gestoppt");
+            audioPlayer.pause();
+            audioPlayer.currentTime = 0;
+            setIsPlaying(false);
+            toast.info("Wiedergabe gestoppt");
           }}
         />
 
         {/* TAB NAVIGATION */}
         <Tabs defaultValue="questions" className="w-full">
           <TabsList className="grid w-full grid-cols-3 mb-4"> {/* <-- CHANGED to grid-cols-3 */}
-          <TabsTrigger value="questions">Fragen</TabsTrigger>
-          <TabsTrigger value="advanced">Erweitert</TabsTrigger>
-          <TabsTrigger value="custom">Zusätzliche Wörter</TabsTrigger> {/* <-- NEW TAB */}
-        </TabsList>
+            <TabsTrigger value="questions">Fragen</TabsTrigger>
+            <TabsTrigger value="advanced">Erweitert</TabsTrigger>
+            <TabsTrigger value="custom">Zusätzliche Wörter</TabsTrigger> {/* <-- NEW TAB */}
+          </TabsList>
 
           {/* TAB 1: Question Interface */}
           <TabsContent value="questions">
             <QuestionInterface onWordSelect={addWord}
-                  slider1Value={slider1Value}
-                  onSlider1Change={handleSlider1Change}
-                  onSlider1Commit={handleSlider1Commit}
-                  onSignClick={handleSignClick}
-                  onDirectionClick={handleDirectionClick} />
+              slider1Value={slider1Value}
+              onSlider1Change={handleSlider1Change}
+              onSlider1Commit={handleSlider1Commit}
+              onSignClick={handleSignClick}
+              onDirectionClick={handleDirectionClick} />
           </TabsContent>
 
           {/* TAB 2: Advanced Interface */}
