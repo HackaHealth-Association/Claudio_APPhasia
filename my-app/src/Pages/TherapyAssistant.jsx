@@ -489,7 +489,7 @@ if (process.env.NODE_ENV === 'production') {
             - Clickable body parts
             - View navigation arrows
           */}
-              <div className="col-span-5">
+              <div className="col-span-3">
                 <AnatomyViewer
                   currentView={currentView}
                   onViewChange={setCurrentView}
@@ -524,7 +524,7 @@ if (process.env.NODE_ENV === 'production') {
             - Action verbs for therapy
             - Special symbols (? and !)
           */}
-              <div className="col-span-3">
+              <div className="col-span-5">
                 <ActionButtons
                   selectedAction={selectedAction}
                   onActionClick={handleActionClick}
