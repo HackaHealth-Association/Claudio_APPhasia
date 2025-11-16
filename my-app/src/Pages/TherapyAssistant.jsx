@@ -11,16 +11,16 @@ import { toast } from "sonner"
  * ============================================================
  * TherapyAssistant - MAIN PAGE COMPONENT
  * ============================================================
- * 
+ *
  * PURPOSE: Speech assistance tool for physiotherapist with aphasia
- * 
+ *
  * MAIN FEATURES:
  * 1. Visual body anatomy with clickable parts
  * 2. Dynamic muscle selection based on body part
  * 3. Action verbs for therapy instructions
  * 4. Numerical inputs (sliders) and directional arrows
  * 5. Text-to-speech for phrase pronunciation
- * 
+ *
  * APPLICATION WORKFLOW:
  * 1. User clicks body part → selects anatomical region
  * 2. Muscle list updates automatically (DEPENDENCY)
@@ -28,7 +28,7 @@ import { toast } from "sonner"
  * 4. User selects action (e.g., "beugen") → adds to phrase
  * 5. User adds numbers/directions → adds to phrase
  * 6. Complete phrase is spoken automatically
- * 
+ *
  * EXAMPLE USAGE:
  * Click: "Knie" → "beugen" → "5" → "oben"
  * Result: "Knie beugen 5 oben" (Bend knee 5 times upward)
@@ -53,51 +53,81 @@ const fileToBase64 = (file) => {
 const AddWordForm = ({ onSubmit }) => {
   const [word, setWord] = useState("");
   const [file, setFile] = useState(null);
+  const [fileName, setFileName] = useState("Kein Bild ausgewählt");
+
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+      setFileName(selectedFile.name);
+    } else {
+      setFile(null);
+      setFileName("Kein Bild ausgewählt");
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!word || !file) {
-      toast.error("Bitte ein Wort und ein Bild angeben.");
+    // 1. Image is now optional, only the word is required
+    if (!word) {
+      toast.error("Bitte ein Wort angeben.");
       return;
     }
 
-    try {
-      // Convert image to Base64
-      const imageBase64 = await fileToBase64(file);
-      // Call the function passed from the parent (handleAddCustomWord)
-      onSubmit(word, imageBase64);
+    let imageBase64 = null; // Default to null
 
-      // Reset the form
-      setWord("");
-      setFile(null);
-      e.target.reset(); // Clear the file input
-    } catch (error) {
-      console.error("Error converting file:", error);
-      toast.error("Fehler beim Verarbeiten des Bildes.");
+    // 2. Only convert the file if one was selected
+    if (file) {
+      try {
+        imageBase64 = await fileToBase64(file);
+      } catch (error) {
+        console.error("Error converting file:", error);
+        toast.error("Fehler beim Verarbeiten des Bildes.");
+        return; // Stop if image processing fails
+      }
     }
+
+    // Call the parent function with the word and the (optional) image
+    onSubmit(word, imageBase64);
+
+    // Reset the form
+    setWord("");
+    setFile(null);
+    setFileName("Kein Bild ausgewählt");
+    e.target.reset(); // Clear the file input
   };
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="p-4 bg-gray-50 border rounded-lg flex flex-col sm:flex-row gap-3 items-center"
+      className="flex flex-wrap items-center gap-3"
     >
-      <h3 className="text-lg font-semibold">Neues Wort hinzufügen:</h3>
+      <h3 className="text-lg font-semibold">Neues Wort:</h3>
       <input
         type="text"
-        placeholder="Wort (z.B. 'Durst')"
+        placeholder="Wort (z.B. 'tschutte')"
         value={word}
         onChange={(e) => setWord(e.target.value)}
         className="p-2 border rounded-md"
-        required
+        required // The word is still required
       />
-      <input
-        type="file"
-        accept="image/png, image/jpeg, image/webp, image/svg+xml"
-        onChange={(e) => setFile(e.target.files[0])}
-        className="p-1 border rounded-md"
-        required
-      />
+
+      {/* 3. New German "fake" file button */}
+      <label className="px-4 py-2 bg-white text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 cursor-pointer text-sm">
+        Bild auswählen (Optional)
+        <input
+          type="file"
+          accept="image/png, image/jpeg, image/webp, image/svg+xml"
+          className="hidden" // The real input is hidden
+          onChange={handleFileChange}
+        />
+      </label>
+
+      {/* Show the selected file name */}
+      <span className="text-gray-500 text-sm max-w-[150px] truncate" title={fileName}>
+        {fileName}
+      </span>
+
       <button
         type="submit"
         className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
@@ -181,7 +211,7 @@ export default function TherapyAssistant() {
   /**
    * Handles body part click from AnatomyViewer
    * IMPORTANT: This triggers the DEPENDENCY update for BodyPartMuscles
-   * 
+   *
    * @param {string} bodyPart - Name of clicked body part
    */
   const handleBodyPartClick = (bodyPart) => {
@@ -198,7 +228,7 @@ export default function TherapyAssistant() {
 
   /**
    * Handles muscle click from BodyPartMuscles component
-   * 
+   *
    * @param {string} muscle - Name of clicked muscle
    */
   const handleMuscleClick = (muscle) => {
@@ -214,7 +244,7 @@ export default function TherapyAssistant() {
 
   /**
    * Handles action verb click
-   * 
+   *
    * @param {string} action - The action word (e.g., "beugen", "Schmerz")
    */
   const handleActionClick = (action) => {
@@ -224,7 +254,7 @@ export default function TherapyAssistant() {
 
   /**
    * Handles special symbol click (? or !)
-   * 
+   *
    * @param {string} symbol - The symbol character
    */
   const handleSpecialClick = (symbol) => {
@@ -240,7 +270,7 @@ export default function TherapyAssistant() {
   /**
    * Handles slider 1 value change
    * Adds the new number value to the phrase
-   * 
+   *
    * @param {number} value - New slider value (0-10)
    */
   const handleSlider1Change = (value) => {
@@ -254,7 +284,7 @@ export default function TherapyAssistant() {
 
   /**
    * Handles plus/minus button click
-   * 
+   *
    * @param {string} sign - Either '+' or '-'
    */
   const handleSignClick = (sign) => {
@@ -263,7 +293,7 @@ export default function TherapyAssistant() {
 
   /**
    * Handles direction arrow click
-   * 
+   *
    * @param {string} direction - Direction name (oben, unten, links, rechts, vor, zurück)
    */
   const handleDirectionClick = (direction) => {
@@ -294,16 +324,16 @@ export default function TherapyAssistant() {
 
   /**
    * Handles speak button click - uses Text-to-Speech API
-   * 
+   *
    * TEXT-TO-SPEECH IMPLEMENTATION:
    * Uses Web Speech API (built into modern browsers)
    * Configured for German language with slower rate for clarity
-   * 
+   *
    * IMPORTANT FOR APHASIA USERS:
    * - Slower speech rate (0.75) for better comprehension
    * - Clear pronunciation
    * - Maximum volume
-   * 
+   *
    * TODO ENHANCEMENTS:
    * - Add configurable speech rate
    * - Add volume control
@@ -523,14 +553,14 @@ if (process.env.NODE_ENV === 'production') {
    * ============================================================
    * RENDER - LAYOUT STRUCTURE
    * ============================================================
-   * 
+   *
    * LAYOUT GRID (12 columns):
-   * 
+   *
    * [  TextDisplay spanning full width (12 cols)  ]
-   * 
+   *
    * [ AnatomyViewer ] [ BodyPartMuscles ] [ ActionButtons ] [ ControlsPanel ]
    *    (3 cols)            (2 cols)           (3 cols)          (4 cols)
-   * 
+   *
    * RESPONSIVE BEHAVIOR:
    * - Large screens: All in one row
    * - Smaller screens: Components stack vertically
@@ -546,12 +576,12 @@ if (process.env.NODE_ENV === 'production') {
           onSpeak={handleSpeak}
           onClearAll={handleClearAll}
           isPlaying={isPlaying}      // ← 追加
-          onStop={() => { 
+          onStop={() => {
           audioPlayer.pause();
           audioPlayer.currentTime = 0;
           setIsPlaying(false);
           toast.info("Wiedergabe gestoppt");
-          }}      
+          }}
         />
 
         {/* TAB NAVIGATION */}
@@ -564,7 +594,7 @@ if (process.env.NODE_ENV === 'production') {
 
           {/* TAB 1: Question Interface */}
           <TabsContent value="questions">
-            <QuestionInterface onWordSelect={addWord} 
+            <QuestionInterface onWordSelect={addWord}
                   slider1Value={slider1Value}
                   onSlider1Change={handleSlider1Change}
                   onSlider1Commit={handleSlider1Commit}
@@ -575,7 +605,7 @@ if (process.env.NODE_ENV === 'production') {
           {/* TAB 2: Advanced Interface */}
           <TabsContent value="advanced">
 
-            {/* 
+            {/*
           ============================================================
           MAIN GRID: 4 COLUMNS OF CONTROLS
           ============================================================
@@ -583,7 +613,7 @@ if (process.env.NODE_ENV === 'production') {
         */}
             <div className="grid grid-cols-12 gap-3">
 
-              {/* 
+              {/*
             COLUMN 1: ANATOMY VIEWER (3 columns wide)
             - Shows body from 4 views
             - Clickable body parts
@@ -597,12 +627,12 @@ if (process.env.NODE_ENV === 'production') {
                 />
               </div>
 
-              {/* 
+              {/*
             COLUMN 2: BODY PART MUSCLES (2 columns wide)
             - DEPENDENT on selectedBodyPart
             - Shows muscles for selected body area
             - Updates automatically when body part changes
-            
+
             KEY DEPENDENCY:
             When user clicks "Knie" in AnatomyViewer:
             1. handleBodyPartClick('Knie') is called
@@ -612,14 +642,14 @@ if (process.env.NODE_ENV === 'production') {
             5. Displays knee-specific muscle buttons
           */}
               {/* <div className="col-span-2">
-            <BodyPartMuscles 
+            <BodyPartMuscles
               selectedBodyPart={selectedBodyPart}   // DEPENDENCY: This drives which muscles are shown
               selectedMuscle={selectedMuscle}
               onMuscleClick={handleMuscleClick}
             />
           </div> */}
 
-              {/* 
+              {/*
             COLUMN 3: ACTION BUTTONS (3 columns wide)
             - Action verbs for therapy
             - Special symbols (? and !)
@@ -632,7 +662,7 @@ if (process.env.NODE_ENV === 'production') {
                 />
               </div>
 
-              {/* 
+              {/*
             COLUMN 4: CONTROLS PANEL (4 columns wide)
             - Number slider (0-10)
             - Plus/minus buttons
@@ -653,30 +683,31 @@ if (process.env.NODE_ENV === 'production') {
 
           {/* --- NEW: TAB 3: Custom Words Interface --- */}
           <TabsContent value="custom">
-            {/* We use a separate component for the "Add Word" form logic */}
-            <AddWordForm onSubmit={handleAddCustomWord} />
 
-            {/* --- NEW: Import/Export Buttons --- */}
-            <div className="flex gap-2 my-4 p-4 bg-gray-50 border rounded-lg">
-              {/* EXPORT BUTTON */}
-              <button
-                onClick={handleExportWords}
-                className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
-              >
-                Wörter exportieren
-              </button>
+            {/* --- NEW: Single Row Layout --- */}
+            <div className="flex flex-wrap items-center justify-between gap-4 p-4 bg-gray-50 border rounded-lg">
 
-              {/* IMPORT BUTTON (Styled Label) */}
-              {/* We use a <label> to style the button, and the <input> is hidden. */}
-              <label className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 cursor-pointer">
-                Wörter importieren
-                <input
-                  type="file"
-                  accept=".json,application/json"
-                  className="hidden" // This hides the ugly default file input
-                  onChange={handleImportWords}
-                />
-              </label>
+              {/* Part 1: Add Word Form */}
+              <AddWordForm onSubmit={handleAddCustomWord} />
+
+              {/* Part 2: Import/Export Buttons */}
+              <div className="flex gap-2">
+                <button
+                  onClick={handleExportWords}
+                  className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+                >
+                  Wörter exportieren
+                </button>
+                <label className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 cursor-pointer">
+                  Wörter importieren
+                  <input
+                    type="file"
+                    accept=".json,application/json"
+                    className="hidden"
+                    onChange={handleImportWords}
+                  />
+                </label>
+              </div>
             </div>
 
             <div className="border-t my-4" />
@@ -698,14 +729,24 @@ if (process.env.NODE_ENV === 'production') {
                 >
                   {/* The Clickable Word/Image Button */}
                   <button
-                    onClick={() => addWord(item.word)} // <-- FEATURE 4: Re-uses your existing addWord function
+                    onClick={() => addWord(item.word)}
                     className="w-full p-2 bg-white rounded-lg shadow border hover:shadow-md transition-all flex flex-col items-center gap-2"
                   >
-                    <img
-                      src={item.image} // <-- This will be the Base64 string
-                      alt={item.word}
-                      className="w-20 h-20 object-contain"
-                    />
+
+                    {/* --- NEW: Conditionally render image --- */}
+                    {item.image ? (
+                      <img
+                        src={item.image}
+                        alt={item.word}
+                        className="w-28 h-28 object-contain" // <-- CHANGED
+                      />
+                    ) : (
+                      // Placeholder if no image was provided
+                      <div className="w-28 h-28 flex items-center justify-center bg-gray-100 rounded-md"> {/* <-- CHANGED */}
+                        <span className="text-gray-400 text-sm">(Kein Bild)</span>
+                      </div>
+                    )}
+
                     <span className="font-medium text-center">{item.word}</span>
                   </button>
 
