@@ -19,6 +19,7 @@ import QuestionIcon from "../../assets/icons/Question.png";
 // Response icons
 import SchmerzIcon from "../../assets/icons/Schmerz.png";
 import ÜbungenIcon from "../../assets/icons/Übungen.png";
+import BeweglichkeitIcon from "../../assets/icons/Beweglichkeit.png";
 import SpitzIcon from "../../assets/icons/Spitz.png";
 import StumpfIcon from "../../assets/icons/Stumpf.png";
 import WoIcon from "../../assets/icons/Wo.png";
@@ -26,6 +27,7 @@ import WannIcon from "../../assets/icons/Wann.png";
 import Wie_langIcon from "../../assets/icons/Wie_lang.png";
 import Wie_oftIcon from "../../assets/icons/Wie_oft.png";
 import GefühlIcon from "../../assets/icons/Gefühl.png";
+import TrainingIcon from "../../assets/icons/Training.png";
 
 /**
  * Directions config
@@ -44,13 +46,15 @@ const directions = [
  */
 const responses = [
   { word: "Schmerz", icon: SchmerzIcon, color: "bg-red-500 hover:bg-red-600 text-black" },
+  { word: "stumpf", icon: StumpfIcon, color: "bg-red-400 hover:bg-red-600 text-black" },
+  { word: "spitz", icon: SpitzIcon, color: "bg-red-300 hover:bg-red-600 text-black" },
   { word: "Übungen", icon: ÜbungenIcon, color: "bg-blue-500 hover:bg-blue-600 text-black" },
-  { word: "stumpf", icon: StumpfIcon, color: "bg-yellow-500 hover:bg-yellow-600 text-black" },
-  { word: "spitz", icon: SpitzIcon, color: "bg-orange-500 hover:bg-orange-600 text-black" },
-  { word: "wo?", icon: WoIcon, color: "bg-green-400 hover:bg-green-500 text-black" },
-  { word: "wann?", icon: WannIcon, color: "bg-pink-400 hover:bg-pink-500 text-black" },
-  { word: "wie oft?", icon: Wie_oftIcon, color: "bg-purple-400 hover:bg-purple-500 text-black" },
-  { word: "wie lange?", icon: Wie_langIcon, color: "bg-cyan-400 hover:bg-cyan-500 text-black" },
+  { word: "Beweglichkeit", icon: BeweglichkeitIcon, color: "bg-blue-400 hover:bg-blue-600 text-black" },
+  { word: "Training", icon: TrainingIcon, color: "bg-blue-300 hover:bg-blue-600 text-black" },
+  { word: "wo?", icon: WoIcon, color: "bg-yellow-400 hover:bg-yellow-500 text-black" },
+  { word: "wann?", icon: WannIcon, color: "bg-yellow-300 hover:bg-yellow-500 text-black" },
+  { word: "wie oft?", icon: Wie_oftIcon, color: "bg-yellow-200 hover:bg-yellow-500 text-black" },
+  { word: "wie lange?", icon: Wie_langIcon, color: "bg-yellow-100 hover:bg-yellow-500 text-black" },
 ];
 
 export default function QuestionInterface({ onWordSelect,
@@ -76,7 +80,7 @@ export default function QuestionInterface({ onWordSelect,
 
   {/* MIDDLE: Questions + Responses */}
   <div className="col-span-4">
-    <Card className="bg-white p-6 space-y-6 shadow-none">
+    <Card className="bg-white border-2 border-gray-300 p-6 space-y-6 shadow-none">
 
       {/* Question Card (with icon) */}
       <Card 
@@ -96,7 +100,7 @@ export default function QuestionInterface({ onWordSelect,
             className={`h-35 flex flex-col items-center justify-center text-lg font-semibold transition-all shadow-none border-none ${item.color}`}
           >
             {item.icon ? (
-              <img src={item.icon} alt={item.word} className="w-20 h-20 mb-2" />
+              <img src={item.icon} alt={item.word} className="w-17 h-17 mb-2" />
             ) : (
               <span className="text-4xl mb-2">{item.emoji}</span>
             )}

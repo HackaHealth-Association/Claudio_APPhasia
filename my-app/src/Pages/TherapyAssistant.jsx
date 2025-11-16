@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../Components/ui/tabs";
 import AnatomyViewer from '../Components/therapy/AnatomyViewer';
-import BodyPartMuscles from '../Components/therapy/BodyPartMuscles';
 import ActionButtons from '../Components/therapy/ActionButtons';
 import ControlsPanel from '../Components/therapy/ControlsPanel';
 import TextDisplay from '../Components/therapy/TextDisplay';
