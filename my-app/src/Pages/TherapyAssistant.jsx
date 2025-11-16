@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
-import AnatomyViewer from '../components/therapy/AnatomyViewer';
-import BodyPartMuscles from '../components/therapy/BodyPartMuscles';
-import ActionButtons from '../components/therapy/ActionButtons';
-import ControlsPanel from '../components/therapy/ControlsPanel';
-import TextDisplay from '../components/therapy/TextDisplay';
-import QuestionInterface from '../components/therapy/QuestionInterface';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../Components/ui/tabs";
+import AnatomyViewer from '../Components/therapy/AnatomyViewer';
+import BodyPartMuscles from '../Components/therapy/BodyPartMuscles';
+import ActionButtons from '../Components/therapy/ActionButtons';
+import ControlsPanel from '../Components/therapy/ControlsPanel';
+import TextDisplay from '../Components/therapy/TextDisplay';
+import QuestionInterface from '../Components/therapy/QuestionInterface';
 import { toast } from "sonner"
 
 /**
