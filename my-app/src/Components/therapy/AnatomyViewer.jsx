@@ -114,36 +114,36 @@ const bodyPartsFrontCoords = [
 
 // BACK view
 const bodyPartsBackCoords = [
-  { name: 'kopf', x: 325, y: 150 },
-  { name: 'nacken', x: 325, y: 270 },
-  { name: 'schulter rechts', x: 470, y: 330 },
-  { name: 'schulter links', x: 175, y: 330 },
-  { name: 'oberarm rechts', x: 490, y: 455 },
-  { name: 'oberarm links', x: 165, y: 455 },
-  { name: 'unterarm rechts', x: 555, y: 600 },
-  { name: 'unterarm links', x: 110, y: 600 },
-  { name: 'hand rechts', x: 590, y: 730 },
-  { name: 'hand links', x: 85, y: 730 },
-  { name: 'finger rechts', x: 590, y: 800 },
-  { name: 'finger links', x: 85, y: 800 },
-  { name: 'handgelenk rechts', x: 590, y: 700 },
-  { name: 'handgelenk links', x: 85, y: 700 },
-  { name: 'ellbogen rechts', x: 535, y: 545 },
-  { name: 'ellbogen links', x: 115, y: 545 },
-  { name: 'oberer rücken', x: 335, y: 335 },
-  { name: 'mittlerer rücken', x: 335, y: 490 },
-  { name: 'unterer rücken', x: 335, y: 595 },
-  { name: 'gesäss', x: 335, y: 700 },
-  { name: 'oberschenkel rechts', x: 430, y: 825 },
-  { name: 'oberschenkel links', x: 235, y: 825 },
-  { name: 'unterschenkel rechts', x: 470, y: 1100 },
-  { name: 'unterschenkel links', x: 200, y: 1100 },
-  { name: 'knie rechts', x: 450, y: 1000 },
-  { name: 'knie links', x: 215, y: 1000 },
-  { name: 'fuss rechts', x: 485, y: 1300 },
-  { name: 'fuss links', x: 185, y: 1300 },
-  { name: 'fussgelenk rechts', x: 485, y: 1255 },
-  { name: 'fussgelenk links', x: 185, y: 1255 },
+  { name: 'Kopf', x: 325, y: 150 },
+  { name: 'Nacken', x: 325, y: 270 },
+  { name: 'Schulter rechts', x: 470, y: 330 },
+  { name: 'Schulter links', x: 175, y: 330 },
+  { name: 'Oberarm rechts', x: 490, y: 455 },
+  { name: 'Oberarm links', x: 165, y: 455 },
+  { name: 'Unterarm rechts', x: 555, y: 600 },
+  { name: 'Unterarm links', x: 110, y: 600 },
+  { name: 'Hand rechts', x: 590, y: 730 },
+  { name: 'Hand links', x: 85, y: 730 },
+  { name: 'Finger rechts', x: 590, y: 800 },
+  { name: 'Finger links', x: 85, y: 800 },
+  { name: 'Handgelenk rechts', x: 590, y: 700 },
+  { name: 'Handgelenk links', x: 85, y: 700 },
+  { name: 'Ellbogen rechts', x: 535, y: 545 },
+  { name: 'Ellbogen links', x: 115, y: 545 },
+  { name: 'Oberer Rücken', x: 335, y: 335 },
+  { name: 'Mittlerer Rücken', x: 335, y: 490 },
+  { name: 'Unterer Rücken', x: 335, y: 595 },
+  { name: 'Gesäss', x: 335, y: 700 },
+  { name: 'Oberschenkel rechts', x: 430, y: 825 },
+  { name: 'Oberschenkel links', x: 235, y: 825 },
+  { name: 'Unterschenkel rechts', x: 470, y: 1100 },
+  { name: 'Unterschenkel links', x: 200, y: 1100 },
+  { name: 'Knie rechts', x: 450, y: 1000 },
+  { name: 'Knie links', x: 215, y: 1000 },
+  { name: 'Fuss rechts', x: 485, y: 1300 },
+  { name: 'Fuss links', x: 185, y: 1300 },
+  { name: 'Fussgelenk rechts', x: 485, y: 1255 },
+  { name: 'Fussgelenk links', x: 185, y: 1255 },
 ];
 
 
@@ -228,7 +228,7 @@ const handleBodyClick = (event, view) => {
                   className="w-full h-auto max-h-[700px] object-contain cursor-pointer"
                   onClick={(e) => handleBodyClick(e, 'front')}
                 />
-                <p className="mt-4 text-sm text-gray-500">Linke Seite</p>
+                <p className="mt-4 text-sm text-gray-500">Vorderseite</p>
               </div>
             </div>
           )}
@@ -243,7 +243,7 @@ const handleBodyClick = (event, view) => {
                   className="w-full h-auto max-h-[700px] object-contain cursor-pointer"
                   onClick={(e) => handleBodyClick(e, 'back')}
                 />
-                <p className="mt-4 text-sm text-gray-500">Linke Seite</p>
+                <p className="mt-4 text-sm text-gray-500">Hinterseite</p>
               </div>
             </div>
           )}
