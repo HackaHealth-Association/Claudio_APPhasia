@@ -342,7 +342,9 @@ if (process.env.NODE_ENV === 'production') {
         <Tabs defaultValue="questions" className="w-full">
           <TabsList className="grid w-full grid-cols-2 mb-4">
             <TabsTrigger value="questions">Fragen</TabsTrigger>
-            <TabsTrigger value="advanced">Erweitert</TabsTrigger>
+            <TabsTrigger value="advanced">Erweitert</TabsTrigger>            
+            <TabsTrigger value="custom">Personalisiert</TabsTrigger>
+
           </TabsList>
 
           {/* TAB 1: Question Interface */}
