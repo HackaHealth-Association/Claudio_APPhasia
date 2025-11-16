@@ -257,7 +257,7 @@ const envBackendURL = process.env.REACT_APP_BACKEND_URL;
       console.log("📡 Sending POST request to backend...");
       console.log("POST body:", JSON.stringify({ keywords: selectedWords }));
 
-      const response = await fetch('${envBackendURL}/api/generate-sentence', {
+      const response = await fetch(`${envBackendURL}/api/generate-sentence`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
