@@ -1,0 +1,7 @@
+Flask
+Flask-Cors
+google-generativeai
+cartesia
+openai
+Django>=4.2
+gunicorn>=21.2
