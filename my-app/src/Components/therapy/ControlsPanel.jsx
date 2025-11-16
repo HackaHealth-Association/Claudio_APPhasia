@@ -7,6 +7,8 @@ import SubtractionIcon from "../../assets/icons/Subtraction.png";
 import AdditionIcon from "../../assets/icons/Addition.png";
 import ExclamationIcon from "../../assets/icons/Exclamation.png";
 import QuestionIcon from "../../assets/icons/Question.png";
+import LangsamIcon from "../../assets/icons/Langsam.png";
+import SchnellIcon from "../../assets/icons/Schnell.png";
 
 import UpArrow from "../../assets/icons/up_arrow.png";
 import DownArrow from "../../assets/icons/down_arrow.png";
@@ -28,8 +30,8 @@ export default function ControlsPanel({
   onSlider1Change,
   onSlider1Commit,
   onSignClick,
-  onDirectionClick
-}) {
+  onDirectionClick,
+  onSpeedClick}) {
   return (
     <Card className="bg-white border-2 border-gray-300 h-full flex flex-col">
       <div className="flex-1 p-4 space-y-6 overflow-auto">
@@ -49,12 +51,8 @@ export default function ControlsPanel({
 
               <Slider
                 value={[slider1Value]}
-                onValueChange={(value) => {
-                  onSlider1Change(value[0]); // live update for preview, NO commit
-                }}
-                onValueCommit={(value) => {
-                  onSlider1Commit(value[0]); // only fires when released
-                }}
+                onValueChange={(value) => onSlider1Change(value[0])}
+                onValueCommit={(value) => onSlider1Commit(value[0])}
                 min={0}
                 max={10}
                 step={1}
@@ -110,6 +108,25 @@ export default function ControlsPanel({
               </div>
             </Button>
           ))}
+        </div>
+
+        {/* === SPEED BUTTONS === */}
+        <div className="flex gap-3 pt-3">
+          <Button
+            onClick={() => onSpeedClick("langsam")}
+            className="flex-1 h-24 bg-emerald-300 border border-black hover:bg-emerald-400 text-black font-bold flex flex-col items-center justify-center"
+          >
+            <img src={LangsamIcon} alt="langsam" className="w-10 h-12" />
+            <span className="text-lg">langsam</span>
+          </Button>
+
+          <Button
+            onClick={() => onSpeedClick("schnell")}
+            className="flex-1 h-24 bg-emerald-300 border border-black hover:bg-emerald-400 text-black font-bold flex flex-col items-center justify-center"
+          >
+            <img src={SchnellIcon} alt="schnell" className="w-10 h-12" />
+            <span className="text-lg">schnell</span>
+          </Button>
         </div>
 
       </div>

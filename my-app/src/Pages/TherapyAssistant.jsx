@@ -306,6 +306,11 @@ export default function TherapyAssistant() {
     addWord(direction);  // Add direction to phrase
   };
 
+  const handleSpeedClick = (speed) => {
+    addWord(speed);
+  };
+
+
   /**
    * ============================================================
    * EVENT HANDLERS - TEXT DISPLAY
@@ -682,6 +687,7 @@ export default function TherapyAssistant() {
                   onSlider1Commit={handleSlider1Commit}
                   onSignClick={handleSignClick}
                   onDirectionClick={handleDirectionClick}
+                  onSpeedClick={handleSpeedClick}
                 />
               </div>
             </div>

@@ -149,6 +149,7 @@ export default function QuestionInterface({ onWordSelect,
                         onSlider1Commit={onSlider1Commit}
                         onSignClick={onSignClick}
                         onDirectionClick={onDirectionClick}
+                        onSpeedClick={onWordSelect}
                       />
         </div>
     </div>
