@@ -109,12 +109,14 @@ export default function TextDisplay({ selectedWords, onBack, onSpeak, onClearAll
               onClick={onSpeak}
               variant="ghost"
               size="icon"
-              className="h-10 w-10"
+              className="h-12 w-12 rounded-full bg-blue-600 hover:bg-blue-700
+               ring-4 ring-blue-300/60 hover:ring-blue-400/70
+               shadow-lg focus:outline-none focus:ring-4 focus:ring-blue-200"
               disabled={selectedWords.length === 0}  // Can't speak if nothing to say
               title="Text vorlesen"
               aria-label ='Speak'
             >
-              <Volume2 className="w-6 h-6" />
+              <Volume2 className="w-8 h-8 text-white" strokeWidth={2.75} />
             </Button>
         ) : (
           <Button
