@@ -237,6 +237,9 @@ export default function TherapyAssistant() {
     }
   };*/
 
+
+const envBackendURL = process.env.REACT_APP_BACKEND_URL;
+
   const handleSpeak = async () => {
     console.log("➡️ handleSpeak() triggered");
     console.log("Selected words:", selectedWords);
@@ -254,7 +257,7 @@ export default function TherapyAssistant() {
       console.log("📡 Sending POST request to backend...");
       console.log("POST body:", JSON.stringify({ keywords: selectedWords }));
 
-      const response = await fetch('http://127.0.0.1:5000/api/generate-sentence', {
+      const response = await fetch('{envBackendURL}/api/generate-sentence', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
