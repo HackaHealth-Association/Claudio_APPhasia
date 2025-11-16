@@ -5,6 +5,8 @@ import { Slider } from "../../Components/ui/slider";
 import { ArrowUp, ArrowDown, ArrowLeft, ArrowRight, MoveVertical } from "lucide-react";
 import AnatomyViewer from './AnatomyViewer';
 
+
+
 // Math icons
 import MultiplicationIcon from "../../assets/icons/Multiplication.png";
 import SubtractionIcon from "../../assets/icons/Subtraction.png";
