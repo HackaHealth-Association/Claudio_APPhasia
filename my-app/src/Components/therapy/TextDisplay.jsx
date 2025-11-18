@@ -1,8 +1,8 @@
 import React from 'react';
 import { Card } from "../../Components/ui/card";
 import { Button } from "../../Components/ui/button";
-import { ArrowLeft, Volume2 } from "lucide-react";
-
+// import { ArrowLeft, Volume2 } from "lucide-react";
+import { ArrowLeft, Volume2, X } from "lucide-react";
 /**
  * TextDisplay Component
  * 
@@ -25,7 +25,7 @@ import { ArrowLeft, Volume2 } from "lucide-react";
  * "Schmerz" → "Schmerz Knie" → "Schmerz Knie 7" → "Schmerz Knie 7 !"
  */
 
-export default function TextDisplay({ selectedWords, onBack, onSpeak, onClearAll }) {
+export default function TextDisplay({ selectedWords, onBack, onSpeak, onClearAll, isPlaying, onStop }) {
   /**
    * PROPS:
    * - selectedWords: array of strings - All words selected by user in order
@@ -40,7 +40,7 @@ export default function TextDisplay({ selectedWords, onBack, onSpeak, onClearAll
    */
   const displayText = selectedWords.length > 0 
     ? selectedWords.join(' ')              // Join array: ["Schmerz", "Knie"] → "Schmerz Knie"
-    : 'Show selected text here';           // Default placeholder
+    : '.........';           // Default placeholder
     
   return (
     <Card className="bg-white border-2 border-gray-300">
@@ -68,13 +68,16 @@ export default function TextDisplay({ selectedWords, onBack, onSpeak, onClearAll
           <Button
             onClick={onClearAll}
             variant="ghost"
-            size="sm"
-            className="h-10"
+            size="icon"
+            className="h-12 w-12 rounded-full bg-red-600 hover:bg-red-700 
+               shadow-lg focus:outline-none focus:ring-4 focus:ring-red-200"
             disabled={selectedWords.length === 0}
             title="Alles löschen"
+            aria-label="Alles löschen"
           >
-            Alles löschen
+             <X className="w-8 h-8 text-white" strokeWidth={2.75} />
           </Button>
+          <span className="text-red-700 font-semibold select-none"></span>
         </div>
         
         {/* 
@@ -100,16 +103,36 @@ export default function TextDisplay({ selectedWords, onBack, onSpeak, onClearAll
           TODO: Speech synthesis happens in parent component (TherapyAssistant)
           This button just triggers the onSpeak callback
         */}
-        <Button
-          onClick={onSpeak}
-          variant="ghost"
-          size="icon"
-          className="h-10 w-10"
-          disabled={selectedWords.length === 0}  // Can't speak if nothing to say
-          title="Text vorlesen"
-        >
-          <Volume2 className="w-6 h-6" />
-        </Button>
+
+        {!isPlaying ? (
+            <Button
+              onClick={onSpeak}
+              variant="ghost"
+              size="icon"
+              className="h-12 w-12 rounded-full bg-blue-600 hover:bg-blue-700
+               ring-4 ring-blue-300/60 hover:ring-blue-400/70
+               shadow-lg focus:outline-none focus:ring-4 focus:ring-blue-200"
+              disabled={selectedWords.length === 0}  // Can't speak if nothing to say
+              title="Text vorlesen"
+              aria-label ='Speak'
+            >
+              <Volume2 className="w-8 h-8 text-white" strokeWidth={2.75} />
+            </Button>
+        ) : (
+          <Button
+            onClick={onStop}
+            variant="ghost"
+            size="icon"
+            className="h-10 w-10 p-0"
+            title="Stop"
+            aria-label ='Stop audio'
+          >
+            {/* draw stopbutton */}
+           <span className="block w-6 h-6 rounded-full bg-red-600 animate-pulse ring-2 ring-red-300" />
+         </Button>
+       )}
+
+
       </div>
       
       {/* 

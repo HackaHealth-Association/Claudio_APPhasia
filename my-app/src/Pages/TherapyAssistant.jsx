@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../Components/ui/tabs";
 import AnatomyViewer from '../Components/therapy/AnatomyViewer';
 import BodyPartMuscles from '../Components/therapy/BodyPartMuscles';
@@ -36,6 +36,80 @@ import { toast } from "sonner"
  * System speaks: [German speech synthesis reads the phrase]
  */
 
+
+// --- NEW: Add this component to TherapyAssistant.jsx ---
+// Put it *outside* (above) the `export default function TherapyAssistant()`
+
+// Helper function to convert a file to a Base64 string
+const fileToBase64 = (file) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
+};
+
+// The new "Add Word" form component
+const AddWordForm = ({ onSubmit }) => {
+  const [word, setWord] = useState("");
+  const [file, setFile] = useState(null);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!word || !file) {
+      toast.error("Bitte ein Wort und ein Bild angeben.");
+      return;
+    }
+
+    try {
+      // Convert image to Base64
+      const imageBase64 = await fileToBase64(file);
+      // Call the function passed from the parent (handleAddCustomWord)
+      onSubmit(word, imageBase64);
+
+      // Reset the form
+      setWord("");
+      setFile(null);
+      e.target.reset(); // Clear the file input
+    } catch (error) {
+      console.error("Error converting file:", error);
+      toast.error("Fehler beim Verarbeiten des Bildes.");
+    }
+  };
+
+  return (
+    <form
+      onSubmit={handleSubmit}
+      className="p-4 bg-gray-50 border rounded-lg flex flex-col sm:flex-row gap-3 items-center"
+    >
+      <h3 className="text-lg font-semibold">Neues Wort hinzufügen:</h3>
+      <input
+        type="text"
+        placeholder="Wort (z.B. 'Durst')"
+        value={word}
+        onChange={(e) => setWord(e.target.value)}
+        className="p-2 border rounded-md"
+        required
+      />
+      <input
+        type="file"
+        accept="image/png, image/jpeg, image/webp, image/svg+xml"
+        onChange={(e) => setFile(e.target.files[0])}
+        className="p-1 border rounded-md"
+        required
+      />
+      <button
+        type="submit"
+        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+      >
+        Hinzufügen
+      </button>
+    </form>
+  );
+};
+
+
 export default function TherapyAssistant() {
   /**
    * ============================================================
@@ -65,6 +139,9 @@ export default function TherapyAssistant() {
   // SLIDER VALUE STATE - Current value of the slider (0-10)
   const [slider1Value, setSlider1Value] = useState(0);
 
+  const [audioPlayer] = useState(() => new Audio());
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [customWords, setCustomWords] = useState([]);
   /**
    * ============================================================
    * HELPER FUNCTION: ADD WORD TO PHRASE
@@ -72,6 +149,16 @@ export default function TherapyAssistant() {
    * Central function that adds any word to the phrase builder
    * Used by all child components to build the phrase
    */
+
+  useEffect(() => {
+  const savedWords = localStorage.getItem('customWords');
+  if (savedWords) {
+    // If we found words, parse the JSON string and set our state
+    setCustomWords(JSON.parse(savedWords));
+  }
+  // The empty array [] means this effect runs only once on page load
+}, []);
+
   const addWord = (word) => {
     setSelectedWords(prev => [...prev, word]);  // Append word to end of array
   };
@@ -214,28 +301,6 @@ export default function TherapyAssistant() {
    * - Add option to repeat last phrase
    * - Save frequently used phrases
    */
-  /*const handleSpeak = () => {
-    // Join all words into a single string
-    const text = selectedWords.join(' ');
-
-    // Check if browser supports speech synthesis and text exists
-    if ('speechSynthesis' in window && text) {
-      // Cancel any ongoing speech
-      window.speechSynthesis.cancel();
-
-      // Create speech utterance
-      const utterance = new SpeechSynthesisUtterance(text);
-
-      // Configure speech settings for German
-      utterance.lang = 'de-DE';    // German language
-      utterance.rate = 0.75;       // Slower speed for clarity (default is 1)
-      utterance.pitch = 1;         // Normal pitch
-      utterance.volume = 1;        // Maximum volume
-
-      // Speak the text
-      window.speechSynthesis.speak(utterance);
-    }
-  };*/
 
 var envBackendURL = '';
 
@@ -248,6 +313,15 @@ if (process.env.NODE_ENV === 'production') {
   const handleSpeak = async () => {
     console.log("➡️ handleSpeak() triggered");
     console.log("Selected words:", selectedWords);
+
+    if (!audioPlayer.paused) {
+      console.log("🛑 Audio is playing — stopping it now");
+      audioPlayer.pause();
+      audioPlayer.currentTime = 0;
+      setIsPlaying(false);
+      toast.info("Wiedergabe gestoppt");
+      return;
+    }
 
     // 1. Check if there are any words to send
     if (selectedWords.length === 0) {
@@ -292,16 +366,24 @@ if (process.env.NODE_ENV === 'production') {
 
       // 5. Play the audio
       console.log("🎵 Preparing audio playback...");
-      const audioPlayer = new Audio();
+      // const audioPlayer = new Audio();
 
       const fullAudioUrl = `${envBackendURL}/${audioUrl}?t=${new Date().getTime()}`;
       console.log("🎵 Full audio URL:", fullAudioUrl);
 
       audioPlayer.src = fullAudioUrl;
+      // add new
+      audioPlayer.onended = () => console.log("✅ Audio playback ended");
+      audioPlayer.onended = () => setIsPlaying(false);
+      audioPlayer.onerror  = () => setIsPlaying(false);
+      audioPlayer.onpause  = () => setIsPlaying(false);
+
+
 
       console.log("▶️ Attempting to play audio...");
       await audioPlayer.play();
       console.log("🎉 Audio playback started successfully!");
+      setIsPlaying(true);
 
     } catch (error) {
       console.error("💥 Fehler beim Generieren des Satzes:", error);
@@ -309,6 +391,33 @@ if (process.env.NODE_ENV === 'production') {
     }
   };
 
+
+  const updateCustomWords = (newWordsList) => {
+    setCustomWords(newWordsList);
+    localStorage.setItem('customWords', JSON.stringify(newWordsList));
+  };
+
+  // --- NEW: Function to add a new word ---
+  // We'll call this from our "Add Word" form
+  const handleAddCustomWord = (word, imageBase64) => {
+    // Check for duplicates
+    if (customWords.some(item => item.word === word)) {
+      toast.error("Dieses Wort existiert bereits");
+      return;
+    }
+
+    const newWord = { word: word, image: imageBase64 };
+    const updatedWords = [...customWords, newWord];
+    updateCustomWords(updatedWords);
+    toast.success(`"${word}" hinzugefügt`);
+  };
+
+  // --- NEW: Function to delete a word ---
+  const handleDeleteCustomWord = (wordToDelete) => {
+    const updatedWords = customWords.filter(item => item.word !== wordToDelete);
+    updateCustomWords(updatedWords);
+    toast.info(`"${wordToDelete}" gelöscht`);
+  };
 
   /**
    * ============================================================
@@ -336,20 +445,31 @@ if (process.env.NODE_ENV === 'production') {
           onBack={handleBack}
           onSpeak={handleSpeak}
           onClearAll={handleClearAll}
+          isPlaying={isPlaying}      // ← 追加
+          onStop={() => { 
+          audioPlayer.pause();
+          audioPlayer.currentTime = 0;
+          setIsPlaying(false);
+          toast.info("Wiedergabe gestoppt");
+          }}      
         />
 
         {/* TAB NAVIGATION */}
         <Tabs defaultValue="questions" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-4">
-            <TabsTrigger value="questions">Fragen</TabsTrigger>
-            <TabsTrigger value="advanced">Erweitert</TabsTrigger>            
-            <TabsTrigger value="custom">Personalisiert</TabsTrigger>
-
-          </TabsList>
+          <TabsList className="grid w-full grid-cols-3 mb-4"> {/* <-- CHANGED to grid-cols-3 */}
+          <TabsTrigger value="questions">Fragen</TabsTrigger>
+          <TabsTrigger value="advanced">Erweitert</TabsTrigger>
+          <TabsTrigger value="custom">Zusätzliche Wörter</TabsTrigger> {/* <-- NEW TAB */}
+        </TabsList>
 
           {/* TAB 1: Question Interface */}
           <TabsContent value="questions">
-            <QuestionInterface onWordSelect={addWord} />
+            <QuestionInterface onWordSelect={addWord} 
+                  slider1Value={slider1Value}
+                  onSlider1Change={handleSlider1Change}
+                  onSlider1Commit={handleSlider1Commit}
+                  onSignClick={handleSignClick}
+                  onDirectionClick={handleDirectionClick} />
           </TabsContent>
 
           {/* TAB 2: Advanced Interface */}
@@ -369,7 +489,7 @@ if (process.env.NODE_ENV === 'production') {
             - Clickable body parts
             - View navigation arrows
           */}
-              <div className="col-span-5">
+              <div className="col-span-3">
                 <AnatomyViewer
                   currentView={currentView}
                   onViewChange={setCurrentView}
@@ -404,7 +524,7 @@ if (process.env.NODE_ENV === 'production') {
             - Action verbs for therapy
             - Special symbols (? and !)
           */}
-              <div className="col-span-3">
+              <div className="col-span-5">
                 <ActionButtons
                   selectedAction={selectedAction}
                   onActionClick={handleActionClick}
@@ -431,9 +551,53 @@ if (process.env.NODE_ENV === 'production') {
           </TabsContent>
 
 
-          {/* TAB 3: Custon Buttoms */}
+          {/* --- NEW: TAB 3: Custom Words Interface --- */}
           <TabsContent value="custom">
-            <CustomButtons onWordSelect={addWord} />
+            {/* We use a separate component for the "Add Word" form logic */}
+            <AddWordForm onSubmit={handleAddCustomWord} />
+
+            <div className="border-t my-4" />
+
+            {/* Display the grid of custom words */}
+            <div
+              className="grid gap-4"
+              // This CSS makes a responsive grid
+              style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))' }}
+            >
+              {customWords.length === 0 && (
+                <p className="text-muted-foreground">Noch keine Wörter hinzugefügt.</p>
+              )}
+
+              {customWords.map((item) => (
+                <div
+                  key={item.word}
+                  className="relative group"
+                >
+                  {/* The Clickable Word/Image Button */}
+                  <button
+                    onClick={() => addWord(item.word)} // <-- FEATURE 4: Re-uses your existing addWord function
+                    className="w-full p-2 bg-white rounded-lg shadow border hover:shadow-md transition-all flex flex-col items-center gap-2"
+                  >
+                    <img
+                      src={item.image} // <-- This will be the Base64 string
+                      alt={item.word}
+                      className="w-20 h-20 object-contain"
+                    />
+                    <span className="font-medium text-center">{item.word}</span>
+                  </button>
+
+                  {/* The Delete Button (Feature 3) */}
+                  <button
+                    onClick={() => handleDeleteCustomWord(item.word)}
+                    className="absolute -top-2 -right-2 w-7 h-7 bg-red-500 text-white rounded-full flex items-center justify-center
+                               opacity-0 group-hover:opacity-100 transition-opacity"
+                    title="Wort löschen"
+                  >
+                    X
+                  </button>
+                </div>
+              ))}
+            </div>
           </TabsContent>
         </Tabs>
       </div>
