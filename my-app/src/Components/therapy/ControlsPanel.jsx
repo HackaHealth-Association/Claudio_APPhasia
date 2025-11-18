@@ -7,6 +7,8 @@ import SubtractionIcon from "../../assets/icons/Subtraction.png";
 import AdditionIcon from "../../assets/icons/Addition.png";
 import ExclamationIcon from "../../assets/icons/Exclamation.png";
 import QuestionIcon from "../../assets/icons/Question.png";
+import LangsamIcon from "../../assets/icons/Langsam.png";
+import SchnellIcon from "../../assets/icons/Schnell.png";
 
 import UpArrow from "../../assets/icons/up_arrow.png";
 import DownArrow from "../../assets/icons/down_arrow.png";
@@ -28,17 +30,17 @@ export default function ControlsPanel({
   onSlider1Change,
   onSlider1Commit,
   onSignClick,
-  onDirectionClick
-}) {
+  onDirectionClick,
+  onSpeedClick}) {
   return (
     <Card className="bg-white border-2 border-gray-300 h-full flex flex-col">
-      <div className="flex-1 p-14 space-y-6 overflow-auto">
+      <div className="flex-1 p-4 space-y-6 overflow-auto">
 
         {/* === SLIDER === */}
         <div>
           <div className="flex items-center gap-4">
-            <div className="flex-1 bg-gray-100 border border-black rounded-lg p-4 relative">
-              <div className="absolute top-2 left-4 right-4 flex justify-between px-2">
+            <div className="flex-1 bg-gray-100 border border-black rounded-lg p-4 relative ">
+              <div className="absolute top-2 left-4 right-4 flex justify-between px-0.5">
                 {[0,1,2,3,4,5,6,7,8,9,10].map((num) => (
                   <div key={num} className="flex flex-col items-center">
                     <div className="w-px h-2 bg-gray-400"></div>
@@ -50,13 +52,17 @@ export default function ControlsPanel({
               <Slider
                 value={[slider1Value]}
                 onValueChange={(value) => onSlider1Change(value[0])}
-                onValueCommit={(value) => {
-                  onSlider1Commit(value[0])
-                }}
+                onValueCommit={(value) => onSlider1Commit(value[0])}
                 min={0}
                 max={10}
                 step={1}
-                className="w-full mt-10"
+                className="w-full mt-10
+                  [&_[role='slider']]:h-8
+                  [&_[role='slider']]:w-8
+                  [&_[role='slider']]:bg-white
+                  [&_[role='slider']]:border-2
+                  [&_[role='slider']]:border-black
+                "
               />
             </div>
           </div>
@@ -73,7 +79,7 @@ export default function ControlsPanel({
         <div className="flex gap-3 pt-2">
           <Button
             onClick={() => onSignClick('?')}
-            className="flex-1 h-24 bg-blue-200 border border-black hover:bg-blue-300 text-black font-bold flex flex-col items-center justify-center"
+            className="flex-1 h-24 bg-emerald-300 border border-black hover:bg-emerald-400 text-black font-bold flex flex-col items-center justify-center"
           >
             <img src={QuestionIcon} alt="?" className="w-10 h-12" />
             <span className="text-sm mt-1">Frage</span>
@@ -81,7 +87,7 @@ export default function ControlsPanel({
 
           <Button
             onClick={() => onSignClick('!')}
-            className="flex-1 h-24 bg-blue-200 border border-black hover:bg-blue-300 text-black font-bold flex flex-col items-center justify-center"
+            className="flex-1 h-24 bg-emerald-300 border border-black hover:bg-emerald-400 text-black font-bold flex flex-col items-center justify-center"
           >
             <img src={ExclamationIcon} alt="!" className="w-10 h-12" />
             <span className="text-sm mt-1">Aussage</span>
@@ -94,7 +100,7 @@ export default function ControlsPanel({
             <Button
               key={dir.value}
               onClick={() => onDirectionClick(dir.value)}
-              className="p-0 flex items-center justify-center h-[100px] w-[100px] bg-green-100 border border-black hover:bg-green-200 text-gray-700"
+              className="p-0 flex items-center justify-center h-[100px] w-[100px] bg-green-100 border border-black hover:bg-green-300 text-gray-700"
             >
               <div className="flex flex-col items-center gap-1">
                 <img src={dir.icon} alt={dir.label} className="w-14 h-14 object-contain" />
@@ -102,6 +108,25 @@ export default function ControlsPanel({
               </div>
             </Button>
           ))}
+        </div>
+
+        {/* === SPEED BUTTONS === */}
+        <div className="flex gap-3 pt-3">
+          <Button
+            onClick={() => onSpeedClick("langsam")}
+            className="flex-1 h-24 bg-emerald-300 border border-black hover:bg-emerald-400 text-black font-bold flex flex-col items-center justify-center"
+          >
+            <img src={LangsamIcon} alt="langsam" className="w-10 h-12" />
+            <span className="text-lg">langsam</span>
+          </Button>
+
+          <Button
+            onClick={() => onSpeedClick("schnell")}
+            className="flex-1 h-24 bg-emerald-300 border border-black hover:bg-emerald-400 text-black font-bold flex flex-col items-center justify-center"
+          >
+            <img src={SchnellIcon} alt="schnell" className="w-10 h-12" />
+            <span className="text-lg">schnell</span>
+          </Button>
         </div>
 
       </div>

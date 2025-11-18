@@ -11,7 +11,7 @@ import WiederholenIcon from "../../assets/icons/Wiederholen.png";
 
 const actions = [
   { word: "Schmerz", color: "bg-red-500 hover:bg-red-600", icon: SchmerzIcon },
-  { word: "zuschauen", color: "bg-green-600 hover:bg-green-700", icon: ZuschauenIcon },
+  { word: "zuschauen", color: "bg-yellow-400 hover:bg-yellow-500", icon: ZuschauenIcon },
   { word: "bewegen", color: "bg-pink-400 hover:bg-pink-500", icon: BewegenIcon },
   { word: "anspannen", color: "bg-orange-400 hover:bg-orange-500", icon: AnspannenIcon },
   { word: "beugen", color: "bg-purple-300 hover:bg-purple-400", icon: BeugenIcon },
@@ -22,7 +22,7 @@ const actions = [
 
 export default function ActionButtons({ selectedAction, onActionClick }) {
   return (
-    <Card className="bg-white border-2 border-gray-300 p-4">
+    <Card className="bg-white border-2 border-gray-300 p-4 h-full flex flex-col">
       {/* 2-row / 4-column responsive grid */}
       <div className="grid grid-cols-2 gap-4 w-full">
         {actions.map((action) => (

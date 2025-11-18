@@ -57,11 +57,14 @@ export default function TextDisplay({ selectedWords, onBack, onSpeak, onClearAll
             onClick={onBack}
             variant="ghost"
             size="icon"
-            className="h-10 w-10"
+            className="h-12 w-12 rounded-full bg-emerald-500 hover:bg-emerald-600
+             ring-4 ring-emerald-300/60 hover:ring-emerald-400/70
+             shadow-lg focus:outline-none focus:ring-4 focus:ring-emerald-200
+             disabled:opacity-40 disabled:cursor-not-allowed"
             disabled={selectedWords.length === 0}
             title="Letztes Wort entfernen"
           >
-            <ArrowLeft className="w-6 h-6" />
+            <ArrowLeft className="w-8 h-8 text-white" strokeWidth={2.75} />
           </Button>
           
           {/* Clear all button */}

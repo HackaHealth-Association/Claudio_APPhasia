@@ -21,17 +21,17 @@ async def generate_speech_file(transcript: str, output_filename: str):
 
         with open(output_filename, "wb") as f:
             bytes_iter = client.tts.bytes(
-                model_id="sonic-turbo",
+                model_id="sonic-3",
                 transcript=transcript,
                 voice={
                     "mode": "id",
                     "id": "5ee0fed4-93b3-41df-bae2-d4345a88775b",
                 },
-                language="en",  # Using 'en' as example, change if needed
+                language="de",  
                 output_format={
                     "container": "wav",
                     "sample_rate": 44100,
-                    "encoding": "pcm_s16le",
+                    "encoding": "pcm_f32le",
                 },
             )
 
