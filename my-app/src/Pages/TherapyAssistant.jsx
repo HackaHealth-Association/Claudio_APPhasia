@@ -614,15 +614,8 @@ export default function TherapyAssistant() {
               onDirectionClick={handleDirectionClick} />
           </TabsContent>
 
-          {/* TAB 2: Advanced Interface */}
+          {/* TABs: Therapy Assistant (second page) Interface */}
           <TabsContent value="advanced">
-
-            {/*
-          ============================================================
-          MAIN GRID: 4 COLUMNS OF CONTROLS
-          ============================================================
-          Uses CSS Grid with 12 columns for flexible layout
-        */}
           <div className="w-full">
             <ThreePanelLayout
               left={

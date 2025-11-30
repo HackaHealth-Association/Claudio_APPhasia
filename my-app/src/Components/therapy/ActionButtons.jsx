@@ -24,7 +24,7 @@ export default function ActionButtons({ selectedAction, onActionClick }) {
   return (
     <Card className="bg-white border-2 border-gray-300 p-4 h-full flex flex-col">
       {/* 2-row / 4-column responsive grid */}
-      <div className="grid grid-cols-2 gap-4 w-full">
+      <div className="grid grid-cols-3 gap-4 w-full">
         {actions.map((action) => (
           <Button
             key={action.word}
