@@ -216,7 +216,7 @@ const handleBodyClick = (event, view) => {
           3. Add image map (<map> and <area> tags) for clickable regions
           4. Each <area> should call onBodyPartClick with the body part name
         */}
-        <div className="relative w-full max-w-sm">
+        <div className="relative w-full">
 
           {/* FRONT VIEW - Vorderansicht */}
           {currentView === 'front' && (
