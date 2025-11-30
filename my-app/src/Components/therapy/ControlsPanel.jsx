@@ -39,12 +39,12 @@ export default function ControlsPanel({
         {/* === SLIDER === */}
         <div>
           <div className="flex items-center gap-4">
-            <div className="flex-1 bg-gray-100 border border-black rounded-lg p-4 relative ">
+            <div className="flex-1 bg-gray-100 border border-black rounded-lg p-4 relative">
               <div className="absolute top-2 left-4 right-4 flex justify-between px-0.5">
-                {[0,1,2,3,4,5,6,7,8,9,10].map((num) => (
-                  <div key={num} className="flex flex-col items-center">
+                {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
+                  <div key={num} className="flex flex-col items-center w-0 flex-grow text-center">
                     <div className="w-px h-2 bg-gray-400"></div>
-                    <span className="text-lg font-bold text-gray-800 mt-1">{num}</span>
+                    <span className="text-sm font-bold text-gray-800 mt-1">{num}</span>
                   </div>
                 ))}
               </div>
