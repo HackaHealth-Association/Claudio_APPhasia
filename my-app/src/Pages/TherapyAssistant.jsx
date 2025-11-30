@@ -334,6 +334,12 @@ export default function TherapyAssistant() {
     setSelectedWords([]);
   };
 
+  const handleRemoveWord = (indexToRemove) => {
+    setSelectedWords(prevWords => 
+      prevWords.filter((_, index) => index !== indexToRemove)
+    );
+  };
+
   /**
    * Handles speak button click - uses Text-to-Speech API
    *
@@ -592,6 +598,7 @@ export default function TherapyAssistant() {
             onSpeak={handleSpeak}
             onClearAll={handleClearAll}
             isPlaying={isPlaying}      // ← 追加
+            onRemoveWord={handleRemoveWord}
             onStop={() => {
               audioPlayer.pause();
               audioPlayer.currentTime = 0;
