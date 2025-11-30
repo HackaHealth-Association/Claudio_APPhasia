@@ -220,12 +220,12 @@ const handleBodyClick = (event, view) => {
 
           {/* FRONT VIEW - Vorderansicht */}
           {currentView === 'front' && (
-            <div className="relative rounded-3xl p-2 min-h-[500px] flex items-center justify-center">
-              <div className="text-center relative">
+            <div className="relative rounded-3xl p-2 flex items-center justify-center">
+              <div className="text-center relative relative w-full">
                 <img
                   src={bodyFront}
                   alt="Front view"
-                  className="h-auto max-h-[800px] object-contain cursor-pointer"
+                  className="w-full h-auto max-h-[500px] object-contain cursor-pointer mx-auto"
                   style={{ width: "500px" }}
                   onClick={(e) => handleBodyClick(e, 'front')}
                 />
@@ -241,7 +241,7 @@ const handleBodyClick = (event, view) => {
                 <img
                   src={bodyBack}
                   alt="Back view"
-                  className="w-full h-auto max-h-[700px] object-contain cursor-pointer"
+                  className="w-full h-auto max-h-[500px] object-contain cursor-pointer mx-auto"
                   onClick={(e) => handleBodyClick(e, 'back')}
                 />
                 <p className="mt-4 text-sm text-gray-500">Hinterseite</p>
@@ -257,7 +257,7 @@ const handleBodyClick = (event, view) => {
                 <img
                   src={bodyLeft}
                   alt="Left view"
-                  className="w-full h-auto max-h-[700px] object-contain cursor-pointer"
+                  className="w-full h-auto max-h-[500px] object-contain cursor-pointer mx-auto"
                   onClick={(e) => handleBodyClick(e, 'left')}
                 />
                 <p className="mt-4 text-sm text-gray-500">Linke Seite</p>
@@ -273,7 +273,7 @@ const handleBodyClick = (event, view) => {
                 <img
                   src={bodyRight}
                   alt="Right view"
-                  className="w-full h-auto max-h-[700px] object-contain cursor-pointer"
+                  className="w-full h-auto max-h-[500px] object-contain cursor-pointer mx-auto"
                   onClick={(e) => handleBodyClick(e, 'right')}
                 />
                 <p className="mt-4 text-sm text-gray-500">Rechte Seite</p>
