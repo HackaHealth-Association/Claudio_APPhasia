@@ -5,9 +5,10 @@ import ZuschauenIcon from "../../assets/icons/Zuschauen.png";
 import BewegenIcon from "../../assets/icons/Bewegen.png";
 import BeugenIcon from "../../assets/icons/Beugen.png";
 import AnspannenIcon from "../../assets/icons/Anspannen.png";
-import DrehenIcon from "../../assets/icons/Drehen.png";
+// import DrehenIcon from "../../assets/icons/Drehen.png";
 import StreckenIcon from "../../assets/icons/Strecken.png";
 import WiederholenIcon from "../../assets/icons/Wiederholen.png";
+import DrehenIcon from "../../assets/icons/Ziel.png";
 
 const actions = [
   { word: "Schmerz", color: "bg-red-500 hover:bg-red-600", icon: SchmerzIcon },
@@ -16,8 +17,9 @@ const actions = [
   { word: "anspannen", color: "bg-orange-400 hover:bg-orange-500", icon: AnspannenIcon },
   { word: "beugen", color: "bg-purple-300 hover:bg-purple-400", icon: BeugenIcon },
   { word: "strecken", color: "bg-cyan-500 hover:bg-cyan-600", icon: StreckenIcon },
-  { word: "drehen", color: "bg-blue-500 hover:bg-blue-600", icon: DrehenIcon },
+  // { word: "drehen", color: "bg-blue-500 hover:bg-blue-600", icon: DrehenIcon },
   { word: "wiederholen", color: "bg-gray-400 hover:bg-gray-500", icon: WiederholenIcon },
+  { word: "ziel", color: "bg-blue-500 hover:bg-blue-600", icon: DrehenIcon },
 ];
 
 export default function ActionButtons({ selectedAction, onActionClick }) {
