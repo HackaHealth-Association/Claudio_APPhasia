@@ -5,6 +5,7 @@ import ActionButtons from '../Components/therapy/ActionButtons';
 import ControlsPanel from '../Components/therapy/ControlsPanel';
 import TextDisplay from '../Components/therapy/TextDisplay';
 import QuestionInterface from '../Components/therapy/QuestionInterface';
+import ThreePanelLayout from "../Components/layout/ThreePanelLayout";
 import { toast } from "sonner"
 
 function useLongPress(onLongPress, { threshold = 600, onClick } = {}) {
@@ -655,10 +656,9 @@ export default function TherapyAssistant() {
    * - Smaller screens: Components stack vertically
    */
   return (
+    /* Fit page */
     <div className="min-h-screen w-screen bg-gray-100 p-2 overflow-y-auto overflow-x-hidden flex flex-col">
       <div className="w-full max-w-full mx-auto space-y-4 overflow-hidden">
-
-
 
         {/* TOP ROW: TEXT DISPLAY */}
         <TextDisplay
@@ -702,64 +702,23 @@ export default function TherapyAssistant() {
           ============================================================
           Uses CSS Grid with 12 columns for flexible layout
         */}
-            <div className="grid grid-cols-12 gap-3">
-
-              {/*
-            COLUMN 1: ANATOMY VIEWER (3 columns wide)
-            - Shows body from 4 views
-            - Clickable body parts
-            - View navigation arrows
-          */}
-              <div className="col-span-3">
+          <div className="w-full">
+            <ThreePanelLayout
+              left={
                 <AnatomyViewer
                   currentView={currentView}
                   onViewChange={setCurrentView}
                   onBodyPartClick={handleBodyPartClick}
                 />
-              </div>
-
-              {/*
-            COLUMN 2: BODY PART MUSCLES (2 columns wide)
-            - DEPENDENT on selectedBodyPart
-            - Shows muscles for selected body area
-            - Updates automatically when body part changes
-
-            KEY DEPENDENCY:
-            When user clicks "Knie" in AnatomyViewer:
-            1. handleBodyPartClick('Knie') is called
-            2. setSelectedBodyPart('Knie') updates state
-            3. BodyPartMuscles receives new selectedBodyPart prop
-            4. Component looks up knee muscles
-            5. Displays knee-specific muscle buttons
-          */}
-              {/* <div className="col-span-2">
-            <BodyPartMuscles
-              selectedBodyPart={selectedBodyPart}   // DEPENDENCY: This drives which muscles are shown
-              selectedMuscle={selectedMuscle}
-              onMuscleClick={handleMuscleClick}
-            />
-          </div> */}
-
-              {/*
-            COLUMN 3: ACTION BUTTONS (3 columns wide)
-            - Action verbs for therapy
-            - Special symbols (? and !)
-          */}
-              <div className="col-span-5 h-full">
+              }
+              middle={
                 <ActionButtons
                   selectedAction={selectedAction}
                   onActionClick={handleActionClick}
                   onSpecialClick={handleSpecialClick}
                 />
-              </div>
-
-              {/*
-            COLUMN 4: CONTROLS PANEL (4 columns wide)
-            - Number slider (0-10)
-            - Plus/minus buttons
-            - 6 directional arrows
-          */}
-              <div className="col-span-4">
+              }
+              right={
                 <ControlsPanel
                   slider1Value={slider1Value}
                   onSlider1Change={handleSlider1Change}
@@ -768,8 +727,10 @@ export default function TherapyAssistant() {
                   onDirectionClick={handleDirectionClick}
                   onSpeedClick={handleSpeedClick}
                 />
-              </div>
-            </div>
+              }
+            />
+          </div>
+
           </TabsContent>
 
 
