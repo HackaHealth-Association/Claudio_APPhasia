@@ -19,6 +19,8 @@ import WannIcon from "../../assets/icons/Wann.png";
 import Wie_langIcon from "../../assets/icons/Wie_lang.png";
 import Wie_oftIcon from "../../assets/icons/Wie_oft.png";
 import TrainingIcon from "../../assets/icons/Training.png";
+import AkutIcon from "../../assets/icons/Akut.png";
+import ChronischIcon from "../../assets/icons/Chronisch.png";
 
 const responses = [
   { word: "Schmerz", icon: SchmerzIcon, color: "bg-red-500 hover:bg-red-600 text-black" },
@@ -30,7 +32,10 @@ const responses = [
   { word: "wo", icon: WoIcon, color: "bg-yellow-400 hover:bg-yellow-500 text-black" },
   { word: "wann", icon: WannIcon, color: "bg-yellow-300 hover:bg-yellow-500 text-black" },
   { word: "wie oft", icon: Wie_oftIcon, color: "bg-yellow-200 hover:bg-yellow-500 text-black" },
-  { word: "wie lange", icon: Wie_langIcon, color: "bg-yellow-100 hover:bg-yellow-500 text-black" },
+  { word: "wie lange",  icon: Wie_langIcon,  color: "bg-green-300 hover:bg-green-500 text-black" },
+  { word: "akut",       icon: AkutIcon,      color: "bg-green-200 hover:bg-green-500 text-black" },
+  { word: "chronisch",  icon: ChronischIcon, color: "bg-green-100 hover:bg-green-500 text-black" },
+  
 ];
 
 export default function QuestionInterface({
