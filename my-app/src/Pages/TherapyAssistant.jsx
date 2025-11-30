@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../Components/ui/tabs";
 import AnatomyViewer from '../Components/therapy/AnatomyViewer';
 import ActionButtons from '../Components/therapy/ActionButtons';
@@ -7,92 +7,6 @@ import TextDisplay from '../Components/therapy/TextDisplay';
 import QuestionInterface from '../Components/therapy/QuestionInterface';
 import ThreePanelLayout from "../Components/layout/ThreePanelLayout";
 import { toast } from "sonner"
-
-function useLongPress(onLongPress, { threshold = 600, onClick } = {}) {
-  const timerRef = useRef(null);
-  const longPressedRef = useRef(false);
-
-  const clear = () => {
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-      timerRef.current = null;
-    }
-  };
-
-  const start = (e) => {
-    e.preventDefault?.(); 
-    longPressedRef.current = false;
-    clear();
-    timerRef.current = setTimeout(() => {
-      longPressedRef.current = true;
-      onLongPress?.(e);
-    }, threshold);
-  };
-
-  const cancel = (e) => {
-    clear();
-    if (!longPressedRef.current) {
-      onClick?.(e); 
-    }
-  };
-
-  return {
-    bind: {
-      onMouseDown: start,
-      onMouseUp: cancel,
-      onMouseLeave: clear,
-      onTouchStart: start,
-      onTouchEnd: cancel,
-      onTouchCancel: clear,
-    },
-  };
-}
-
-const CustomWord = ({ item, onAdd, onDelete, useLongPress }) => {
-  const { bind } = useLongPress(
-    () => {
-      if (window.confirm(`"${item.word}" löschen?`)) onDelete(item.word);
-    },
-    { threshold: 600, onClick: () => onAdd(item.word) }
-  );
-
-  return (
-    <div
-      className="relative"
-      style={{
-        userSelect: 'none',
-        WebkitUserSelect: 'none',
-        WebkitTouchCallout: 'none',
-        touchAction: 'manipulation',
-      }}
-    >
-      <button
-        {...bind}
-        className="w-full p-2 bg-white rounded-lg shadow border hover:shadow-md transition-all flex flex-col items-center gap-2"
-        title="Tippen zum Hinzufügen · Lange drücken zum Löschen"
-      >
-        {item.image ? (
-          <img
-            src={item.image}
-            alt={item.word}
-            className="w-20 h-20 object-contain pointer-events-none"
-            draggable={false}  
-          />
-        ) : (
-          // Placeholder if no image was provided
-          <div className="w-28 h-28 flex items-center justify-center bg-gray-100 rounded-md"> {/* <-- CHANGED */}
-            <span className="text-gray-400 text-sm">(Kein Bild)</span>
-          </div>
-        )}
-        <span className="font-medium text-center">{item.word}</span>
-        <span className="mt-1 text-[11px] text-gray-400">
-          (Tippen zum Hinzufügen · Lange drücken zum Löschen)
-        </span>
-      </button>
-    </div>
-  );
-};
-
 
 /**
  * ============================================================
@@ -444,7 +358,7 @@ export default function TherapyAssistant() {
   if (process.env.NODE_ENV === 'production') {
     envBackendURL = 'https://claudio-apphasia-1.onrender.com';
   } else {
-    envBackendURL = 'http://127.0.0.1:5000';
+    envBackendURL = 'https://127.0.0.1:5000';
   }
 
   const handleSpeak = async () => {
@@ -514,6 +428,7 @@ export default function TherapyAssistant() {
         console.log("✅ Audio playback ended");
         setIsPlaying(false);
       };
+      audioPlayer.onended = () => setIsPlaying(false);
       audioPlayer.onerror = () => setIsPlaying(false);
       audioPlayer.onpause = () => setIsPlaying(false);
 
@@ -555,6 +470,8 @@ export default function TherapyAssistant() {
     updateCustomWords(updatedWords);
     toast.info(`"${wordToDelete}" gelöscht`);
   };
+
+
 
   const handleExportWords = () => {
     // Check if there are any words to export
@@ -638,6 +555,10 @@ export default function TherapyAssistant() {
     // Read the file as text
     reader.readAsText(file);
   };
+
+
+
+
 
   /**
    * ============================================================
@@ -773,17 +694,48 @@ export default function TherapyAssistant() {
             >
               {customWords.length === 0 && (
                 <p className="text-muted-foreground">Noch keine Wörter hinzugefügt.</p>
-              )}          
-          {customWords.map((item) => (
-            <CustomWord
-              key={item.word}
-              item={item}
-              onAdd={addWord}
-              onDelete={handleDeleteCustomWord}
-              useLongPress={useLongPress}
-            />
-          ))}
-          </div>
+              )}
+
+              {customWords.map((item) => (
+                <div
+                  key={item.word}
+                  className="relative group"
+                >
+                  {/* The Clickable Word/Image Button */}
+                  <button
+                    onClick={() => addWord(item.word)}
+                    className="w-full p-2 bg-white rounded-lg shadow border hover:shadow-md transition-all flex flex-col items-center gap-2"
+                  >
+
+                    {/* --- NEW: Conditionally render image --- */}
+                    {item.image ? (
+                      <img
+                        src={item.image}
+                        alt={item.word}
+                        className="w-28 h-28 object-contain" // <-- CHANGED
+                      />
+                    ) : (
+                      // Placeholder if no image was provided
+                      <div className="w-28 h-28 flex items-center justify-center bg-gray-100 rounded-md"> {/* <-- CHANGED */}
+                        <span className="text-gray-400 text-sm">(Kein Bild)</span>
+                      </div>
+                    )}
+
+                    <span className="font-medium text-center">{item.word}</span>
+                  </button>
+
+                  {/* The Delete Button (Feature 3) */}
+                  <button
+                    onClick={() => handleDeleteCustomWord(item.word)}
+                    className="absolute -top-2 -right-2 w-7 h-7 bg-red-500 text-white rounded-full flex items-center justify-center
+                               opacity-0 group-hover:opacity-100 transition-opacity"
+                    title="Wort löschen"
+                  >
+                    X
+                  </button>
+                </div>
+              ))}
+            </div>
           </TabsContent>
         </Tabs>
       </div>

@@ -225,7 +225,8 @@ const handleBodyClick = (event, view) => {
                 <img
                   src={bodyFront}
                   alt="Front view"
-                  className="w-full h-auto max-h-[700px] object-contain cursor-pointer"
+                  className="h-auto max-h-[800px] object-contain cursor-pointer"
+                  style={{ width: "500px" }}
                   onClick={(e) => handleBodyClick(e, 'front')}
                 />
                 <p className="mt-4 text-sm text-gray-500">Vorderseite</p>
