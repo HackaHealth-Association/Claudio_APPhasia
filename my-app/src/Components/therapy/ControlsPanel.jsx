@@ -9,6 +9,8 @@ import ExclamationIcon from "../../assets/icons/Exclamation.png";
 import QuestionIcon from "../../assets/icons/Question.png";
 import LangsamIcon from "../../assets/icons/Langsam.png";
 import SchnellIcon from "../../assets/icons/Schnell.png";
+import DrehenIcon from "../../assets/icons/Drehen.png";
+import NeigenIcon from "../../assets/icons/Neigen.png";
 
 import UpArrow from "../../assets/icons/up_arrow.png";
 import DownArrow from "../../assets/icons/down_arrow.png";
@@ -128,6 +130,24 @@ export default function ControlsPanel({
             <span className="text-lg">schnell</span>
           </Button>
         </div>
+
+        <div className="flex gap-3">
+          <Button
+            onClick={() => onSpeedClick("drehen")}
+            className="flex-1 h-24 bg-green-200 border border-black hover:bg-green-300 text-black font-bold flex items-center justify-center"
+          >
+            <img src={DrehenIcon} alt="drehen" className="w-10 h-12" />
+            <span className="text-lg">drehen</span>
+          </Button>
+      
+          <Button
+            onClick={() => onSpeedClick("neigen")}
+            className="flex-1 h-24 bg-green-200 border border-black hover:bg-green-300 text-black font-bold flex items-center justify-center"
+          >
+            <img src={NeigenIcon} alt="neigen" className="w-10 h-12" />
+            <span className="text-lg">neigen</span>
+          </Button>
+  </div>
 
       </div>
     </Card>
