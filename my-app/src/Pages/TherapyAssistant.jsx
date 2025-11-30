@@ -577,35 +577,42 @@ export default function TherapyAssistant() {
    * - Smaller screens: Components stack vertically
    */
   return (
-    /* Fit page */
-    <div className="min-h-screen w-screen bg-gray-100 p-2 overflow-y-auto overflow-x-hidden flex flex-col">
-      <div className="w-full max-w-full mx-auto space-y-4 overflow-hidden">
 
-        {/* TOP ROW: TEXT DISPLAY */}
-        <TextDisplay
-          selectedWords={selectedWords}
-          onBack={handleBack}
-          onSpeak={handleSpeak}
-          onClearAll={handleClearAll}
-          isPlaying={isPlaying}      // ← 追加
-          onStop={() => {
-            audioPlayer.pause();
-            audioPlayer.currentTime = 0;
-            setIsPlaying(false);
-            toast.info("Wiedergabe gestoppt");
-          }}
-        />
+    /* LEVEL 1: MAIN CONTAINER - Fixed to screen height (h-screen), Page scroll disabled (overflow-hidden) */
+    <div className="h-screen w-screen bg-gray-100 p-2 overflow-hidden flex flex-col">
+      
+      {/* LEVEL 2: INNER WRAPPER - Fills height (h-full), Flex column to stack children */}
+      <div className="w-full max-w-full mx-auto h-full flex flex-col space-y-4">
 
-        {/* TAB NAVIGATION */}
-        <Tabs defaultValue="questions" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 mb-4"> {/* <-- CHANGED to grid-cols-3 */}
+        {/* TOP ROW: TEXT DISPLAY - Wrapped in flex-none so it never shrinks */}
+        <div className="flex-none">
+          <TextDisplay
+            selectedWords={selectedWords}
+            onBack={handleBack}
+            onSpeak={handleSpeak}
+            onClearAll={handleClearAll}
+            isPlaying={isPlaying}      // ← 追加
+            onStop={() => {
+              audioPlayer.pause();
+              audioPlayer.currentTime = 0;
+              setIsPlaying(false);
+              toast.info("Wiedergabe gestoppt");
+            }}
+          />
+        </div>
+
+        {/* TAB NAVIGATION - flex-1 and min-h-0 allow this to fill remaining space */}
+        <Tabs defaultValue="questions" className="w-full flex-1 flex flex-col min-h-0">
+          
+          {/* TabsList - flex-none to keep fixed height */}
+          <TabsList className="grid w-full grid-cols-3 mb-4 flex-none"> {/* <-- CHANGED to grid-cols-3 */}
             <TabsTrigger value="questions">Fragen</TabsTrigger>
             <TabsTrigger value="advanced">Erweitert</TabsTrigger>
             <TabsTrigger value="custom">Zusätzliche Wörter</TabsTrigger> {/* <-- NEW TAB */}
           </TabsList>
 
-          {/* TAB 1: Question Interface */}
-          <TabsContent value="questions">
+          {/* TAB 1: Question Interface - Added overflow-y-auto so this specific tab scrolls */}
+          <TabsContent value="questions" className="flex-1 overflow-y-auto min-h-0">
             <QuestionInterface onWordSelect={addWord}
               slider1Value={slider1Value}
               onSlider1Change={handleSlider1Change}
@@ -615,10 +622,11 @@ export default function TherapyAssistant() {
           </TabsContent>
 
           {/* TABs: Therapy Assistant (second page) Interface */}
-          <TabsContent value="advanced">
-          <div className="w-full">
+          <TabsContent value="advanced" className="flex-1 min-h-0 mt-0 flex flex-col">
+          <div className="flex-1 min-h-0">
             <ThreePanelLayout
               left={
+
                 <AnatomyViewer
                   currentView={currentView}
                   onViewChange={setCurrentView}
@@ -626,6 +634,7 @@ export default function TherapyAssistant() {
                 />
               }
               middle={
+
                 <ActionButtons
                   selectedAction={selectedAction}
                   onActionClick={handleActionClick}
@@ -633,6 +642,7 @@ export default function TherapyAssistant() {
                 />
               }
               right={
+
                 <ControlsPanel
                   slider1Value={slider1Value}
                   onSlider1Change={handleSlider1Change}
@@ -647,9 +657,9 @@ export default function TherapyAssistant() {
 
           </TabsContent>
 
-
-          {/* --- NEW: TAB 3: Custom Words Interface --- */}
-          <TabsContent value="custom">
+          {/* TAB 3: Custom Words Interface --- */}
+          {/* Added overflow-y-auto so this specific tab scrolls normally */}
+          <TabsContent value="custom" className="flex-1 min-h-0 mt-0 flex flex-col">
 
             {/* --- NEW: Single Row Layout --- */}
             <div className="flex flex-wrap items-center justify-between gap-4 p-4 bg-gray-50 border rounded-lg">
@@ -721,7 +731,7 @@ export default function TherapyAssistant() {
                   <button
                     onClick={() => handleDeleteCustomWord(item.word)}
                     className="absolute -top-2 -right-2 w-7 h-7 bg-red-500 text-white rounded-full flex items-center justify-center
-                               opacity-0 group-hover:opacity-100 transition-opacity"
+                                opacity-0 group-hover:opacity-100 transition-opacity"
                     title="Wort löschen"
                   >
                     X
