@@ -33,6 +33,9 @@ async def generate_speech_file(transcript: str, output_filename: str):
                     "sample_rate": 44100,
                     "encoding": "pcm_f32le",
                 },
+                generation_config={
+                    "speed": 0.8,
+                }
             )
 
             async for chunk in bytes_iter:
