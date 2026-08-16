@@ -1,0 +1,24 @@
+{
+  "name": "Claudio — Sprechhilfe",
+  "short_name": "Claudio",
+  "description": "Sprechhilfe für Physiotherapie mit Aphasie",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#f3f4f6",
+  "theme_color": "#f3f4f6",
+  "icons": [
+    {
+      "src": "/apphasiaFaviconRoundedEdges.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apphasiaFaviconRoundedEdges.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
