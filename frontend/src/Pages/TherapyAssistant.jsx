@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../Components/ui/tabs";
@@ -10,36 +10,41 @@ import CustomWordsPanel from "../Components/therapy/CustomWordsPanel";
 import QuestionInterface from "../Components/therapy/QuestionInterface";
 import TextDisplay from "../Components/therapy/TextDisplay";
 
-import { fetchSpeech, warmUp } from "../api/client";
+import { warmUp } from "../api/client";
 import { useCustomWords } from "../hooks/useCustomWords";
 import { useSentence } from "../hooks/useSentence";
+import { useSpeech } from "../hooks/useSpeech";
 import { appendToken, createToken } from "../lib/tokens";
 
 /**
  * TherapyAssistant — the whole app.
  *
- * Every tap appends a typed token: the button knows whether it is a body
- * part, an action, a direction or a number, and that type travels to the
- * backend so it never has to guess.
+ * Flow: every tap appends a typed token (body part / action / direction / …).
+ * A sentence is generated in the background as the tokens change and shown in
+ * the phrase bar, so the therapist reads it before the patient hears it. The
+ * speaker button then only has to play audio that is usually already fetched.
  */
-
 export default function TherapyAssistant() {
   const [tokens, setTokens] = useState([]);
   const [currentView, setCurrentView] = useState("front");
   const [selectedAction, setSelectedAction] = useState(null);
   const [sliderValue, setSliderValue] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSpeaking, setIsSpeaking] = useState(false);
-  const audioRef = useRef(null);
 
   const customWords = useCustomWords();
   const { sentence, alternatives, status: sentenceStatus, error: sentenceError, useAlternative } =
     useSentence(tokens);
+  const { status: speechStatus, speak, stop, prefetch } = useSpeech();
 
   // Wake the backend on load so the first spoken sentence never pays for it.
   useEffect(() => {
     warmUp();
   }, []);
+
+  // Fetch the audio as soon as the sentence settles — by the time the speaker
+  // button is tapped, playback is instant.
+  useEffect(() => {
+    if (sentenceStatus === "ready" && sentence) prefetch(sentence);
+  }, [sentence, sentenceStatus, prefetch]);
 
   const addToken = useCallback((entry) => {
     setTokens((current) => appendToken(current, createToken(entry)));
@@ -72,10 +77,7 @@ export default function TherapyAssistant() {
     setTokens((current) => current.filter((token) => token.id !== id));
   }, []);
 
-  const stop = useCallback(() => {
-    audioRef.current?.pause();
-    setIsSpeaking(false);
-  }, []);
+  const undoLast = useCallback(() => setTokens((current) => current.slice(0, -1)), []);
 
   const clearAll = useCallback(() => {
     setTokens([]);
@@ -92,21 +94,12 @@ export default function TherapyAssistant() {
       toast.info("Der Satz wird noch vorbereitet …");
       return;
     }
-    setIsLoading(true);
     try {
-      const url = await fetchSpeech(sentence);
-      if (!audioRef.current) audioRef.current = new Audio();
-      const audio = audioRef.current;
-      audio.onended = () => setIsSpeaking(false);
-      audio.src = url;
-      await audio.play();
-      setIsSpeaking(true);
+      await speak(sentence);
     } catch (error) {
       toast.error(error.message || "Der Satz konnte nicht vorgelesen werden.");
-    } finally {
-      setIsLoading(false);
     }
-  }, [tokens.length, sentence]);
+  }, [tokens.length, sentence, speak]);
 
   return (
     <div className="h-screen w-screen bg-gray-100 p-2 overflow-hidden flex flex-col">
@@ -115,14 +108,14 @@ export default function TherapyAssistant() {
           <TextDisplay
             tokens={tokens}
             onRemoveToken={removeToken}
-            onBack={() => setTokens((current) => current.slice(0, -1))}
+            onBack={undoLast}
             onClearAll={clearAll}
             sentence={sentence}
             sentenceStatus={sentenceStatus}
             sentenceError={sentenceError}
             hasAlternatives={alternatives.length > 0}
             onUseAlternative={useAlternative}
-            speechStatus={isLoading ? "loading" : isSpeaking ? "playing" : "idle"}
+            speechStatus={speechStatus}
             onSpeak={handleSpeak}
             onStop={stop}
           />
@@ -155,7 +148,9 @@ export default function TherapyAssistant() {
                     onBodyPartClick={handleBodyPart}
                   />
                 }
-                middle={<ActionButtons selectedAction={selectedAction} onSelect={handleSelect} />}
+                middle={
+                  <ActionButtons selectedAction={selectedAction} onSelect={handleSelect} />
+                }
                 right={
                   <ControlsPanel
                     sliderValue={sliderValue}
