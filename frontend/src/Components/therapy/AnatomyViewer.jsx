@@ -2,10 +2,10 @@ import React from 'react';
 import { Card } from "../../Components/ui/card";
 import { Button } from "../../Components/ui/button";
 import { ArrowUp, ArrowDown, ArrowLeft, ArrowRight } from "lucide-react";
-import bodyBack from '../../body_back.png'
-import bodyLeft from '../../body_left.png'
-import bodyRight from '../../body_right.png'
-import bodyFront from '../../body_front.png'
+import bodyBack from '../../assets/body/back.jpg'
+import bodyLeft from '../../assets/body/left.jpg'
+import bodyRight from '../../assets/body/right.jpg'
+import bodyFront from '../../assets/body/front.jpg'
 
 
 /**
