@@ -32,7 +32,7 @@ export default {
     }
 
     const origin = request.headers.get('Origin');
-    const cors = corsHeaders(origin, env);
+    const cors = corsHeaders(origin, env, url);
 
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors });
     if (origin && !cors['Access-Control-Allow-Origin']) {
@@ -146,14 +146,18 @@ async function handleSpeak(request, env, ctx, cors) {
 
 // --- helpers ---------------------------------------------------------------
 
-function corsHeaders(origin, env) {
+export function corsHeaders(origin, env, url) {
   const base = {
     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
     'Access-Control-Max-Age': '86400',
     Vary: 'Origin',
   };
-  if (!origin) return base; // same-origin request: no CORS needed
+  if (!origin) return base; // no Origin header at all: nothing to decide
+
+  // A same-origin POST still carries an Origin header — the app serving this
+  // API is always allowed to call it.
+  const sameOrigin = origin === url.origin;
 
   const allowed = (env.ALLOWED_ORIGINS || '')
     .split(',')
@@ -161,7 +165,7 @@ function corsHeaders(origin, env) {
     .filter(Boolean);
   const isLocalhost = /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin);
 
-  if (allowed.includes(origin) || allowed.includes('*') || isLocalhost) {
+  if (sameOrigin || isLocalhost || allowed.includes(origin) || allowed.includes('*')) {
     return { ...base, 'Access-Control-Allow-Origin': origin };
   }
   return base;
