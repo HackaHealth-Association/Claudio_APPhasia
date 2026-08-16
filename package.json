@@ -10,7 +10,8 @@
     "dev:api": "wrangler dev",
     "build": "npm --prefix frontend run build",
     "deploy": "npm run build && wrangler deploy",
-    "lint": "npm --prefix frontend run lint"
+    "lint": "npm --prefix frontend run lint",
+    "test": "node --test \"worker/test/**/*.test.js\""
   },
   "devDependencies": {
     "wrangler": "^4.20.0"

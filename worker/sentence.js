@@ -1,9 +1,11 @@
 // worker/sentence.js
 //
 // keywords -> one German sentence.
+// Templates first (instant, free, deterministic), the model as the fallback.
 
 import { chat, resolveProvider } from './llm.js';
 import { SYSTEM_PROMPT, exampleMessages } from './prompt.js';
+import { renderTemplate } from './templates.js';
 
 const KNOWN_TYPES = new Set([
   'bodypart', 'action', 'symptom', 'topic', 'question',
@@ -36,6 +38,9 @@ export function tokensKey(tokens) {
 }
 
 export async function generateSentence(tokens, env, { signal } = {}) {
+  const templated = renderTemplate(tokens);
+  if (templated) return { sentence: templated, alternatives: [], source: 'template' };
+
   const provider = resolveProvider(env);
   const messages = [
     { role: 'system', content: SYSTEM_PROMPT },
