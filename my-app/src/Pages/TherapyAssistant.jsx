@@ -540,8 +540,11 @@ export default function TherapyAssistant() {
         // Check if the objects inside are correct
         if (importedWords.length > 0) {
           const firstWord = importedWords[0];
-          if (typeof firstWord.word !== 'string' || typeof firstWord.image !== 'string') {
-            throw new Error("Objekte in der Datei haben nicht die Felder 'word' und 'image'.");
+          // The image is optional when a word is added, so an entry without
+          // one is valid — requiring a string here rejected this app's own
+          // export files.
+          if (typeof firstWord.word !== 'string') {
+            throw new Error("Objekte in der Datei haben kein Feld 'word'.");
           }
         }
         // --- End Validation ---
