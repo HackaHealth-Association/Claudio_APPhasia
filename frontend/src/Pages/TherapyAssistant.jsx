@@ -10,8 +10,9 @@ import CustomWordsPanel from "../Components/therapy/CustomWordsPanel";
 import QuestionInterface from "../Components/therapy/QuestionInterface";
 import TextDisplay from "../Components/therapy/TextDisplay";
 
-import { fetchSentence, fetchSpeech, warmUp } from "../api/client";
+import { fetchSpeech, warmUp } from "../api/client";
 import { useCustomWords } from "../hooks/useCustomWords";
+import { useSentence } from "../hooks/useSentence";
 import { appendToken, createToken } from "../lib/tokens";
 
 /**
@@ -32,6 +33,8 @@ export default function TherapyAssistant() {
   const audioRef = useRef(null);
 
   const customWords = useCustomWords();
+  const { sentence, alternatives, status: sentenceStatus, error: sentenceError, useAlternative } =
+    useSentence(tokens);
 
   // Wake the backend on load so the first spoken sentence never pays for it.
   useEffect(() => {
@@ -85,9 +88,12 @@ export default function TherapyAssistant() {
       toast.error("Keine Wörter ausgewählt.");
       return;
     }
+    if (!sentence) {
+      toast.info("Der Satz wird noch vorbereitet …");
+      return;
+    }
     setIsLoading(true);
     try {
-      const { sentence } = await fetchSentence(tokens.map(({ type, value }) => ({ type, value })));
       const url = await fetchSpeech(sentence);
       if (!audioRef.current) audioRef.current = new Audio();
       const audio = audioRef.current;
@@ -95,13 +101,12 @@ export default function TherapyAssistant() {
       audio.src = url;
       await audio.play();
       setIsSpeaking(true);
-      toast.success(`Spreche: "${sentence}"`);
     } catch (error) {
       toast.error(error.message || "Der Satz konnte nicht vorgelesen werden.");
     } finally {
       setIsLoading(false);
     }
-  }, [tokens]);
+  }, [tokens.length, sentence]);
 
   return (
     <div className="h-screen w-screen bg-gray-100 p-2 overflow-hidden flex flex-col">
@@ -112,8 +117,12 @@ export default function TherapyAssistant() {
             onRemoveToken={removeToken}
             onBack={() => setTokens((current) => current.slice(0, -1))}
             onClearAll={clearAll}
-            isSpeaking={isSpeaking}
-            isLoading={isLoading}
+            sentence={sentence}
+            sentenceStatus={sentenceStatus}
+            sentenceError={sentenceError}
+            hasAlternatives={alternatives.length > 0}
+            onUseAlternative={useAlternative}
+            speechStatus={isLoading ? "loading" : isSpeaking ? "playing" : "idle"}
             onSpeak={handleSpeak}
             onStop={stop}
           />

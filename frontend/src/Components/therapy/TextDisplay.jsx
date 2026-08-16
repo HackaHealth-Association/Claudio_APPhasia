@@ -1,24 +1,31 @@
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
-import { ArrowLeft, Loader2, Volume2, X } from "lucide-react";
+import { ArrowLeft, Loader2, RefreshCw, Volume2, X } from "lucide-react";
 
 /**
- * The phrase bar: the words that were tapped, and the controls for them.
+ * The phrase bar: the words that were tapped, and — the important part — the
+ * sentence that will actually be spoken, shown before anyone hears it.
  *
- * Words are tokens now rather than bare strings, so each chip knows what kind
- * of word it is and can be removed by its own id.
+ * The old version only revealed the sentence in a toast that disappeared, so
+ * the therapist discovered a wrong sentence by having the room hear it.
  */
 export default function TextDisplay({
   tokens,
   onRemoveToken,
   onBack,
   onClearAll,
-  isSpeaking,
-  isLoading,
+  sentence,
+  sentenceStatus,
+  sentenceError,
+  hasAlternatives,
+  onUseAlternative,
+  speechStatus,
   onSpeak,
   onStop,
 }) {
   const hasWords = tokens.length > 0;
+  const isBusy = speechStatus === "loading";
+  const isPlaying = speechStatus === "playing";
 
   return (
     <Card className="bg-white border-2 border-gray-300">
@@ -54,27 +61,38 @@ export default function TextDisplay({
           </Button>
         </div>
 
-        <div className="flex-1 text-center min-h-[48px] flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
-          {hasWords ? (
-            tokens.map((token) => (
-              <button
-                key={token.id}
-                type="button"
-                onClick={() => onRemoveToken(token.id)}
-                className="text-2xl font-semibold text-gray-800 cursor-pointer
-                  bg-yellow-100 hover:bg-yellow-200 px-2 py-0.5 rounded-md
-                  transition-colors duration-150 active:scale-[0.98]"
-                title={`"${token.label}" entfernen`}
-              >
-                {token.label}
-              </button>
-            ))
-          ) : (
-            <p className="text-2xl font-semibold text-gray-400">.........</p>
-          )}
+        <div className="flex-1 min-w-0">
+          <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 min-h-[40px]">
+            {hasWords ? (
+              tokens.map((token) => (
+                <button
+                  key={token.id}
+                  type="button"
+                  onClick={() => onRemoveToken(token.id)}
+                  className="text-2xl font-semibold text-gray-800 cursor-pointer
+                    bg-yellow-100 hover:bg-yellow-200 px-2 py-0.5 rounded-md
+                    transition-colors duration-150 active:scale-[0.98]"
+                  title={`"${token.label}" entfernen`}
+                >
+                  {token.label}
+                </button>
+              ))
+            ) : (
+              <p className="text-2xl font-semibold text-gray-400">.........</p>
+            )}
+          </div>
+
+          <SentencePreview
+            hasWords={hasWords}
+            sentence={sentence}
+            status={sentenceStatus}
+            error={sentenceError}
+            hasAlternatives={hasAlternatives}
+            onUseAlternative={onUseAlternative}
+          />
         </div>
 
-        {isSpeaking ? (
+        {isPlaying ? (
           <Button
             onClick={onStop}
             variant="ghost"
@@ -94,11 +112,11 @@ export default function TextDisplay({
               ring-4 ring-blue-300/60 hover:ring-blue-400/70
               shadow-lg focus:outline-none focus:ring-4 focus:ring-blue-200
               disabled:opacity-40 disabled:cursor-not-allowed"
-            disabled={!hasWords || isLoading}
+            disabled={!hasWords || isBusy}
             title="Satz vorlesen"
             aria-label="Satz vorlesen"
           >
-            {isLoading ? (
+            {isBusy ? (
               <Loader2 className="w-8 h-8 text-white animate-spin" strokeWidth={2.75} />
             ) : (
               <Volume2 className="w-8 h-8 text-white" strokeWidth={2.75} />
@@ -107,5 +125,45 @@ export default function TextDisplay({
         )}
       </div>
     </Card>
+  );
+}
+
+function SentencePreview({ hasWords, sentence, status, error, hasAlternatives, onUseAlternative }) {
+  if (!hasWords) return null;
+
+  if (status === "error") {
+    return (
+      <p className="mt-1 text-center text-sm text-red-600">
+        {error} — es wird die Stimme des Browsers verwendet.
+      </p>
+    );
+  }
+
+  if (status === "loading" && !sentence) {
+    return (
+      <p className="mt-1 text-center text-sm text-gray-400 flex items-center justify-center gap-2">
+        <Loader2 className="w-4 h-4 animate-spin" />
+        Satz wird vorbereitet …
+      </p>
+    );
+  }
+
+  if (!sentence) return null;
+
+  return (
+    <div className="mt-1 flex items-center justify-center gap-2">
+      <p className="text-center text-lg text-gray-600 italic">„{sentence}"</p>
+      {hasAlternatives && (
+        <button
+          type="button"
+          onClick={onUseAlternative}
+          className="text-gray-400 hover:text-gray-700 shrink-0"
+          title="Andere Formulierung vorschlagen"
+          aria-label="Andere Formulierung vorschlagen"
+        >
+          <RefreshCw className="w-4 h-4" />
+        </button>
+      )}
+    </div>
   );
 }
