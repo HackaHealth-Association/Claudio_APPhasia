@@ -58,8 +58,8 @@ export async function generateSentence(tokens, env, { signal } = {}) {
  * The models are asked for JSON but do not always comply, so fall back to
  * treating the whole reply as the sentence rather than failing the request.
  */
-function parseReply(raw) {
-  const text = (raw || '').trim();
+export function parseReply(raw) {
+  const text = stripNoise(raw);
   if (!text) return { sentence: '', alternatives: [] };
 
   const json = text.startsWith('{') ? text : text.slice(text.indexOf('{'), text.lastIndexOf('}') + 1);
@@ -82,10 +82,24 @@ function parseReply(raw) {
   return { sentence: oneSentence(text), alternatives: [] };
 }
 
+/**
+ * Removes wrappers the model was not asked for: reasoning models emit
+ * <think> blocks and several models wrap JSON in a markdown fence. Left in,
+ * these end up being read aloud to a patient.
+ */
+function stripNoise(raw) {
+  let text = (raw || '').trim();
+  text = text.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
+  // An unterminated reasoning block means there is no answer to salvage.
+  if (/^<think>/i.test(text)) return '';
+  text = text.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/, '').trim();
+  return text;
+}
+
 /** Guards rule 1 of the prompt: exactly one sentence, no quotes, no preamble. */
 function oneSentence(text) {
-  let out = text.trim().replace(/^["'«»]+|["'«»]+$/g, '');
-  const firstLine = out.split('\n').find((line) => line.trim());
-  if (firstLine) out = firstLine.trim();
-  return out.slice(0, 300);
+  // First line first, then quotes — otherwise a quote closing line one is left
+  // stranded in the middle of the string and survives the strip.
+  const firstLine = text.split('\n').find((line) => line.trim()) ?? text;
+  return firstLine.trim().replace(/^["'«»]+|["'«»]+$/g, '').slice(0, 300);
 }
