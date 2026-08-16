@@ -1,0 +1,25 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "claudio-apphasia",
+  "main": "worker/index.js",
+  "compatibility_date": "2026-08-01",
+
+  // The built frontend is served straight from Cloudflare's edge (free and
+  // unmetered). Only /api/* wakes the Worker, so the free tier's 100k
+  // requests/day applies to real API calls, not to every image and script.
+  "assets": {
+    "directory": "./frontend/dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"]
+  },
+
+  "observability": { "enabled": true },
+
+  // Secrets are NOT set here — they go in .dev.vars locally and
+  // `wrangler secret put` in production. See README.
+  "vars": {
+    "LLM_PROVIDER": "groq_fast",
+    "ALLOWED_ORIGINS": ""
+  }
+}
