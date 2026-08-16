@@ -6,8 +6,15 @@
 const CARTESIA_URL = 'https://api.cartesia.ai/tts/bytes';
 const CARTESIA_VERSION = '2026-08-14';
 
-// Claudio's voice. Overridable so a different therapist can use their own.
-const DEFAULT_VOICE = '5ee0fed4-93b3-41df-bae2-d4345a88775b';
+// Claudio's own voice, cloned from a 31-second recording. It is private to
+// this Cartesia account, which also means it cannot be withdrawn from under us
+// the way the previous one was: the old id
+// (5ee0fed4-93b3-41df-bae2-d4345a88775b) was a public-library voice that
+// Cartesia removed, and it started returning 404 mid-session.
+//
+// Fallback if the clone is ever unavailable: 40e0f496-a220-46bb-975a-7ef465b3d92b
+// ("Vreni", Swiss-German, feminine) — the only other de-CH voice available.
+const DEFAULT_VOICE = 'f4790968-50f6-451f-be13-f1fa2d47ac47';
 const DEFAULT_MODEL = 'sonic-3';
 
 // Slightly slowed down: easier to follow for someone with aphasia, and for a

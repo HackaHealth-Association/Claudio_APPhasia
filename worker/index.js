@@ -248,6 +248,9 @@ function friendly(error) {
   if (/40[13]|Invalid API Key|invalid_api_key/i.test(message)) {
     return 'Der Server kann den Sprachdienst nicht erreichen (Zugangsdaten).';
   }
+  if (/Voice not found|404/i.test(message)) {
+    return 'Die eingestellte Stimme gibt es nicht mehr (CARTESIA_VOICE_ID prüfen).';
+  }
   if (/429|rate limit/i.test(message)) return 'Der Sprachdienst ist gerade ausgelastet.';
   return 'Der Satz konnte nicht erzeugt werden.';
 }
