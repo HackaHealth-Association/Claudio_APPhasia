@@ -5,8 +5,13 @@
 //
 // Pick a provider with the LLM_PROVIDER variable and set the matching secret.
 // Nothing else in the codebase needs to change when you switch.
+//
+// Model ids verified 2026-08-16.
 
 export const PROVIDERS = {
+  // Measured on this app's own prompt (see the README): llama-3.3-70b is both
+  // the fastest and the most reliable of what Groq currently serves, so it
+  // stays the default even though newer models are available there.
   groq_fast: {
     kind: 'openai',
     url: 'https://api.groq.com/openai/v1/chat/completions',
@@ -17,19 +22,20 @@ export const PROVIDERS = {
     kind: 'openai',
     url: 'https://api.openai.com/v1/chat/completions',
     keyVar: 'OPENAI_API_KEY',
-    model: 'gpt-4.1-mini',
+    model: 'gpt-5.6-luna',
   },
+  // grok-4-fast was retired in May 2026 and now redirects.
   xai_grok: {
     kind: 'openai',
     url: 'https://api.x.ai/v1/chat/completions',
     keyVar: 'XAI_API_KEY',
-    model: 'grok-4-fast',
+    model: 'grok-4.5',
   },
   gemini: {
     kind: 'openai',
     url: 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
     keyVar: 'GEMINI_API_KEY',
-    model: 'gemini-2.0-flash',
+    model: 'gemini-3.7-flash',
   },
   anthropic: {
     kind: 'anthropic',
