@@ -150,6 +150,10 @@ const bodyPartsBackCoords = [
 const IMAGE_WIDTH = 672;
 const IMAGE_HEIGHT = 1536;
 
+// How close a tap has to land, in image pixels, for a body part to count as
+// selected. Roughly a quarter of the body's width.
+const MAX_TAP_DISTANCE = 170;
+
 const handleBodyClick = (event, view) => {
   // Get click position relative to the image
   const rect = event.target.getBoundingClientRect();
@@ -188,8 +192,10 @@ const handleBodyClick = (event, view) => {
     }
   });
 
-  // Trigger callback
-  if (closest) onBodyPartClick(closest.name);
+  // Trigger callback, but only when the tap actually landed on something:
+  // without a limit the nearest part always wins, so tapping empty space
+  // selected a body part on the other side of the picture.
+  if (closest && minDist <= MAX_TAP_DISTANCE) onBodyPartClick(closest.name);
 };
 
 
